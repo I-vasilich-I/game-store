@@ -1,6 +1,6 @@
 import "./navbar.scss";
 import { NavLink } from "react-router-dom";
-import { ROUTES } from "@/conststants";
+import { ROUTES } from "@/constants";
 
 const Navbar = (): JSX.Element => {
   const { home, products, about, signin, signup } = ROUTES;

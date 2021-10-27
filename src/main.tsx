@@ -2,9 +2,9 @@ import "./styles/main.scss";
 import ReactDOM from "react-dom";
 import { StrictMode } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { ROUTES } from "./conststants";
+import { ROUTES } from "./constants";
 import Header from "./components/header/header";
-import Footer from "./components/footer";
+import Footer from "./components/footer/footer";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, about, signin, signup } = ROUTES;

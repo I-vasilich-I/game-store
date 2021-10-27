@@ -1,5 +1,5 @@
 import "./header.scss";
-import Navbar from "./navbar";
+import Navbar from "./navbar/navbar";
 
 const Header = (): JSX.Element => (
   <header className="header">

@@ -1,5 +1,5 @@
 import "./footer.scss";
-import { GAME_COMPANIES } from "@/conststants";
+import { GAME_COMPANIES } from "@/constants";
 
 const Footer = (): JSX.Element => {
   const { activisionBlizzard, bungie, electronicArts, epicGames, iTechArt, nintendo, sony, squareEnix } =
