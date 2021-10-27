@@ -1,0 +1,35 @@
+@import "../../styles/mixins.scss";
+
+.header__nav {
+  margin: 0;
+  height: 100%;
+}
+
+.nav__link {
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+
+  @include font(1.5rem, 160%, $lightColor, $weight: bold);
+
+  &:visited {
+    color: inherit;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: $activeLinkColor;
+  }
+
+  &:focus-visible {
+    outline: thin dotted $lightColor;
+  }
+
+  &--active {
+    background-color: $activeLinkColor;
+    border-bottom: solid 6px $violetColor;
+  }
+}

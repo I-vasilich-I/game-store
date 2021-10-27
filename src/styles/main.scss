@@ -1,3 +1,70 @@
+@import "normalize.css";
+@import "sanitize.css";
+@import "fontface.css";
+@import "mixins.scss";
+
+html {
+  font-size: 10px;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 body {
-  color: $basicColor;
+  font-family: "OpenSans-Regular", sans-serif;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  @include font(4.4rem, 130%, $blackColor);
+}
+
+h3 {
+  @include font(3.5rem, 130%, $blackColor);
+}
+
+h4 {
+  @include font(2rem, 115%, $blackColor);
+}
+
+h5 {
+  @include font(1.5rem, 110%, $blackColor);
+}
+
+p {
+  @include font(1.5rem, 160%, $blackColor);
+}
+
+.wrapper {
+  max-width: $maxWidth;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.nav__items {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav__item {
+  height: 100%;
+  display: flex;
 }

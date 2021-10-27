@@ -1,0 +1,53 @@
+import abImg from "images/Activision_Blizzard_Logo.svg";
+import bImg from "images/Bungie_Logo.svg";
+import eaImg from "images/EA_Logo.svg";
+import egImg from "images/Epic_Games_Logo.svg";
+import itaImg from "images/iTechArt_Logo.svg";
+import nImg from "images/Nintendo_Logo.svg";
+import sImg from "images/Sony_Logo.svg";
+import seImg from "images/Square_Enix_Logo.svg";
+
+const ROUTES = {
+  home: "/",
+  products: "/products",
+  about: "/about",
+  signin: "/signin",
+  signup: "/signup",
+};
+
+const GAME_COMPANIES = {
+  activisionBlizzard: {
+    url: "https://www.activisionblizzard.com/",
+    img: abImg,
+  },
+  bungie: {
+    url: "https://www.bungie.net/",
+    img: bImg,
+  },
+  electronicArts: {
+    url: "https://www.ea.com/",
+    img: eaImg,
+  },
+  epicGames: {
+    url: "https://www.epicgames.com/",
+    img: egImg,
+  },
+  iTechArt: {
+    url: "https://www.itechart.com/",
+    img: itaImg,
+  },
+  nintendo: {
+    url: "https://www.nintendo.com/",
+    img: nImg,
+  },
+  sony: {
+    url: "https://www.sie.com/",
+    img: sImg,
+  },
+  squareEnix: {
+    url: "https://www.square-enix.com/",
+    img: seImg,
+  },
+};
+
+export { ROUTES, GAME_COMPANIES };

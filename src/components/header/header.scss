@@ -1,0 +1,14 @@
+.header {
+  width: 100%;
+  height: 63px;
+  margin: 0;
+  background-color: $blackColor;
+  color: $lightColor;
+}
+
+.wrapper__header {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
