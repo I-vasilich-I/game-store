@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import { ROUTES } from "./constants";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import ErrorBoundary from "./errorBoundary";
+import ErrorBoundary from "./components/errorBoundary/errorBoundary";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, about, signin, signup } = ROUTES;

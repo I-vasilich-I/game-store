@@ -1,7 +1,7 @@
 import { Component, ErrorInfo } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { ROUTES } from "./constants";
-import Alert from "./elements/alert/alert";
+import { ROUTES } from "../../constants";
+import Alert from "../../elements/alert/alert";
 
 interface AppState {
   hasError: boolean;

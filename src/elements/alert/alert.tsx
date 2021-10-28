@@ -5,7 +5,7 @@ type IProps = {
 };
 
 const Alert = ({ type }: IProps): JSX.Element => {
-  const message = "Something went wrong, you'll be redirected on the home page in 5 seconds";
+  const message = "Something went wrong, you'll be redirected to the home page in 5 seconds";
 
   return (
     <div className={["alert", `alert--${type}`].join(" ")}>
