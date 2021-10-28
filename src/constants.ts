@@ -13,6 +13,7 @@ const ROUTES = {
   about: "/about",
   signin: "/signin",
   signup: "/signup",
+  errorFallback: "/",
 };
 
 const GAME_COMPANIES = {

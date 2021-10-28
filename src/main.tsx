@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import { ROUTES } from "./constants";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
+import ErrorBoundary from "./components/errorBoundary/errorBoundary";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, about, signin, signup } = ROUTES;
@@ -12,28 +13,30 @@ const AppContainer = (): JSX.Element => {
   return (
     <StrictMode>
       <Router>
-        <Header />
-        <main>
-          <Switch>
-            <Route exact path={home}>
-              <p>You are on Home page</p>
-            </Route>
-            <Route exact path={products}>
-              <p>You are on Products page</p>
-            </Route>
-            <Route exact path={about}>
-              <p>You are on About page</p>
-            </Route>
-            <Route exact path={signin}>
-              <p>You are on Sign In page</p>
-            </Route>
-            <Route exact path={signup}>
-              <p>You are on Sign Up page</p>
-            </Route>
-            <Redirect to={home} />
-          </Switch>
-        </main>
-        <Footer />
+        <ErrorBoundary>
+          <Header />
+          <main>
+            <Switch>
+              <Route exact path={home}>
+                <p>You are on Home page</p>
+              </Route>
+              <Route exact path={products}>
+                <p>You are on Products page</p>
+              </Route>
+              <Route exact path={about}>
+                <p>You are on About page</p>
+              </Route>
+              <Route exact path={signin}>
+                <p>You are on Sign In page</p>
+              </Route>
+              <Route exact path={signup}>
+                <p>You are on Sign Up page</p>
+              </Route>
+              <Redirect to={home} />
+            </Switch>
+          </main>
+          <Footer />
+        </ErrorBoundary>
       </Router>
     </StrictMode>
   );
