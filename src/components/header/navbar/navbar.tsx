@@ -14,7 +14,7 @@ const Navbar = (): JSX.Element => {
           </NavLink>
         </li>
         <li className="nav__item">
-          <NavLink to={products} className="nav__link" activeClassName="nav__link--active">
+          <NavLink to={products.base} className="nav__link" activeClassName="nav__link--active">
             Products
           </NavLink>
         </li>

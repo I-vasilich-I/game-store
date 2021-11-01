@@ -1,0 +1,18 @@
+.card__button {
+  padding: 20px;
+  text-align: center;
+  color: $lightColor;
+  font-size: 2rem;
+  border: none;
+  border-radius: 25px;
+  background-color: $violetColor;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $darkVioletColor;
+  }
+
+  &:active {
+    transform: translate(1px, 2px);
+  }
+}

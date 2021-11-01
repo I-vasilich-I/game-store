@@ -31,14 +31,29 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: rgb(22, 22, 22);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1 {
+  @include font(3rem, 130%, $lightColor);
 }
 
 h2 {
-  @include font(4.4rem, 130%, $blackColor);
+  @include font(2.4rem, 130%, $blackColor);
 }
 
 h3 {
-  @include font(3.5rem, 130%, $blackColor);
+  @include font(2rem, 130%, $lightColor);
 }
 
 h4 {
@@ -50,7 +65,7 @@ h5 {
 }
 
 p {
-  @include font(1.5rem, 160%, $blackColor);
+  @include font(1.5rem, 160%, $lightColor);
 }
 
 .wrapper {

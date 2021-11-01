@@ -1,0 +1,26 @@
+.wrapper__home {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.section__categories,
+.section__games {
+  width: 100%;
+}
+
+.label__search {
+  max-width: 500px;
+  width: 100%;
+  min-width: 200px;
+}
+
+.search {
+  width: 100%;
+  height: 40px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+}

@@ -9,7 +9,10 @@ import seImg from "images/Square_Enix_Logo.svg";
 
 const ROUTES = {
   home: "/",
-  products: "/products",
+  products: {
+    base: "/products",
+    slug: "/products/:slug",
+  },
   about: "/about",
   signin: "/signin",
   signup: "/signup",
