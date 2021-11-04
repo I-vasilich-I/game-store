@@ -12,6 +12,9 @@ const ROUTES = {
   products: {
     base: "/products",
     slug: "/products/:slug",
+    pc: "/products/pc",
+    ps: "/products/ps",
+    xbox: "/products/xbox",
   },
   about: "/about",
   signin: "/signin",
@@ -54,4 +57,9 @@ const GAME_COMPANIES = {
   },
 };
 
-export { ROUTES, GAME_COMPANIES };
+const API = {
+  topGamesURL: "http://localhost:8080/api/getTopProducts",
+  searchRequestURL: "http://localhost:8080/api/search/",
+};
+
+export { ROUTES, GAME_COMPANIES, API };

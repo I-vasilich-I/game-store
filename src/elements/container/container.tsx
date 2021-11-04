@@ -1,4 +1,5 @@
 import "./container.scss";
+import classnames from "classnames";
 
 interface IProps {
   title: string;
@@ -6,7 +7,10 @@ interface IProps {
 }
 
 const Container: React.FC<IProps> = ({ title, center, children }) => {
-  const className = `container__title${center ? " container__title--center" : ""}`;
+  const className = classnames("container__title", {
+    "container__title--center": center,
+  });
+
   return (
     <div className="container">
       <h2 className={className}>{title}</h2>

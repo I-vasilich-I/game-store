@@ -1,6 +1,6 @@
+import "./gameCard.scss";
 import { IGame } from "@/types";
 import Rating from "./rating/rating";
-import "./gameCard.scss";
 import Platforms from "./platforms/platforms";
 import CardButton from "./button/cardButton";
 

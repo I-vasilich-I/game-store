@@ -1,0 +1,25 @@
+.search-result__container {
+  position: absolute;
+  width: 100%;
+  background-color: $activeLinkColor;
+  color: $lightColor;
+  z-index: 3;
+}
+
+.search-result__items {
+  width: 100%;
+  max-height: 300px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: scroll;
+  box-shadow: 0px 20px 40px 10px #363636;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

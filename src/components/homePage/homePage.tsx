@@ -1,11 +1,12 @@
-import getTopGames from "@/api/apiProducts";
+import "./homePage.scss";
+import { useEffect, useState } from "react";
+import { getTopGames } from "@/api/apiProducts";
+import { IGame } from "@/types";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
-import { IGame } from "@/types";
-import { useEffect, useState } from "react";
-import "./homePage.scss";
 import NavCategories from "./navCategories/navCategories";
+import SearchBar from "./searchbar/searchbar";
 
 const HomePage = (): JSX.Element => {
   const [games, setGames] = useState<IGame[] | null>(null);
@@ -13,7 +14,7 @@ const HomePage = (): JSX.Element => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    (async function topGames() {
+    (async () => {
       const data = await getTopGames();
       setGames(data);
     })();
@@ -23,9 +24,7 @@ const HomePage = (): JSX.Element => {
 
   return (
     <div className="wrapper wrapper__home">
-      <label htmlFor="search" className="label__search">
-        <input type="search" name="search" id="search" className="search" />
-      </label>
+      <SearchBar />
       <section className="section__categories">
         <Container title="Categories">
           <NavCategories />

@@ -114,7 +114,7 @@ function getPrice() {
 }
 
 function prepareData() {
-  return [...games, ...games].map((el) => {
+  return [...games].map((el) => {
     const elem = { ...el };
     elem.rating = getRating();
     elem.platform = getPlatform();
@@ -125,31 +125,22 @@ function prepareData() {
   });
 }
 
-const mainData = prepareData();
-
 export default webpackMockServer.add((app, helper) => {
+  const mainData = prepareData().map((el) => {
+    const elem = el;
+    elem.id = helper.getUniqueIdInt();
+    return elem;
+  });
+
   app.get("/api/search/:search", (_req, res) => {
-    const response = mainData
-      .map((el) => {
-        const elem = { ...el };
-        elem.id = helper.getUniqueIdInt();
-        return elem;
-      })
-      .filter((el) => el.name.toLowerCase().includes(_req.params.search.toLowerCase()));
+    const response = mainData.filter((el) => el.name.toLowerCase().includes(_req.params.search.toLowerCase()));
     setTimeout(() => {
       res.json(response);
     }, 5000);
   });
 
   app.get("/api/getTopProducts", (_req, res) => {
-    const response = mainData
-      .map((el) => {
-        const elem = { ...el };
-        elem.id = helper.getUniqueIdInt();
-        return elem;
-      })
-      .sort((a, b) => (a.year && b.year ? b.year - a.year : 0))
-      .filter((_, id) => id < 3);
+    const response = mainData.sort((a, b) => (a.year && b.year ? b.year - a.year : 0)).slice(0, 3);
     setTimeout(() => {
       res.json(response);
     }, 5000);

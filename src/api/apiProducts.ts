@@ -1,10 +1,13 @@
-import { IGame } from "@/types";
 import axios from "axios";
+import { API } from "@/constants";
+import { IGame } from "@/types";
+
+const { topGamesURL, searchRequestURL } = API;
 
 async function getTopGames(): Promise<IGame[] | null> {
   let res;
   try {
-    res = await axios.get<IGame[]>("http://localhost:8080/api/getTopProducts");
+    res = await axios.get<IGame[]>(topGamesURL);
   } catch (error) {
     console.error(error);
   }
@@ -12,4 +15,14 @@ async function getTopGames(): Promise<IGame[] | null> {
   return res?.data || null;
 }
 
-export default getTopGames;
+async function searchRequest(query: string): Promise<IGame[] | null> {
+  let res;
+  try {
+    res = await axios.get<IGame[]>(`${searchRequestURL}${query}`);
+  } catch (error) {
+    console.error(error);
+  }
+  return res?.data || null;
+}
+
+export { getTopGames, searchRequest };

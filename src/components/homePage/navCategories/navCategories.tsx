@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
 import "./navCategories.scss";
+import { NavLink } from "react-router-dom";
 import pcImg from "images/windows_logo.svg";
 import psImg from "images/PlayStation_logo.svg";
 import xboxImg from "images/Xbox_one_logo.svg";

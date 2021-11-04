@@ -1,5 +1,4 @@
 import "./rating.scss";
-// import star from "images/star_rate.svg";
 
 interface IProps {
   rating: number;
