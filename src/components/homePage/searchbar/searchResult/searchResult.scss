@@ -3,7 +3,7 @@
   width: 100%;
   background-color: $activeLinkColor;
   color: $lightColor;
-  z-index: 3;
+  z-index: $searchResultZIndex-1;
 }
 
 .search-result__items {

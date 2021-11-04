@@ -6,7 +6,7 @@ interface IProps {
   center?: boolean;
 }
 
-const Container: React.FC<IProps> = ({ title, center, children }) => {
+const Container: React.FC<IProps> = ({ title, center = false, children }) => {
   const className = classnames("container__title", {
     "container__title--center": center,
   });
@@ -17,10 +17,6 @@ const Container: React.FC<IProps> = ({ title, center, children }) => {
       {children}
     </div>
   );
-};
-
-Container.defaultProps = {
-  center: false,
 };
 
 export default Container;

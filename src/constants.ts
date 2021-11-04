@@ -6,6 +6,9 @@ import itaImg from "images/iTechArt_Logo.svg";
 import nImg from "images/Nintendo_Logo.svg";
 import sImg from "images/Sony_Logo.svg";
 import seImg from "images/Square_Enix_Logo.svg";
+import pcImg from "images/windows_logo.svg";
+import psImg from "images/PlayStation_logo.svg";
+import xboxImg from "images/Xbox_one_logo.svg";
 
 const ROUTES = {
   home: "/",
@@ -21,6 +24,28 @@ const ROUTES = {
   signup: "/signup",
   errorFallback: "/",
 };
+
+const {
+  products: { pc, ps, xbox },
+} = ROUTES;
+
+const CATEGORIES = [
+  {
+    link: pc,
+    name: "PC",
+    img: pcImg,
+  },
+  {
+    link: ps,
+    name: "PlayStation 5",
+    img: psImg,
+  },
+  {
+    link: xbox,
+    name: "Xbox One",
+    img: xboxImg,
+  },
+];
 
 const GAME_COMPANIES = {
   activisionBlizzard: {
@@ -62,4 +87,4 @@ const API = {
   searchRequestURL: "http://localhost:8080/api/search/",
 };
 
-export { ROUTES, GAME_COMPANIES, API };
+export { ROUTES, GAME_COMPANIES, API, CATEGORIES };

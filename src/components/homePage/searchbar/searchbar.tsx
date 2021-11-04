@@ -10,7 +10,7 @@ const SearchBar = (): JSX.Element => {
   const [value, setValue] = useState("");
   const [games, setGames] = useState<IGame[]>([]);
   const [loading, setLoading] = useState(false);
-  const hasSearchResult = !!(games.length && value.trim());
+  const hasSearchResult = Boolean(games.length && value.trim());
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

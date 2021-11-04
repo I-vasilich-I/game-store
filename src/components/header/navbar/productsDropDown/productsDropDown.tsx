@@ -1,29 +1,17 @@
 import "./productsDropDown.scss";
 import { NavLink } from "react-router-dom";
-import { ROUTES } from "@/constants";
+import { CATEGORIES } from "@/constants";
 
-const ProductsDropDown = (): JSX.Element => {
-  const { products } = ROUTES;
-
-  return (
-    <ul className="dropdown__content">
-      <li className="dropdown__nav__item">
-        <NavLink to={products.pc} className="dropdown__nav__link" activeClassName="dropdown__nav__link--active">
-          PC
+const ProductsDropDown = (): JSX.Element => (
+  <ul className="dropdown__content">
+    {CATEGORIES.map(({ link, name }) => (
+      <li key={name} className="dropdown__nav__item">
+        <NavLink to={link} className="dropdown__nav__link" activeClassName="dropdown__nav__link--active">
+          {name}
         </NavLink>
       </li>
-      <li className="dropdown__nav__item">
-        <NavLink to={products.ps} className="dropdown__nav__link" activeClassName="dropdown__nav__link--active">
-          PlayStation 5
-        </NavLink>
-      </li>
-      <li className="dropdown__nav__item">
-        <NavLink to={products.xbox} className="dropdown__nav__link" activeClassName="dropdown__nav__link--active">
-          Xbox One
-        </NavLink>
-      </li>
-    </ul>
-  );
-};
+    ))}
+  </ul>
+);
 
 export default ProductsDropDown;

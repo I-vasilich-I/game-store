@@ -4,10 +4,6 @@ interface IProps {
   isOn?: boolean;
 }
 
-const Spinner = ({ isOn = false }: IProps): JSX.Element | null => (isOn ? <div className="spin" /> : null);
-
-Spinner.defaultProps = {
-  isOn: false,
-};
+const Spinner: React.FC<IProps> = ({ isOn = false }): JSX.Element | null => (isOn ? <div className="spin" /> : null);
 
 export default Spinner;
