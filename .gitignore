@@ -33,3 +33,6 @@ node_modules
 .stylelintcache
 
 tsconfig.tsbuildinfo
+
+# REST Client plugin use-files
+*.http

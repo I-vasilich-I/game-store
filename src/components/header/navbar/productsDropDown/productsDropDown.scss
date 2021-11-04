@@ -1,0 +1,101 @@
+@import "../../../../styles/mixins.scss";
+
+.dropdown__content {
+  position: absolute;
+  top: -1000%;
+  width: 140px;
+  background-color: $blackColor;
+  display: flex;
+  flex-direction: column;
+  z-index: $dropDownZIndex-2;
+}
+
+.nav__dropdown {
+  padding-right: 34px;
+
+  &::before {
+    position: absolute;
+    top: auto;
+    right: 5px;
+    content: "";
+
+    width: 24px;
+    height: 24px;
+    background-image: url(~images/arrow_drop_down.svg);
+    transform: rotate(-180deg);
+    z-index: $dropDownZIndex-1;
+  }
+}
+
+.dropdown__nav__item {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown__nav__link {
+  @include font(1.5rem, 160%, $lightColor, $weight: bold);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px 8px;
+  opacity: 0;
+  text-decoration: none;
+  text-align: center;
+
+  &:visited {
+    color: inherit;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $activeLinkColor;
+    outline: 0;
+  }
+
+  &:focus-visible {
+    outline: thin dotted $lightColor;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: $violetColor;
+    transform: scale(0);
+    transition: 0.3s ease-in-out;
+  }
+
+  &--active {
+    background-color: $activeLinkColor;
+
+    &::after {
+      transform: scale(1);
+    }
+  }
+}
+
+.nav__dropdown,
+.nav__item {
+  &:hover,
+  &:focus,
+  &:focus-within {
+    &::before {
+      transform: rotate(0);
+    }
+
+    .dropdown__content {
+      top: 63px;
+    }
+
+    .dropdown__content,
+    .dropdown__nav__link {
+      opacity: 1;
+      transition: opacity 0.8s;
+    }
+  }
+}

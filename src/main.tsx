@@ -6,6 +6,8 @@ import { ROUTES } from "./constants";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import ErrorBoundary from "./components/errorBoundary/errorBoundary";
+import HomePage from "./components/homePage/homePage";
+import ProductsPage from "./components/productsPage/productsPage";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, about, signin, signup } = ROUTES;
@@ -18,10 +20,13 @@ const AppContainer = (): JSX.Element => {
           <main>
             <Switch>
               <Route exact path={home}>
-                <p>You are on Home page</p>
+                <HomePage />
               </Route>
-              <Route exact path={products}>
+              <Route exact path={products.base}>
                 <p>You are on Products page</p>
+              </Route>
+              <Route exact path={products.slug}>
+                <ProductsPage />
               </Route>
               <Route exact path={about}>
                 <p>You are on About page</p>

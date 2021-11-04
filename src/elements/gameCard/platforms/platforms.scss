@@ -1,0 +1,15 @@
+.game-platforms {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 30px;
+  padding: 5px;
+  background-color: $transparentBlackColor-2;
+  display: flex;
+  gap: 5px;
+
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
