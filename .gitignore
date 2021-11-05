@@ -36,3 +36,6 @@ tsconfig.tsbuildinfo
 
 # REST Client plugin use-files
 *.http
+
+# Mock data
+mock.json

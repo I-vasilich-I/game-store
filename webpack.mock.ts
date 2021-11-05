@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import webpackMockServer from "webpack-mock-server";
-import { IGame } from "@/types";
+import { writeFileSync, readFileSync } from "fs";
+import nodePath from "path";
+import { IGame, IUser } from "@/types";
 
 const games: IGame[] = [
   {
@@ -143,6 +145,51 @@ export default webpackMockServer.add((app, helper) => {
     const response = mainData.sort((a, b) => (a.year && b.year ? b.year - a.year : 0)).slice(0, 3);
     setTimeout(() => {
       res.json(response);
+    }, 5000);
+  });
+
+  app.post("/api/auth/signIn", (_req, res) => {
+    const resolvedPath = require.resolve(nodePath.join(__dirname, "./mock.json"));
+    const rawData = readFileSync(resolvedPath);
+    const users: IUser[] = JSON.parse(rawData.toString()) || [];
+    const user: IUser = _req.body;
+    const isValid = Boolean(users.find((el) => el.name === user.name && el.password === user.password));
+    delete require.cache[resolvedPath];
+
+    if (!isValid) {
+      res.status(400);
+      setTimeout(() => {
+        res.json("Wrong credentials");
+      }, 5000);
+      return;
+    }
+
+    setTimeout(() => {
+      res.json(user.name);
+    }, 5000);
+  });
+
+  app.post("/api/auth/signUp", (_req, res) => {
+    const resolvedPath = require.resolve(nodePath.join(__dirname, "./mock.json"));
+    const rawData = readFileSync(resolvedPath);
+    const users: IUser[] = JSON.parse(rawData.toString()) || [];
+    const newUser: IUser = _req.body;
+    const isExist = Boolean(users.find((el) => el.name === newUser.name));
+    delete require.cache[resolvedPath];
+
+    if (isExist) {
+      res.status(400);
+      setTimeout(() => {
+        res.json("User already exist");
+      }, 5000);
+      return;
+    }
+
+    users.push(newUser);
+    writeFileSync(resolvedPath, JSON.stringify(users));
+    res.status(201);
+    setTimeout(() => {
+      res.json(newUser.name);
     }, 5000);
   });
 

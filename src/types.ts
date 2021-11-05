@@ -11,5 +11,9 @@ interface IGame {
   price?: string | number;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { IGame };
+interface IUser {
+  name: string;
+  password: string;
+}
+
+export { IGame, IUser };
