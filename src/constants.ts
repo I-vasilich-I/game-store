@@ -20,8 +20,7 @@ const ROUTES = {
     xbox: "/products/xbox",
   },
   about: "/about",
-  signin: "/signin",
-  signup: "/signup",
+  profile: "/profile",
   errorFallback: "/",
 };
 
@@ -85,6 +84,12 @@ const GAME_COMPANIES = {
 const API = {
   topGamesURL: "http://localhost:8080/api/getTopProducts",
   searchRequestURL: "http://localhost:8080/api/search/",
+  signInURL: "http://localhost:8080/api/auth/signIn",
+  signUpURL: "http://localhost:8080/api/auth/signUp",
 };
 
-export { ROUTES, GAME_COMPANIES, API, CATEGORIES };
+const ERROR_MESSAGES = {
+  errorBoundary: "Something went wrong, you'll be redirected to the home page in 5 seconds",
+};
+
+export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES };

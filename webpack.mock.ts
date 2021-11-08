@@ -159,7 +159,7 @@ export default webpackMockServer.add((app, helper) => {
     if (!isValid) {
       res.status(400);
       setTimeout(() => {
-        res.json("Wrong credentials");
+        res.json("Wrong login and/or password");
       }, 5000);
       return;
     }

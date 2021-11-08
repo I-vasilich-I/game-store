@@ -1,0 +1,57 @@
+@import "../../../../styles/mixins.scss";
+
+.user {
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  svg {
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  p {
+    max-width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    @include font(1.5rem, 160%, $lightColor, $weight: bold);
+  }
+}
+
+.login-btn {
+  background: none;
+  border: none;
+  padding: 0 15px;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $activeLinkColor;
+  }
+  @include font(1.5rem, 160%, $lightColor, $weight: bold);
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  padding: 0 15px;
+  transition: 0.3s;
+
+  svg {
+    height: 36px;
+    width: auto;
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+
+    svg {
+      fill: white;
+    }
+  }
+}

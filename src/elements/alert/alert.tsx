@@ -1,18 +1,18 @@
 import "./alert.scss";
+import { ERROR_MESSAGES } from "@/constants";
+
+const { errorBoundary } = ERROR_MESSAGES;
 
 type IProps = {
   type: "error" | "info";
+  message?: string;
 };
 
-const Alert = ({ type }: IProps): JSX.Element => {
-  const message = "Something went wrong, you'll be redirected to the home page in 5 seconds";
-
-  return (
-    <div className={["alert", `alert--${type}`].join(" ")}>
-      <p className="alert__title">{type === "error" ? "Error" : "Info"}</p>
-      <p className="alert__body">{message}</p>
-    </div>
-  );
-};
+const Alert: React.FC<IProps> = ({ type, message = errorBoundary }): JSX.Element => (
+  <div className={["alert", `alert--${type}`].join(" ")}>
+    <p className="alert__title">{type === "error" ? "Error" : "Info"}</p>
+    <p className="alert__body">{message}</p>
+  </div>
+);
 
 export default Alert;

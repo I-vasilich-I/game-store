@@ -1,10 +1,12 @@
 import "./navbar.scss";
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "@/constants";
+import { IAuthForm } from "@/types";
 import ProductsDropDown from "./productsDropDown/productsDropDown";
+import UserPanel from "./userPanel/userPanel";
 
-const Navbar = (): JSX.Element => {
-  const { home, products, about, signin, signup } = ROUTES;
+const Navbar = ({ setIsModalOpen, setAuthFormType, user, setUserName }: IAuthForm): JSX.Element => {
+  const { home, products, about } = ROUTES;
 
   return (
     <nav className="header__nav">
@@ -25,16 +27,12 @@ const Navbar = (): JSX.Element => {
             About
           </NavLink>
         </li>
-        <li className="nav__item">
-          <NavLink to={signin} className="nav__link" activeClassName="nav__link--active">
-            Sign In
-          </NavLink>
-        </li>
-        <li className="nav__item">
-          <NavLink to={signup} className="nav__link" activeClassName="nav__link--active">
-            Sign Up
-          </NavLink>
-        </li>
+        <UserPanel
+          setIsModalOpen={setIsModalOpen}
+          setAuthFormType={setAuthFormType}
+          user={user}
+          setUserName={setUserName}
+        />
       </ul>
     </nav>
   );
