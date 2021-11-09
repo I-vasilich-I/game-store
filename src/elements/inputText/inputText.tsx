@@ -17,7 +17,7 @@ const InputText: React.FC<IInputProps> = ({
   const debouncedChangeHandler = useCallback(debounce(handleChange, 300), []);
 
   return (
-    <label htmlFor="login" className="label">
+    <label htmlFor={id} className="label">
       <h4>{title}</h4>
       <input type={type} name={id} id={id} className="input" required={required} onChange={debouncedChangeHandler} />
     </label>
