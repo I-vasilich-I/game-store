@@ -1,6 +1,7 @@
 @import "../../styles/mixins.scss";
 
 .label {
+  position: relative;
   width: 100%;
   margin-bottom: 20px;
   display: flex;
@@ -32,5 +33,10 @@
     &:focus {
       outline: 1px solid white;
     }
+  }
+
+  .validation {
+    bottom: -20px;
+    right: 10px;
   }
 }

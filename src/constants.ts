@@ -9,6 +9,7 @@ import seImg from "images/Square_Enix_Logo.svg";
 import pcImg from "images/windows_logo.svg";
 import psImg from "images/PlayStation_logo.svg";
 import xboxImg from "images/Xbox_one_logo.svg";
+import validator from "validator";
 
 const ROUTES = {
   home: "/",
@@ -92,4 +93,12 @@ const ERROR_MESSAGES = {
   errorBoundary: "Something went wrong, you'll be redirected to the home page in 5 seconds",
 };
 
-export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES };
+const VALIDATE = {
+  text: validator.isAlpha,
+  password: validator.isAlphanumeric,
+  email: validator.isEmail,
+};
+
+const MIN_PASSWORD_LENGTH = 8;
+
+export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, MIN_PASSWORD_LENGTH };

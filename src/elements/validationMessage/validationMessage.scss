@@ -1,0 +1,13 @@
+.validation {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  text-align: right;
+  display: none;
+  color: red;
+  font-size: 1.3rem;
+
+  &--active {
+    display: block;
+  }
+}

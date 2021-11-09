@@ -1,6 +1,6 @@
 import "./styles/main.scss";
 import ReactDOM from "react-dom";
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { ROUTES } from "./constants";
 import Header from "./components/header/header";
@@ -13,15 +13,11 @@ import Modal from "./elements/modal/modal";
 import { AuthFormTypes } from "./types";
 
 const AppContainer = (): JSX.Element => {
+  const user = localStorage.getItem("userName") || null;
   const { home, products, about, profile } = ROUTES;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [authFormType, setAuthFormType] = useState<AuthFormTypes>("signin");
-  const user = localStorage.getItem("userName") || null;
   const [userName, setUserName] = useState<string | null>(user);
-
-  useEffect(() => {
-    console.log(userName);
-  }, [userName]);
 
   return (
     <StrictMode>

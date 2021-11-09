@@ -1,11 +1,12 @@
 import "./authForm.scss";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthFormTypes, IInputProps } from "@/types";
+import { API, MIN_PASSWORD_LENGTH, ROUTES, VALIDATE } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
+import ValidationMessage from "@/elements/validationMessage/validationMessage";
 import authenticate from "@/api/apiAuth";
-import { API, ROUTES } from "@/constants";
 
 interface IProps {
   type: AuthFormTypes;
@@ -20,7 +21,12 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isValidToSubmit, setIsValidToSubmit] = useState(false);
+  const [isValidPasswords, setIsValidPasswords] = useState(false);
+  const [isValidLogin, setIsValidLogin] = useState(false);
   const title = type === "signin" ? "Sign In" : "Sign Up";
+  const checkPasswords = type === "signup" ? "fill in password fields with the same values" : "fill in password field";
+  const checkLogin = "fill in login field";
   const { profile } = ROUTES;
   const formContent: IInputProps[] = [
     {
@@ -51,6 +57,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    if (!isValidToSubmit) return;
     setLoading(true);
     e.preventDefault();
     const sendData = {
@@ -72,16 +79,30 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     setError?.(data);
   };
 
+  useEffect(() => {
+    const isLoginValid = VALIDATE.text(login);
+    const isPasswordValid = VALIDATE.password(password) && password.length >= MIN_PASSWORD_LENGTH;
+    const isPasswordsValid = type === "signup" ? password === repeatPassword && isPasswordValid : isPasswordValid;
+    setIsValidToSubmit(isLoginValid && isPasswordsValid);
+    setIsValidPasswords(isPasswordsValid);
+    setIsValidLogin(isLoginValid);
+  }, [login, password, repeatPassword]);
+
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
       <h3 className="auth-form__title">{title}</h3>
       {formContent.map((el) => (
         <InputText key={el.id} {...el} />
       ))}
-      <button type="submit" className="submit-btn" disabled={loading}>
+      <button type="submit" className="submit-btn" disabled={!isValidToSubmit || loading}>
         {title}
         <Spinner isOn={loading} />
       </button>
+      {isValidLogin ? (
+        <ValidationMessage isValid={isValidPasswords} message={checkPasswords} />
+      ) : (
+        <ValidationMessage isValid={isValidLogin} message={checkLogin} />
+      )}
     </form>
   );
 };
