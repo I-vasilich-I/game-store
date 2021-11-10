@@ -1,6 +1,6 @@
 import "./authForm.scss";
 import { FormEvent, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { AuthFormTypes, IInputProps } from "@/types";
 import { API, MIN_PASSWORD_LENGTH, ROUTES, VALIDATE } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
@@ -15,8 +15,15 @@ interface IProps {
   setUserName: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
+type TLocationState = {
+  from: {
+    pathname: string;
+  };
+};
+
 const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, setError = null }): JSX.Element => {
   const history = useHistory();
+  const location = useLocation();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -68,12 +75,18 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     const url = type === "signin" ? signInURL : signUpURL;
 
     const { data, status } = await authenticate({ url, sendData });
+
     if (status === 200 || status === 201) {
       setLoading(false);
       localStorage.setItem("userName", data);
       setUserName(data);
       if (status === 201) history.push(profile);
+      const from = (location.state as TLocationState)?.from;
+      if (from?.pathname) {
+        history.replace(from.pathname);
+      }
       onModalClose?.();
+      return;
     }
     setLoading(false);
     setError?.(data);
