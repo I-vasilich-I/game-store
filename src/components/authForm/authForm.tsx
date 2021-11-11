@@ -64,9 +64,13 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    if (!isValidToSubmit) return;
-    setLoading(true);
+    if (!isValidToSubmit) {
+      return;
+    }
+
     e.preventDefault();
+    setLoading(true);
+
     const sendData = {
       name: login,
       password,
@@ -77,17 +81,23 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     const { data, status } = await authenticate({ url, sendData });
 
     if (status === 200 || status === 201) {
-      setLoading(false);
       localStorage.setItem("userName", data);
+      setLoading(false);
       setUserName(data);
-      if (status === 201) history.push(profile);
+
+      if (status === 201) {
+        history.push(profile);
+      }
+
       const from = (location.state as TLocationState)?.from;
       if (from?.pathname) {
         history.replace(from.pathname);
       }
+
       onModalClose?.();
       return;
     }
+
     setLoading(false);
     setError?.(data);
   };
