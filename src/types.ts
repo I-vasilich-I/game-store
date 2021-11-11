@@ -22,8 +22,6 @@ type AuthFormTypes = "signin" | "signup";
 interface IAuthForm {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
-  user: string | null;
-  setUserName: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface IInputProps {
@@ -41,4 +39,9 @@ interface IAuthResponse {
   status: number;
 }
 
-export { IGame, IUser, AuthFormTypes, IAuthForm, IInputProps, IAuthResponse };
+interface IUserContext {
+  userName: string | null;
+  setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
+}
+
+export { IGame, IUser, AuthFormTypes, IAuthForm, IInputProps, IAuthResponse, IUserContext };

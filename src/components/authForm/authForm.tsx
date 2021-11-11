@@ -1,5 +1,5 @@
 import "./authForm.scss";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { AuthFormTypes, IInputProps } from "@/types";
 import { API, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
@@ -7,12 +7,12 @@ import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
 import authenticate from "@/api/apiAuth";
+import UserContext from "@/context/userContext/userContext";
 
 interface IProps {
   type: AuthFormTypes;
   onModalClose?: null | (() => void);
   setError?: null | React.Dispatch<React.SetStateAction<string>>;
-  setUserName: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 type TLocationState = {
@@ -21,7 +21,8 @@ type TLocationState = {
   };
 };
 
-const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, setError = null }): JSX.Element => {
+const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null }): JSX.Element => {
+  const { setUserName } = useContext(UserContext);
   const history = useHistory();
   const location = useLocation();
   const [login, setLogin] = useState("");
@@ -91,7 +92,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     if (status === 200 || status === 201) {
       localStorage.setItem("userName", data);
       setLoading(false);
-      setUserName(data);
+      setUserName?.(data);
 
       if (status === 201) {
         history.push(profile);

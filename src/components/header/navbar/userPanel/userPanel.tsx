@@ -1,7 +1,9 @@
 import "./userPanel.scss";
+import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthFormTypes, IAuthForm } from "@/types";
 import { ROUTES } from "@/constants";
+import UserContext from "@/context/userContext/userContext";
 import userSVG from "images/account_circle.svg";
 import logoutSVG from "images/logout.svg";
 
@@ -10,7 +12,8 @@ interface ILoginButtons {
   title: string;
 }
 
-const UserPanel = ({ setIsModalOpen, setAuthFormType, user, setUserName }: IAuthForm): JSX.Element => {
+const UserPanel = ({ setIsModalOpen, setAuthFormType }: IAuthForm): JSX.Element => {
+  const { userName: user, setUserName } = useContext(UserContext);
   const history = useHistory();
   const { home } = ROUTES;
   const handleClick = (type: AuthFormTypes) => {
@@ -20,7 +23,7 @@ const UserPanel = ({ setIsModalOpen, setAuthFormType, user, setUserName }: IAuth
 
   const handleLogout = () => {
     localStorage.removeItem("userName");
-    setUserName(null);
+    setUserName?.(null);
     history.push(home);
   };
 
