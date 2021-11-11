@@ -1,6 +1,7 @@
 import "./modal.scss";
 import ReactDOM from "react-dom";
 import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import closeSVG from "images/clear.svg";
 import Alert from "../alert/alert";
 
 interface IProps {
@@ -63,10 +64,10 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
   });
 
   useEffect(() => {
-    function keyListener(e: KeyboardEvent) {
+    const keyListener = (e: KeyboardEvent) => {
       const listener = keyListenersMap.get(e.key);
       return listener?.(e);
-    }
+    };
 
     document.addEventListener("keydown", keyListener);
 
@@ -77,17 +78,14 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
     if (!error) return;
     setTimeout(() => {
       setError("");
-    }, 5000);
+    }, 10000);
   }, [error]);
 
   return ReactDOM.createPortal(
     <div className="modal__container" role="dialog" aria-modal="true">
       <div className="modal" ref={modalRef}>
         <button type="button" className="modal__close" onClick={onModalClose}>
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#88888d">
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
-          </svg>
+          <img src={closeSVG} alt="close" width="24" height="24" />
         </button>
         {childrenWithProps}
       </div>

@@ -99,6 +99,12 @@ const VALIDATE = {
   email: validator.isEmail,
 };
 
+const VALIDATION_MESSAGES = {
+  textMessage: "*use only letters",
+  passwordMessage: "*use letters/numbers, min 8 symbols",
+  emailMessage: "*use an email address",
+};
+
 const MIN_PASSWORD_LENGTH = 8;
 
-export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, MIN_PASSWORD_LENGTH };
+export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };

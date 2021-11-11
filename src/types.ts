@@ -12,7 +12,8 @@ interface IGame {
 }
 
 interface IUser {
-  name: string;
+  email: string;
+  name?: string;
   password: string;
 }
 
@@ -30,8 +31,9 @@ interface IInputProps {
   id: string;
   required?: boolean;
   title?: string;
-  value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  isValid: boolean;
+  message: string;
 }
 
 interface IAuthResponse {

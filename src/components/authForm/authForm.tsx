@@ -2,7 +2,7 @@ import "./authForm.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { AuthFormTypes, IInputProps } from "@/types";
-import { API, MIN_PASSWORD_LENGTH, ROUTES, VALIDATE } from "@/constants";
+import { API, MIN_PASSWORD_LENGTH, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
@@ -28,28 +28,33 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isValidToSubmit, setIsValidToSubmit] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidPasswords, setIsValidPasswords] = useState(false);
   const [isValidLogin, setIsValidLogin] = useState(false);
+  const isValidToSubmit = isValidPasswords && isValidLogin;
   const title = type === "signin" ? "Sign In" : "Sign Up";
-  const checkPasswords = type === "signup" ? "fill in password fields with the same values" : "fill in password field";
-  const checkLogin = "fill in login field";
+  const checkPasswords = "Password field(s) format is invalid";
+  const checkLogin = "Login field format is invalid";
   const { profile } = ROUTES;
+  const { emailMessage, passwordMessage } = VALIDATION_MESSAGES;
   const formContent: IInputProps[] = [
     {
+      type: "email",
       id: "login",
       required: true,
       title: "Login",
-      value: login,
       setValue: setLogin,
+      isValid: isValidLogin,
+      message: emailMessage,
     },
     {
       type: "password",
       id: "password",
       required: true,
       title: "Password",
-      value: password,
       setValue: setPassword,
+      isValid: isValidPassword,
+      message: passwordMessage,
     },
   ];
 
@@ -59,8 +64,9 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
       id: "repeatpassword",
       required: true,
       title: "Repeat password",
-      value: repeatPassword,
       setValue: setRepeatPassword,
+      isValid: isValidPasswords,
+      message: passwordMessage,
     });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -72,7 +78,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
     setLoading(true);
 
     const sendData = {
-      name: login,
+      email: login,
       password,
     };
     const { signInURL, signUpURL } = API;
@@ -103,10 +109,10 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setUserName, se
   };
 
   useEffect(() => {
-    const isLoginValid = VALIDATE.text(login);
+    const isLoginValid = VALIDATE.email(login);
     const isPasswordValid = VALIDATE.password(password) && password.length >= MIN_PASSWORD_LENGTH;
     const isPasswordsValid = type === "signup" ? password === repeatPassword && isPasswordValid : isPasswordValid;
-    setIsValidToSubmit(isLoginValid && isPasswordsValid);
+    setIsValidPassword(isPasswordValid);
     setIsValidPasswords(isPasswordsValid);
     setIsValidLogin(isLoginValid);
   }, [login, password, repeatPassword]);

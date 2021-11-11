@@ -153,19 +153,20 @@ export default webpackMockServer.add((app, helper) => {
     const rawData = readFileSync(resolvedPath);
     const users: IUser[] = JSON.parse(rawData.toString()) || [];
     const user: IUser = _req.body;
-    const isValid = Boolean(users.find((el) => el.name === user.name && el.password === user.password));
+    const userInDB = users.find((el) => el.email === user.email);
+    const isValid = userInDB?.password === user.password;
     delete require.cache[resolvedPath];
 
     if (!isValid) {
       res.status(400);
       setTimeout(() => {
-        res.json("Wrong login and/or password");
+        res.json("Wrong email and/or password");
       }, 5000);
       return;
     }
 
     setTimeout(() => {
-      res.json(user.name);
+      res.json(userInDB?.name);
     }, 5000);
   });
 
@@ -174,7 +175,8 @@ export default webpackMockServer.add((app, helper) => {
     const rawData = readFileSync(resolvedPath);
     const users: IUser[] = JSON.parse(rawData.toString()) || [];
     const newUser: IUser = _req.body;
-    const isExist = Boolean(users.find((el) => el.name === newUser.name));
+    [newUser.name] = newUser.email.split("@");
+    const isExist = Boolean(users.find((el) => el.email === newUser.email));
     delete require.cache[resolvedPath];
 
     if (isExist) {
@@ -191,9 +193,5 @@ export default webpackMockServer.add((app, helper) => {
     setTimeout(() => {
       res.json(newUser.name);
     }, 5000);
-  });
-
-  app.post("/testPostMock", (req, res) => {
-    res.json({ body: req.body || null, success: true });
   });
 });

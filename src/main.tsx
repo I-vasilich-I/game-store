@@ -1,6 +1,6 @@
 import "./styles/main.scss";
 import ReactDOM from "react-dom";
-import { StrictMode, useState } from "react";
+import { StrictMode, useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { ROUTES } from "./constants";
 import { AuthFormTypes } from "./types";
@@ -19,6 +19,12 @@ const AppContainer = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [authFormType, setAuthFormType] = useState<AuthFormTypes>("signin");
   const [userName, setUserName] = useState<string | null>(user);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setAuthFormType("signin");
+    }
+  }, [isModalOpen]);
 
   return (
     <StrictMode>
