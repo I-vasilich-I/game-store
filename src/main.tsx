@@ -12,6 +12,7 @@ import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import ProductsPage from "./components/productsPage/productsPage";
 import AuthForm from "./components/authForm/authForm";
 import Modal from "./elements/modal/modal";
+import UserContext from "./context/userContext/userContext";
 
 const AppContainer = (): JSX.Element => {
   const user = localStorage.getItem("userName") || null;
@@ -30,15 +31,12 @@ const AppContainer = (): JSX.Element => {
     <StrictMode>
       <Router>
         <ErrorBoundary>
-          <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-            <AuthForm type={authFormType} setUserName={setUserName} />
-          </Modal>
-          <Header
-            setIsModalOpen={setIsModalOpen}
-            setAuthFormType={setAuthFormType}
-            user={userName}
-            setUserName={setUserName}
-          />
+          <UserContext.Provider value={{ userName, setUserName }}>
+            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+              <AuthForm type={authFormType} />
+            </Modal>
+            <Header setIsModalOpen={setIsModalOpen} setAuthFormType={setAuthFormType} />
+          </UserContext.Provider>
           <main>
             <Switch>
               <Route exact path={home}>

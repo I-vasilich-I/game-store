@@ -5,7 +5,7 @@ import { IAuthForm } from "@/types";
 import ProductsDropDown from "./productsDropDown/productsDropDown";
 import UserPanel from "./userPanel/userPanel";
 
-const Navbar = ({ setIsModalOpen, setAuthFormType, user, setUserName }: IAuthForm): JSX.Element => {
+const Navbar = ({ setIsModalOpen, setAuthFormType }: IAuthForm): JSX.Element => {
   const { home, products, about } = ROUTES;
 
   return (
@@ -27,12 +27,7 @@ const Navbar = ({ setIsModalOpen, setAuthFormType, user, setUserName }: IAuthFor
             About
           </NavLink>
         </li>
-        <UserPanel
-          setIsModalOpen={setIsModalOpen}
-          setAuthFormType={setAuthFormType}
-          user={user}
-          setUserName={setUserName}
-        />
+        <UserPanel setIsModalOpen={setIsModalOpen} setAuthFormType={setAuthFormType} />
       </ul>
     </nav>
   );
