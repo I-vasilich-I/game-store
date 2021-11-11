@@ -1,14 +1,19 @@
 import "./alert.scss";
+import classNames from "classnames";
+import { ERROR_MESSAGES } from "@/constants";
+
+const { errorBoundary } = ERROR_MESSAGES;
 
 type IProps = {
   type: "error" | "info";
+  message?: string;
 };
 
-const Alert = ({ type }: IProps): JSX.Element => {
-  const message = "Something went wrong, you'll be redirected to the home page in 5 seconds";
+const Alert: React.FC<IProps> = ({ type, message = errorBoundary }): JSX.Element => {
+  const className = classNames("alert", `alert--${type}`);
 
   return (
-    <div className={["alert", `alert--${type}`].join(" ")}>
+    <div className={className}>
       <p className="alert__title">{type === "error" ? "Error" : "Info"}</p>
       <p className="alert__body">{message}</p>
     </div>

@@ -2,6 +2,7 @@ import "./homePage.scss";
 import { useEffect, useState } from "react";
 import { getTopGames } from "@/api/apiProducts";
 import { IGame } from "@/types";
+import { getGamesFromLocalStorage } from "@/helpers";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
@@ -9,13 +10,16 @@ import NavCategories from "./navCategories/navCategories";
 import SearchBar from "./searchbar/searchbar";
 
 const HomePage = (): JSX.Element => {
-  const [games, setGames] = useState<IGame[] | null>(null);
+  const localGames = getGamesFromLocalStorage();
+  const [games, setGames] = useState<IGame[] | null>(localGames);
 
   useEffect(() => {
+    if (games) return undefined;
     const abortController = new AbortController();
 
     (async () => {
       const data = await getTopGames();
+      localStorage.setItem("games", JSON.stringify({ data, date: new Date() }));
       setGames(data);
     })();
 

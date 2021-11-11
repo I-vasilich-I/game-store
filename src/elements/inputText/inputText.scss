@@ -1,0 +1,42 @@
+@import "../../styles/mixins.scss";
+
+.label {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:last-of-type {
+    margin-bottom: 40px;
+  }
+
+  h4 {
+    color: $lightColor;
+  }
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+    align-items: unset;
+    gap: 10px;
+  }
+
+  .input {
+    height: 40px;
+    padding: 10px 15px;
+    border-radius: 30px;
+    border: 2px solid $grayColor;
+    background-color: $transparentBlackColor;
+    @include font(1.5rem, 160%, $lightColor);
+
+    &:focus {
+      outline: 1px solid white;
+    }
+  }
+
+  .validation {
+    bottom: -20px;
+    right: 10px;
+  }
+}

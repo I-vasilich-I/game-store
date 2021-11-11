@@ -9,6 +9,7 @@ import seImg from "images/Square_Enix_Logo.svg";
 import pcImg from "images/windows_logo.svg";
 import psImg from "images/PlayStation_logo.svg";
 import xboxImg from "images/Xbox_one_logo.svg";
+import validator from "validator";
 
 const ROUTES = {
   home: "/",
@@ -20,8 +21,7 @@ const ROUTES = {
     xbox: "/products/xbox",
   },
   about: "/about",
-  signin: "/signin",
-  signup: "/signup",
+  profile: "/profile",
   errorFallback: "/",
 };
 
@@ -85,6 +85,27 @@ const GAME_COMPANIES = {
 const API = {
   topGamesURL: "http://localhost:8080/api/getTopProducts",
   searchRequestURL: "http://localhost:8080/api/search/",
+  signInURL: "http://localhost:8080/api/auth/signIn",
+  signUpURL: "http://localhost:8080/api/auth/signUp",
 };
 
-export { ROUTES, GAME_COMPANIES, API, CATEGORIES };
+const ERROR_MESSAGES = {
+  errorBoundary: "Something went wrong, you'll be redirected to the home page in 5 seconds",
+};
+
+const MIN_PASSWORD_LENGTH = 8;
+
+const VALIDATE = {
+  text: validator.isAlpha,
+  password: (passW: string): boolean => validator.isAlphanumeric(passW) && passW.length >= MIN_PASSWORD_LENGTH,
+  email: validator.isEmail,
+};
+
+const VALIDATION_MESSAGES = {
+  textMessage: "*use only letters",
+  passwordMessage: "*use letters/numbers, min 8 symbols",
+  repeatPasswordMessage: "*passwords don't match",
+  emailMessage: "*use an email address",
+};
+
+export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };
