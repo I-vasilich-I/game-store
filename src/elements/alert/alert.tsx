@@ -10,9 +10,7 @@ type IProps = {
 };
 
 const Alert: React.FC<IProps> = ({ type, message = errorBoundary }): JSX.Element => {
-  const className = classNames("alert", {
-    [`alert--${type}`]: true,
-  });
+  const className = classNames("alert", `alert--${type}`);
 
   return (
     <div className={className}>
