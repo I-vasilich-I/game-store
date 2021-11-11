@@ -93,18 +93,19 @@ const ERROR_MESSAGES = {
   errorBoundary: "Something went wrong, you'll be redirected to the home page in 5 seconds",
 };
 
+const MIN_PASSWORD_LENGTH = 8;
+
 const VALIDATE = {
   text: validator.isAlpha,
-  password: validator.isAlphanumeric,
+  password: (passW: string): boolean => validator.isAlphanumeric(passW) && passW.length >= MIN_PASSWORD_LENGTH,
   email: validator.isEmail,
 };
 
 const VALIDATION_MESSAGES = {
   textMessage: "*use only letters",
   passwordMessage: "*use letters/numbers, min 8 symbols",
+  repeatPasswordMessage: "*passwords don't match",
   emailMessage: "*use an email address",
 };
-
-const MIN_PASSWORD_LENGTH = 8;
 
 export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };
