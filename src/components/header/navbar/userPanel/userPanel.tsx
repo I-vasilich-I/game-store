@@ -13,7 +13,7 @@ interface ILoginButtons {
 }
 
 const UserPanel = ({ setIsModalOpen, setAuthFormType }: IAuthForm): JSX.Element => {
-  const { userName: user, setUserName } = useContext(UserContext);
+  const { userName, setUserName } = useContext(UserContext);
   const history = useHistory();
   const { home } = ROUTES;
   const handleClick = (type: AuthFormTypes) => {
@@ -42,7 +42,7 @@ const UserPanel = ({ setIsModalOpen, setAuthFormType }: IAuthForm): JSX.Element 
 
   return (
     <>
-      {!user ? (
+      {!userName ? (
         loginButtons.map(({ type, title }) => (
           <li key={type} className="nav__item">
             <button type="button" className="login-btn" onClick={() => handleClick(type)}>
@@ -54,7 +54,7 @@ const UserPanel = ({ setIsModalOpen, setAuthFormType }: IAuthForm): JSX.Element 
         <>
           <li className="nav__item user">
             <img src={userSVG} alt="user" />
-            <p>{user}</p>
+            <p>{userName}</p>
           </li>
           <li className="nav__item">
             <button type="button" className="logout-btn" onClick={handleLogout}>
