@@ -1,16 +1,19 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/store/modal/modalSlice";
+import UserContext from "@/context/userContext/userContext";
 import { ROUTES } from "@/constants";
 
-interface IProps {
-  userName: string | null;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const ProtectedRoutes: React.FC<IProps> = ({ userName, setIsModalOpen, children }) => {
+const ProtectedRoutes: React.FC = ({ children }) => {
+  const dispatch = useDispatch();
+  const { userName } = useContext(UserContext);
   const { home } = ROUTES;
+
   useEffect(() => {
-    if (!userName) setIsModalOpen(true);
+    if (!userName) {
+      dispatch(openModal());
+    }
   }, []);
 
   return (

@@ -1,16 +1,17 @@
 import "./authForm.scss";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { AuthFormTypes, IInputProps } from "@/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import UserContext from "@/context/userContext/userContext";
+import { IInputProps } from "@/types";
 import { API, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
 import authenticate from "@/api/apiAuth";
-import UserContext from "@/context/userContext/userContext";
 
 interface IProps {
-  type: AuthFormTypes;
   onModalClose?: null | (() => void);
   setError?: null | React.Dispatch<React.SetStateAction<string>>;
 }
@@ -21,8 +22,9 @@ type TLocationState = {
   };
 };
 
-const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null }): JSX.Element => {
+const AuthForm: React.FC<IProps> = ({ onModalClose = null, setError = null }): JSX.Element => {
   const { setUserName } = useContext(UserContext);
+  const { authFormType } = useSelector((state: RootState) => state.FORM);
   const history = useHistory();
   const location = useLocation();
   const [login, setLogin] = useState("");
@@ -33,7 +35,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null
   const [isValidPasswords, setIsValidPasswords] = useState(false);
   const [isValidLogin, setIsValidLogin] = useState(false);
   const isValidToSubmit = isValidPasswords && isValidLogin;
-  const title = type === "signin" ? "Sign In" : "Sign Up";
+  const title = authFormType === "signin" ? "Sign In" : "Sign Up";
   const checkPasswords = "Password field(s) format is invalid";
   const checkLogin = "Login field format is invalid";
   const { profile } = ROUTES;
@@ -61,7 +63,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null
     },
   ];
 
-  if (type === "signup")
+  if (authFormType === "signup")
     formContent.push({
       type: "password",
       id: "repeatpassword",
@@ -85,7 +87,7 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null
       password,
     };
     const { signInURL, signUpURL } = API;
-    const url = type === "signin" ? signInURL : signUpURL;
+    const url = authFormType === "signin" ? signInURL : signUpURL;
 
     const { data, status } = await authenticate({ url, sendData });
 
@@ -114,7 +116,8 @@ const AuthForm: React.FC<IProps> = ({ type, onModalClose = null, setError = null
   useEffect(() => {
     const isLoginValid = VALIDATE.email(login);
     const isPasswordValid = VALIDATE.password(password);
-    const isPasswordsValid = type === "signup" ? password === repeatPassword && isPasswordValid : isPasswordValid;
+    const isPasswordsValid =
+      authFormType === "signup" ? password === repeatPassword && isPasswordValid : isPasswordValid;
     setIsValidPassword(isPasswordValid);
     setIsValidPasswords(isPasswordsValid);
     setIsValidLogin(isLoginValid);

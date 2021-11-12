@@ -1,17 +1,21 @@
 import "./modal.scss";
 import ReactDOM from "react-dom";
 import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setAuthFormType } from "@/redux/store/form/formSlice";
+import { closeModal } from "@/redux/store/modal/modalSlice";
 import closeSVG from "images/clear.svg";
 import Alert from "../alert/alert";
 
 interface IProps {
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
-  if (!isModalOpen) return null;
+const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
+  if (!isModalOpen) {
+    return null;
+  }
 
   const portal = document.getElementById("portal");
 
@@ -19,6 +23,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
     return null;
   }
 
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +31,9 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
     const focusableModalElements = modalRef?.current?.querySelectorAll<HTMLElement>(
       "a[href], button, textarea, input, select"
     );
-    if (!focusableModalElements?.length) return;
+    if (!focusableModalElements?.length) {
+      return;
+    }
 
     const { length } = focusableModalElements;
     const firstElement = focusableModalElements[0];
@@ -47,7 +54,8 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
   };
 
   const onModalClose = () => {
-    setIsModalOpen(false);
+    dispatch(closeModal());
+    dispatch(setAuthFormType("signin"));
   };
 
   const keyListenersMap = new Map([
@@ -75,7 +83,10 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
   });
 
   useEffect(() => {
-    if (!error) return;
+    if (!error) {
+      return;
+    }
+
     setTimeout(() => {
       setError("");
     }, 10000);
