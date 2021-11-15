@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/store/modal/modalSlice";
-import UserContext from "@/context/userContext/userContext";
+import useAppSelector from "@/redux/hooks/useAppSelector";
 import { ROUTES } from "@/constants";
 
 const ProtectedRoutes: React.FC = ({ children }) => {
   const dispatch = useDispatch();
-  const { userName } = useContext(UserContext);
+  const { userName } = useAppSelector((state) => state.USER);
   const { home } = ROUTES;
 
   useEffect(() => {

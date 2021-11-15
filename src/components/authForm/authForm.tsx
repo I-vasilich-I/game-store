@@ -1,20 +1,14 @@
 import "./authForm.scss";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/store";
-import UserContext from "@/context/userContext/userContext";
+import { useDispatch } from "react-redux";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { IInputProps } from "@/types";
 import { API, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
-import authenticate from "@/api/apiAuth";
-
-interface IProps {
-  onModalClose?: null | (() => void);
-  setError?: null | React.Dispatch<React.SetStateAction<string>>;
-}
 
 type TLocationState = {
   from: {
@@ -22,15 +16,14 @@ type TLocationState = {
   };
 };
 
-const AuthForm: React.FC<IProps> = ({ onModalClose = null, setError = null }): JSX.Element => {
-  const { setUserName } = useContext(UserContext);
-  const { authFormType } = useSelector((state: RootState) => state.FORM);
+const AuthForm = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { authFormType, status, isLoading } = useAppSelector((state) => state.FORM);
   const history = useHistory();
   const location = useLocation();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidPasswords, setIsValidPasswords] = useState(false);
   const [isValidLogin, setIsValidLogin] = useState(false);
@@ -74,43 +67,22 @@ const AuthForm: React.FC<IProps> = ({ onModalClose = null, setError = null }): J
       message: repeatPasswordMessage,
     });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     if (!isValidToSubmit) {
       return;
     }
 
     e.preventDefault();
-    setLoading(true);
 
+    const { signInURL, signUpURL } = API;
+    const url = authFormType === "signin" ? signInURL : signUpURL;
     const sendData = {
       email: login,
       password,
+      url,
     };
-    const { signInURL, signUpURL } = API;
-    const url = authFormType === "signin" ? signInURL : signUpURL;
 
-    const { data, status } = await authenticate({ url, sendData });
-
-    if (status === 200 || status === 201) {
-      localStorage.setItem("userName", data);
-      setLoading(false);
-      setUserName?.(data);
-
-      if (status === 201) {
-        history.push(profile);
-      }
-
-      const from = (location.state as TLocationState)?.from;
-      if (from?.pathname) {
-        history.replace(from.pathname);
-      }
-
-      onModalClose?.();
-      return;
-    }
-
-    setLoading(false);
-    setError?.(data);
+    dispatch({ type: SAGA_ACTIONS.AUTH_USER, payload: sendData });
   };
 
   useEffect(() => {
@@ -123,15 +95,33 @@ const AuthForm: React.FC<IProps> = ({ onModalClose = null, setError = null }): J
     setIsValidLogin(isLoginValid);
   }, [login, password, repeatPassword]);
 
+  useEffect(() => {
+    if (status !== 200 && status !== 201) {
+      return;
+    }
+
+    if (status === 201) {
+      history.push(profile);
+    }
+
+    const from = (location.state as TLocationState)?.from;
+
+    if (from?.pathname) {
+      history.replace(from.pathname);
+    }
+
+    dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+  }, [status]);
+
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
       <h3 className="auth-form__title">{title}</h3>
       {formContent.map((el) => (
         <InputText key={el.id} {...el} />
       ))}
-      <button type="submit" className="submit-btn" disabled={!isValidToSubmit || loading}>
+      <button type="submit" className="submit-btn" disabled={!isValidToSubmit || isLoading}>
         {title}
-        <Spinner isOn={loading} />
+        <Spinner isOn={isLoading} />
       </button>
       {isValidLogin ? (
         <ValidationMessage isValid={isValidPasswords} message={checkPasswords} />

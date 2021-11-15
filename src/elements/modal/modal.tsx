@@ -1,9 +1,10 @@
 import "./modal.scss";
 import ReactDOM from "react-dom";
-import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setAuthFormType } from "@/redux/store/form/formSlice";
-import { closeModal } from "@/redux/store/modal/modalSlice";
+import { setError } from "@/redux/store/modal/modalSlice";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import closeSVG from "images/clear.svg";
 import Alert from "../alert/alert";
 
@@ -24,13 +25,14 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
   }
 
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
+  const { error } = useAppSelector((state) => state.MODAL);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleTabKey = (e: KeyboardEvent) => {
     const focusableModalElements = modalRef?.current?.querySelectorAll<HTMLElement>(
       "a[href], button, textarea, input, select"
     );
+
     if (!focusableModalElements?.length) {
       return;
     }
@@ -53,23 +55,13 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
     }
   };
 
-  const onModalClose = () => {
-    dispatch(closeModal());
-    dispatch(setAuthFormType("signin"));
-  };
+  const onModalClose = () => dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
 
   const keyListenersMap = new Map([
     ["Esc", onModalClose],
     ["Escape", onModalClose],
     ["Tab", handleTabKey],
   ]);
-
-  const childrenWithProps = Children.map(children, (child) => {
-    if (isValidElement(child)) {
-      return cloneElement(child, { onModalClose, setError });
-    }
-    return child;
-  });
 
   useEffect(() => {
     const keyListener = (e: KeyboardEvent) => {
@@ -88,7 +80,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
     }
 
     setTimeout(() => {
-      setError("");
+      dispatch(setError(""));
     }, 10000);
   }, [error]);
 
@@ -98,7 +90,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
         <button type="button" className="modal__close" onClick={onModalClose}>
           <img src={closeSVG} alt="close" width="24" height="24" />
         </button>
-        {childrenWithProps}
+        {children}
       </div>
       {error ? <Alert type="error" message={error} /> : null}
     </div>,
