@@ -6,7 +6,7 @@ import SignedInUserPanel from "./signedInUserPanel/signedInUserPanel";
 const UserPanel = (): JSX.Element => {
   const { userName } = useAppSelector((state) => state.USER);
 
-  return !userName ? <SignedOutUserPanel /> : <SignedInUserPanel />;
+  return userName ? <SignedInUserPanel /> : <SignedOutUserPanel />;
 };
 
 export default UserPanel;
