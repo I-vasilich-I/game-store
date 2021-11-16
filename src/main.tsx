@@ -1,9 +1,11 @@
 import "./styles/main.scss";
 import ReactDOM from "react-dom";
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/store/store";
+import useAppSelector from "./redux/hooks/useAppSelector";
 import { ROUTES } from "./constants";
-import { AuthFormTypes } from "./types";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import ErrorBoundary from "./components/errorBoundary/errorBoundary";
@@ -12,37 +14,25 @@ import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import ProductsPage from "./components/productsPage/productsPage";
 import AuthForm from "./components/authForm/authForm";
 import Modal from "./elements/modal/modal";
-import UserContext from "./context/userContext/userContext";
 
 const AppContainer = (): JSX.Element => {
-  const user = localStorage.getItem("userName") || null;
   const { home, products, about, profile } = ROUTES;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [authFormType, setAuthFormType] = useState<AuthFormTypes>("signin");
-  const [userName, setUserName] = useState<string | null>(user);
-
-  useEffect(() => {
-    if (!isModalOpen) {
-      setAuthFormType("signin");
-    }
-  }, [isModalOpen]);
+  const { isModalOpen } = useAppSelector((state) => state.MODAL);
 
   return (
     <StrictMode>
       <Router>
         <ErrorBoundary>
-          <UserContext.Provider value={{ userName, setUserName }}>
-            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-              <AuthForm type={authFormType} />
-            </Modal>
-            <Header setIsModalOpen={setIsModalOpen} setAuthFormType={setAuthFormType} />
-          </UserContext.Provider>
+          <Modal isModalOpen={isModalOpen}>
+            <AuthForm />
+          </Modal>
+          <Header />
           <main>
             <Switch>
               <Route exact path={home}>
                 <HomePage />
               </Route>
-              <ProtectedRoutes userName={userName} setIsModalOpen={setIsModalOpen}>
+              <ProtectedRoutes>
                 <Route exact path={products.base}>
                   <p>You are on Products page</p>
                 </Route>
@@ -66,4 +56,9 @@ const AppContainer = (): JSX.Element => {
   );
 };
 
-ReactDOM.render(<AppContainer />, document.getElementById("app"));
+ReactDOM.render(
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>,
+  document.getElementById("app")
+);

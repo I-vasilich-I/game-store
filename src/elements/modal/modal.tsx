@@ -1,17 +1,22 @@
 import "./modal.scss";
 import ReactDOM from "react-dom";
-import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setError } from "@/redux/store/modal/modalSlice";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import closeSVG from "images/clear.svg";
 import Alert from "../alert/alert";
 
 interface IProps {
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
-  if (!isModalOpen) return null;
+const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
+  if (!isModalOpen) {
+    return null;
+  }
 
   const portal = document.getElementById("portal");
 
@@ -19,14 +24,18 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
     return null;
   }
 
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const { error } = useAppSelector((state) => state.MODAL);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleTabKey = (e: KeyboardEvent) => {
     const focusableModalElements = modalRef?.current?.querySelectorAll<HTMLElement>(
       "a[href], button, textarea, input, select"
     );
-    if (!focusableModalElements?.length) return;
+
+    if (!focusableModalElements?.length) {
+      return;
+    }
 
     const { length } = focusableModalElements;
     const firstElement = focusableModalElements[0];
@@ -46,22 +55,13 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
     }
   };
 
-  const onModalClose = () => {
-    setIsModalOpen(false);
-  };
+  const onModalClose = () => dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
 
   const keyListenersMap = new Map([
     ["Esc", onModalClose],
     ["Escape", onModalClose],
     ["Tab", handleTabKey],
   ]);
-
-  const childrenWithProps = Children.map(children, (child) => {
-    if (isValidElement(child)) {
-      return cloneElement(child, { onModalClose, setError });
-    }
-    return child;
-  });
 
   useEffect(() => {
     const keyListener = (e: KeyboardEvent) => {
@@ -75,9 +75,12 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
   });
 
   useEffect(() => {
-    if (!error) return;
+    if (!error) {
+      return;
+    }
+
     setTimeout(() => {
-      setError("");
+      dispatch(setError(""));
     }, 10000);
   }, [error]);
 
@@ -87,7 +90,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, children }) => {
         <button type="button" className="modal__close" onClick={onModalClose}>
           <img src={closeSVG} alt="close" width="24" height="24" />
         </button>
-        {childrenWithProps}
+        {children}
       </div>
       {error ? <Alert type="error" message={error} /> : null}
     </div>,

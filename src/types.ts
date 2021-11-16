@@ -20,7 +20,6 @@ interface IUser {
 type AuthFormTypes = "signin" | "signup";
 
 interface IAuthForm {
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
 
