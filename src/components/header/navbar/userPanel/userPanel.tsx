@@ -1,6 +1,6 @@
 import "./userPanel.scss";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SignedOutUserPanel from "./SignedOutUserPanel/SignedOutUserPanel";
+import SignedOutUserPanel from "./signedOutUserPanel/signedOutUserPanel";
 import SignedInUserPanel from "./signedInUserPanel/signedInUserPanel";
 
 const UserPanel = (): JSX.Element => {
