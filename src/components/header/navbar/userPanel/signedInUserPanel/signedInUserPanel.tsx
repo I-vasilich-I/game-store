@@ -10,7 +10,7 @@ const SignedInUserPanel = (): JSX.Element => {
   const dispatch = useDispatch();
   const { userName } = useAppSelector((state) => state.USER);
   const history = useHistory();
-  const { home } = ROUTES;
+  const { home, profile } = ROUTES;
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -18,11 +18,17 @@ const SignedInUserPanel = (): JSX.Element => {
     history.push(home);
   };
 
+  const handleProfile = () => {
+    history.push(profile);
+  };
+
   return (
     <>
       <li className="nav__item user">
         <img src={userSVG} alt="user" />
-        <p>{userName}</p>
+        <button type="button" className="profile-btn" onClick={handleProfile}>
+          {userName}
+        </button>
       </li>
       <li className="nav__item">
         <button type="button" className="logout-btn" onClick={handleLogout}>
