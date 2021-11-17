@@ -99,6 +99,7 @@ const VALIDATE = {
   text: validator.isAlpha,
   password: (passW: string): boolean => validator.isAlphanumeric(passW) && passW.length >= MIN_PASSWORD_LENGTH,
   email: validator.isEmail,
+  tel: validator.isMobilePhone,
 };
 
 const VALIDATION_MESSAGES = {
@@ -106,6 +107,9 @@ const VALIDATION_MESSAGES = {
   passwordMessage: "*use letters/numbers, min 8 symbols",
   repeatPasswordMessage: "*passwords don't match",
   emailMessage: "*use an email address",
+  lettersAndNumbers: "*use letters/numbers, min 8 symbols",
+  mobilePhone: "*use mobile phone",
+  addressMessage: "*can't be empty",
 };
 
 export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };

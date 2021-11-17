@@ -1,4 +1,5 @@
-import { IGame } from "./types";
+import { VALIDATE } from "./constants";
+import { IGame, TInput } from "./types";
 
 function isRecent(date1: Date, date2: Date): boolean {
   const oneDay = 1 * 24 * 60 * 60 * 1000;
@@ -20,5 +21,6 @@ function getGamesFromLocalStorage(): IGame[] | null {
   return data;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { getGamesFromLocalStorage };
+const validateValue = (value: string, type: TInput): boolean => VALIDATE[type](value);
+
+export { getGamesFromLocalStorage, validateValue };

@@ -23,12 +23,15 @@ interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
 
+type TInput = "text" | "password" | "email" | "tel";
+
 interface IInputProps {
-  type?: "text" | "password" | "email";
+  type?: TInput;
   id: string;
   required?: boolean;
   title?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  value?: string;
   isValid: boolean;
   message: string;
 }
@@ -43,4 +46,4 @@ interface IUserContext {
   setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
 }
 
-export { IGame, IUser, AuthFormTypes, IAuthForm, IInputProps, IAuthResponse, IUserContext };
+export { IGame, IUser, AuthFormTypes, IAuthForm, TInput, IInputProps, IAuthResponse, IUserContext };
