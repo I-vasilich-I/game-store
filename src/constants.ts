@@ -111,6 +111,7 @@ const VALIDATION_MESSAGES = {
   lettersAndNumbers: "*use letters/numbers, min 8 symbols",
   mobilePhone: "*use mobile phone",
   addressMessage: "*can't be empty",
+  changeInfo: "*Information hasn't changed",
 };
 
 export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };

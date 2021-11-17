@@ -9,23 +9,24 @@ import { validateValue } from "@/helpers";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import Alert from "@/elements/alert/alert";
+import ValidationMessage from "@/elements/validationMessage/validationMessage";
 
 const ProfileInfo = (): JSX.Element => {
   const dispatch = useDispatch();
   const { alert } = useAppSelector((state) => state.MODAL);
   const { textMessage, emailMessage, mobilePhone, addressMessage } = VALIDATION_MESSAGES;
-  const { userName, email } = useAppSelector((state) => state.USER);
+  const { userName, email, address, phone } = useAppSelector((state) => state.USER);
   const { isLoading } = useAppSelector((state) => state.FORM);
   const isValidInitialState = {
     user: validateValue(userName as string, "text"),
     email: validateValue(email as string, "email"),
-    address: false,
-    phone: false,
+    address: Boolean(address),
+    phone: validateValue(phone as string, "tel"),
   };
   const [inputUserName, setInputUserName] = useState<string>(userName || "");
   const [inputEmail, setInputEmail] = useState<string>(email || "");
-  const [inputAddress, setInputAddress] = useState<string>("");
-  const [inputPhone, setInputPhone] = useState<string>("");
+  const [inputAddress, setInputAddress] = useState<string>(address || "");
+  const [inputPhone, setInputPhone] = useState<string>(phone || "");
   const [isValid, setIsValid] = useState(isValidInitialState);
 
   const formContent: IInputProps[] = [
@@ -55,6 +56,7 @@ const ProfileInfo = (): JSX.Element => {
       required: true,
       title: "Delivery address",
       setValue: setInputAddress,
+      value: inputAddress,
       isValid: isValid.address,
       message: addressMessage,
     },
@@ -64,12 +66,17 @@ const ProfileInfo = (): JSX.Element => {
       required: true,
       title: "Phone",
       setValue: setInputPhone,
+      value: inputPhone,
       isValid: isValid.phone,
       message: mobilePhone,
     },
   ];
 
-  const isValidToSubmit = Object.values(isValid).reduce((a, b) => a + +b, 0) === formContent.length;
+  const isValidFields = Object.values(isValid).reduce((a, b) => a + +b, 0) === formContent.length;
+  const hasChangedFields =
+    userName !== inputUserName || email !== inputEmail || phone !== inputPhone || address !== inputAddress;
+  const isValidToSubmit = isValidFields && hasChangedFields;
+  const { changeInfo } = VALIDATION_MESSAGES;
 
   const handleClick = () => {
     const sendData = {
@@ -112,6 +119,7 @@ const ProfileInfo = (): JSX.Element => {
         <Spinner isOn={isLoading} />
       </button>
       {alert ? <Alert type="info" message={alert} /> : null}
+      <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
     </div>
   );
 };
