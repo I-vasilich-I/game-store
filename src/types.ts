@@ -14,7 +14,10 @@ interface IGame {
 interface IUser {
   email: string;
   name?: string;
-  password: string;
+  password?: string;
+  address?: string;
+  phone?: string;
+  photo?: string;
 }
 
 type AuthFormTypes = "signin" | "signup";
@@ -46,4 +49,28 @@ interface IUserContext {
   setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
 }
 
-export { IGame, IUser, AuthFormTypes, IAuthForm, TInput, IInputProps, IAuthResponse, IUserContext };
+interface IProfile {
+  name: string;
+  oldEmail: string;
+  email: string;
+  address: string;
+  phone: string;
+}
+
+interface IProfileResponse {
+  data: IProfile;
+  status: number;
+}
+
+export {
+  IGame,
+  IUser,
+  AuthFormTypes,
+  IAuthForm,
+  TInput,
+  IInputProps,
+  IAuthResponse,
+  IUserContext,
+  IProfile,
+  IProfileResponse,
+};

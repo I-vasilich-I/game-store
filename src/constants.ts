@@ -87,6 +87,7 @@ const API = {
   searchRequestURL: "http://localhost:8080/api/search/",
   signInURL: "http://localhost:8080/api/auth/signIn",
   signUpURL: "http://localhost:8080/api/auth/signUp",
+  changeProfileInfo: "http://localhost:8080/api/saveProfile",
 };
 
 const ERROR_MESSAGES = {

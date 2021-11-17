@@ -42,13 +42,19 @@
       cursor: pointer;
       background-color: $violetColor;
     }
+  }
 
-    .photo-input {
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      position: absolute;
-      z-index: -1;
+  .photo-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+
+    &:focus + .photo-btn {
+      background-color: $violetColor;
+      outline: 1px dotted $lightColor;
+      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 }
