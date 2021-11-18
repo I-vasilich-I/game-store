@@ -234,4 +234,52 @@ export default webpackMockServer.add((app, helper) => {
       res.json(userInDB);
     }, 5000);
   });
+
+  app.post("/api/changePhoto", (_req, res) => {
+    const resolvedPath = require.resolve(nodePath.join(__dirname, "./mock.json"));
+    const rawData = readFileSync(resolvedPath);
+    const users: IUser[] = JSON.parse(rawData.toString()) || [];
+    const changedUser: IUser = _req.body;
+    const user = users.find((el) => el.email === changedUser.email);
+    delete require.cache[resolvedPath];
+
+    if (!user) {
+      res.status(400);
+      setTimeout(() => {
+        res.json(`Can't find User with email: ${changedUser.email}`);
+      }, 5000);
+      return;
+    }
+
+    user.photo = changedUser.photo;
+    writeFileSync(resolvedPath, JSON.stringify(users));
+    res.status(200);
+    setTimeout(() => {
+      res.json(user);
+    }, 5000);
+  });
+
+  app.post("/api/changePassword", (_req, res) => {
+    const resolvedPath = require.resolve(nodePath.join(__dirname, "./mock.json"));
+    const rawData = readFileSync(resolvedPath);
+    const users: IUser[] = JSON.parse(rawData.toString()) || [];
+    const user: IUser = _req.body;
+    const userInDB = users.find((el) => el.email === user.email);
+
+    delete require.cache[resolvedPath];
+
+    if (!userInDB) {
+      res.status(400);
+      setTimeout(() => {
+        res.json(`Can't find User with email: ${user.email}`);
+      }, 5000);
+      return;
+    }
+
+    userInDB.password = user.password;
+    writeFileSync(resolvedPath, JSON.stringify(users));
+    setTimeout(() => {
+      res.json(userInDB);
+    }, 5000);
+  });
 });

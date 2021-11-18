@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import { setAlert } from "@/redux/store/modal/modalSlice";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { IInputProps } from "@/types";
 import { VALIDATION_MESSAGES } from "@/constants";
 import { validateValue } from "@/helpers";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
-import Alert from "@/elements/alert/alert";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
 
 const ProfileInfo = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { alert } = useAppSelector((state) => state.MODAL);
   const { textMessage, emailMessage, mobilePhone, addressMessage } = VALIDATION_MESSAGES;
   const { userName, email, address, phone } = useAppSelector((state) => state.USER);
-  const { isLoading } = useAppSelector((state) => state.FORM);
+  const { isSaving } = useAppSelector((state) => state.FORM);
   const isValidInitialState = {
     user: validateValue(userName || "", "text"),
     email: validateValue(email || "", "email"),
@@ -99,29 +96,18 @@ const ProfileInfo = (): JSX.Element => {
     setIsValid(isValidChangedState);
   }, [inputUserName, inputEmail, inputAddress, inputPhone]);
 
-  useEffect(() => {
-    if (!alert) {
-      return;
-    }
-
-    setTimeout(() => {
-      dispatch(setAlert(""));
-    }, 5000);
-  }, [alert]);
-
   return (
     <>
       <div className="info__container">
         {formContent.map((el) => (
           <InputText key={el.id} {...el} />
         ))}
-        <button type="button" className="submit-btn" disabled={!isValidToSubmit || isLoading} onClick={handleClick}>
+        <button type="button" className="submit-btn" disabled={!isValidToSubmit || isSaving} onClick={handleClick}>
           Save
-          <Spinner isOn={isLoading} />
+          <Spinner isOn={isSaving} />
         </button>
         <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
       </div>
-      {alert ? <Alert type="info" message={alert} /> : null}
     </>
   );
 };

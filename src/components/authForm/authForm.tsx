@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { IInputProps } from "@/types";
-import { API, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
+import { AUTH_FORM_URLS, FORM_TITLES, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
@@ -19,6 +19,7 @@ type TLocationState = {
 const AuthForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const { authFormType, status, isLoading } = useAppSelector((state) => state.FORM);
+  const { email } = useAppSelector((state) => state.USER);
   const history = useHistory();
   const location = useLocation();
   const [login, setLogin] = useState("");
@@ -28,44 +29,61 @@ const AuthForm = (): JSX.Element => {
   const [isValidPasswords, setIsValidPasswords] = useState(false);
   const [isValidLogin, setIsValidLogin] = useState(false);
   const isValidToSubmit = isValidPasswords && isValidLogin;
-  const title = authFormType === "signin" ? "Sign In" : "Sign Up";
-  const checkPasswords = "Password field(s) format is invalid";
-  const checkLogin = "Login field format is invalid";
+  const title = FORM_TITLES[authFormType];
+  const url = AUTH_FORM_URLS[authFormType];
   const { profile } = ROUTES;
-  const { emailMessage, passwordMessage, repeatPasswordMessage: repeatMessage } = VALIDATION_MESSAGES;
+  const {
+    emailMessage,
+    passwordMessage,
+    repeatPasswordMessage: repeatMessage,
+    checkPasswords,
+    checkLogin,
+  } = VALIDATION_MESSAGES;
   const isRepeatPasswordValid = VALIDATE.password(repeatPassword);
   const repeatPasswordMessage = isRepeatPasswordValid && password !== repeatPassword ? repeatMessage : passwordMessage;
-  const formContent: IInputProps[] = [
-    {
-      type: "email",
-      id: "login",
-      required: true,
-      title: "Login",
-      setValue: setLogin,
-      isValid: isValidLogin,
-      message: emailMessage,
-    },
-    {
-      type: "password",
-      id: "password",
-      required: true,
-      title: "Password",
-      setValue: setPassword,
-      isValid: isValidPassword,
-      message: passwordMessage,
-    },
-  ];
+  const formContent: IInputProps[] = [];
 
-  if (authFormType === "signup")
-    formContent.push({
-      type: "password",
-      id: "repeatpassword",
-      required: true,
-      title: "Repeat password",
-      setValue: setRepeatPassword,
-      isValid: isValidPasswords,
-      message: repeatPasswordMessage,
-    });
+  const emailInput: IInputProps = {
+    type: "email",
+    id: "login",
+    required: true,
+    title: "Login",
+    setValue: setLogin,
+    isValid: isValidLogin,
+    message: emailMessage,
+  };
+
+  const passwordInput: IInputProps = {
+    type: "password",
+    id: "password",
+    required: true,
+    title: "Password",
+    setValue: setPassword,
+    isValid: isValidPassword,
+    message: passwordMessage,
+  };
+
+  const repeatPasswordInput: IInputProps = {
+    type: "password",
+    id: "repeatpassword",
+    required: true,
+    title: "Repeat password",
+    setValue: setRepeatPassword,
+    isValid: isValidPasswords,
+    message: repeatPasswordMessage,
+  };
+
+  if (authFormType === "signin") {
+    formContent.push(emailInput, passwordInput);
+  }
+
+  if (authFormType === "signup") {
+    formContent.push(emailInput, passwordInput, repeatPasswordInput);
+  }
+
+  if (authFormType === "password") {
+    formContent.push(passwordInput, repeatPasswordInput);
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     if (!isValidToSubmit) {
@@ -74,8 +92,11 @@ const AuthForm = (): JSX.Element => {
 
     e.preventDefault();
 
-    const { signInURL, signUpURL } = API;
-    const url = authFormType === "signin" ? signInURL : signUpURL;
+    if (authFormType === "password") {
+      dispatch({ type: SAGA_ACTIONS.PROFILE_CHANGE_PASSWORD, payload: { email, password } });
+      return;
+    }
+
     const sendData = {
       email: login,
       password,
@@ -86,12 +107,20 @@ const AuthForm = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const isLoginValid = VALIDATE.email(login);
     const isPasswordValid = VALIDATE.password(password);
     const isPasswordsValid =
-      authFormType === "signup" ? password === repeatPassword && isPasswordValid : isPasswordValid;
+      authFormType === "signup" || authFormType === "password"
+        ? password === repeatPassword && isPasswordValid
+        : isPasswordValid;
     setIsValidPassword(isPasswordValid);
     setIsValidPasswords(isPasswordsValid);
+
+    if (authFormType === "password") {
+      setIsValidLogin(true);
+      return;
+    }
+
+    const isLoginValid = VALIDATE.email(login);
     setIsValidLogin(isLoginValid);
   }, [login, password, repeatPassword]);
 

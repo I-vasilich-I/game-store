@@ -20,7 +20,7 @@ interface IUser {
   photo?: string;
 }
 
-type AuthFormTypes = "signin" | "signup";
+type AuthFormTypes = "signin" | "signup" | "password";
 
 interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
