@@ -18,10 +18,10 @@ const ProfileInfo = (): JSX.Element => {
   const { userName, email, address, phone } = useAppSelector((state) => state.USER);
   const { isLoading } = useAppSelector((state) => state.FORM);
   const isValidInitialState = {
-    user: validateValue(userName as string, "text"),
-    email: validateValue(email as string, "email"),
+    user: validateValue(userName || "", "text"),
+    email: validateValue(email || "", "email"),
     address: Boolean(address),
-    phone: validateValue(phone as string, "tel"),
+    phone: validateValue(phone || "", "tel"),
   };
   const [inputUserName, setInputUserName] = useState<string>(userName || "");
   const [inputEmail, setInputEmail] = useState<string>(email || "");
@@ -110,17 +110,19 @@ const ProfileInfo = (): JSX.Element => {
   }, [alert]);
 
   return (
-    <div className="info__container">
-      {formContent.map((el) => (
-        <InputText key={el.id} {...el} />
-      ))}
-      <button type="button" className="submit-btn" disabled={!isValidToSubmit || isLoading} onClick={handleClick}>
-        Save
-        <Spinner isOn={isLoading} />
-      </button>
+    <>
+      <div className="info__container">
+        {formContent.map((el) => (
+          <InputText key={el.id} {...el} />
+        ))}
+        <button type="button" className="submit-btn" disabled={!isValidToSubmit || isLoading} onClick={handleClick}>
+          Save
+          <Spinner isOn={isLoading} />
+        </button>
+        <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
+      </div>
       {alert ? <Alert type="info" message={alert} /> : null}
-      <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
-    </div>
+    </>
   );
 };
 
