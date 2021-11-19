@@ -166,7 +166,7 @@ export default webpackMockServer.add((app, helper) => {
     }
 
     setTimeout(() => {
-      res.json(userInDB?.name);
+      res.json(userInDB);
     }, 5000);
   });
 
@@ -191,7 +191,7 @@ export default webpackMockServer.add((app, helper) => {
     writeFileSync(resolvedPath, JSON.stringify(users));
     res.status(201);
     setTimeout(() => {
-      res.json(newUser.name);
+      res.json(newUser);
     }, 5000);
   });
 

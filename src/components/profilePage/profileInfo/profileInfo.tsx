@@ -50,17 +50,17 @@ const ProfileInfo = (): JSX.Element => {
     {
       type: "text",
       id: "address",
-      required: true,
+      required: false,
       title: "Delivery address",
       setValue: setInputAddress,
       value: inputAddress,
-      isValid: isValid.address,
+      isValid: true,
       message: addressMessage,
     },
     {
       type: "tel",
       id: "phone",
-      required: true,
+      required: false,
       title: "Phone",
       setValue: setInputPhone,
       value: inputPhone,
@@ -69,7 +69,7 @@ const ProfileInfo = (): JSX.Element => {
     },
   ];
 
-  const isValidFields = Object.values(isValid).reduce((a, b) => a + +b, 0) === formContent.length;
+  const isValidFields = isValid.email && isValid.user && (inputPhone === "" || isValid.phone);
   const hasChangedFields =
     userName !== inputUserName || email !== inputEmail || phone !== inputPhone || address !== inputAddress;
   const isValidToSubmit = isValidFields && hasChangedFields;
@@ -90,8 +90,8 @@ const ProfileInfo = (): JSX.Element => {
     const isValidChangedState = {
       user: validateValue(inputUserName, "text"),
       email: validateValue(inputEmail, "email"),
-      address: Boolean(inputAddress),
-      phone: validateValue(inputPhone, "tel"),
+      address: true,
+      phone: inputPhone === "" ? true : validateValue(inputPhone, "tel"),
     };
     setIsValid(isValidChangedState);
   }, [inputUserName, inputEmail, inputAddress, inputPhone]);

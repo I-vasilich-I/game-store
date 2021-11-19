@@ -26,7 +26,6 @@ async function changeProfileInfoService(sendData: IProfile): Promise<IProfileRes
 }
 
 async function uploadPhoto(image: File): Promise<string> {
-  console.log(image);
   try {
     const { photoUploadURL } = API;
     const formData = new FormData();

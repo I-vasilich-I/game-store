@@ -34,7 +34,7 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.address = action.payload.address;
       state.phone = action.payload.phone;
-      state.photo = action.payload.photo;
+      state.photo = action.payload.photo || userSVG;
     },
 
     setUserProp(state, action: PayloadAction<IUserProp>) {

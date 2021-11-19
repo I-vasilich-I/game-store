@@ -1,5 +1,5 @@
 import { call, takeEvery, ForkEffect, put } from "redux-saga/effects";
-import { setUserProp } from "@/redux/store/user/userSlice";
+import { setUser } from "@/redux/store/user/userSlice";
 import { setIsLoading, setStatus } from "@/redux/store/form/formSlice";
 import { setError } from "@/redux/store/modal/modalSlice";
 import authenticate from "@/api/apiAuth";
@@ -20,8 +20,10 @@ function* authUser({ payload: { email, password, url } }: IAction) {
     const { data, status } = yield call(() => authenticate({ url, sendData: { email, password } }));
 
     if (status === 200 || status === 201) {
-      localStorage.setItem("user", JSON.stringify({ userName: data, email }));
-      yield put(setUserProp({ prop: "userName", value: data }));
+      const { name: userName, password: passW, ...rest } = data;
+      const newData = { userName, ...rest };
+      localStorage.setItem("user", JSON.stringify(newData));
+      yield put(setUser({ password: passW, ...newData }));
       yield put(setStatus(status));
     } else {
       yield put(setError(data));
