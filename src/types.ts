@@ -14,21 +14,27 @@ interface IGame {
 interface IUser {
   email: string;
   name?: string;
-  password: string;
+  password?: string;
+  address?: string;
+  phone?: string;
+  photo?: string;
 }
 
-type AuthFormTypes = "signin" | "signup";
+type AuthFormTypes = "signin" | "signup" | "password";
 
 interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
 
+type TInput = "text" | "password" | "email" | "tel";
+
 interface IInputProps {
-  type?: "text" | "password" | "email";
+  type?: TInput;
   id: string;
   required?: boolean;
   title?: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  value?: string;
   isValid: boolean;
   message: string;
 }
@@ -43,4 +49,28 @@ interface IUserContext {
   setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
 }
 
-export { IGame, IUser, AuthFormTypes, IAuthForm, IInputProps, IAuthResponse, IUserContext };
+interface IProfile {
+  name: string;
+  oldEmail: string;
+  email: string;
+  address: string;
+  phone: string;
+}
+
+interface IProfileResponse {
+  data: IProfile;
+  status: number;
+}
+
+export {
+  IGame,
+  IUser,
+  AuthFormTypes,
+  IAuthForm,
+  TInput,
+  IInputProps,
+  IAuthResponse,
+  IUserContext,
+  IProfile,
+  IProfileResponse,
+};

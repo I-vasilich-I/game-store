@@ -85,8 +85,10 @@ const GAME_COMPANIES = {
 const API = {
   topGamesURL: "http://localhost:8080/api/getTopProducts",
   searchRequestURL: "http://localhost:8080/api/search/",
-  signInURL: "http://localhost:8080/api/auth/signIn",
-  signUpURL: "http://localhost:8080/api/auth/signUp",
+  changeProfileInfo: "http://localhost:8080/api/saveProfile",
+  changeProfilePhoto: "http://localhost:8080/api/changePhoto",
+  photoUploadURL: "https://api.cloudinary.com/v1_1/vasilich/image/upload",
+  changePasswordURL: "http://localhost:8080/api/changePassword",
 };
 
 const ERROR_MESSAGES = {
@@ -99,6 +101,7 @@ const VALIDATE = {
   text: validator.isAlpha,
   password: (passW: string): boolean => validator.isAlphanumeric(passW) && passW.length >= MIN_PASSWORD_LENGTH,
   email: validator.isEmail,
+  tel: validator.isMobilePhone,
 };
 
 const VALIDATION_MESSAGES = {
@@ -106,6 +109,35 @@ const VALIDATION_MESSAGES = {
   passwordMessage: "*use letters/numbers, min 8 symbols",
   repeatPasswordMessage: "*passwords don't match",
   emailMessage: "*use an email address",
+  lettersAndNumbers: "*use letters/numbers, min 8 symbols",
+  mobilePhone: "*use mobile phone",
+  addressMessage: "*can't be empty",
+  changeInfo: "*change something to save",
+  checkPasswords: "password field(s) format is invalid",
+  checkLogin: "login field format is invalid",
 };
 
-export { ROUTES, GAME_COMPANIES, API, CATEGORIES, ERROR_MESSAGES, VALIDATE, VALIDATION_MESSAGES, MIN_PASSWORD_LENGTH };
+const FORM_TITLES = {
+  signin: "Sign In",
+  signup: "Sign Up",
+  password: "Change password",
+};
+
+const AUTH_FORM_URLS = {
+  signin: "http://localhost:8080/api/auth/signIn",
+  signup: "http://localhost:8080/api/auth/signUp",
+  password: "http://localhost:8080/api/changePassword",
+};
+
+export {
+  ROUTES,
+  GAME_COMPANIES,
+  API,
+  CATEGORIES,
+  ERROR_MESSAGES,
+  VALIDATE,
+  VALIDATION_MESSAGES,
+  MIN_PASSWORD_LENGTH,
+  FORM_TITLES,
+  AUTH_FORM_URLS,
+};

@@ -14,6 +14,7 @@ import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import ProductsPage from "./components/productsPage/productsPage";
 import AuthForm from "./components/authForm/authForm";
 import Modal from "./elements/modal/modal";
+import ProfilePage from "./components/profilePage/profilePage";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, about, profile } = ROUTES;
@@ -43,7 +44,7 @@ const AppContainer = (): JSX.Element => {
                   <p>You are on About page</p>
                 </Route>
                 <Route exact path={profile}>
-                  <p>You are on Profile page</p>
+                  <ProfilePage />
                 </Route>
               </ProtectedRoutes>
               <Redirect to={home} />

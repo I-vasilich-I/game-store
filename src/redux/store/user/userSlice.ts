@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import userSVG from "images/account_circle.svg";
 
 interface IUser {
   userName: string | null;
   email: string | null;
-  description: string | null;
-  img: string | null;
+  address: string | null;
+  phone: string | null;
+  photo: string | null;
 }
 
 interface IUserProp {
@@ -18,8 +20,9 @@ const user = userRaw ? JSON.parse(userRaw) : null;
 const initialState: IUser = {
   userName: user?.userName || null,
   email: user?.email || null,
-  description: user?.description || null,
-  img: null,
+  address: user?.address || null,
+  phone: user?.phone || null,
+  photo: user?.photo || userSVG,
 };
 
 export const userSlice = createSlice({
@@ -29,8 +32,9 @@ export const userSlice = createSlice({
     setUser(state, action: PayloadAction<IUser>) {
       state.userName = action.payload.userName;
       state.email = action.payload.email;
-      state.description = action.payload.description;
-      state.img = action.payload.img;
+      state.address = action.payload.address;
+      state.phone = action.payload.phone;
+      state.photo = action.payload.photo || userSVG;
     },
 
     setUserProp(state, action: PayloadAction<IUserProp>) {

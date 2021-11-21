@@ -7,18 +7,27 @@
   justify-content: space-between;
   gap: 10px;
 
-  svg {
-    min-width: 36px;
-    min-height: 36px;
+  img {
+    width: 36px;
+    height: 36px;
   }
 
-  p {
+  .profile-btn {
     max-width: 70%;
+    height: 100%;
+    padding: 0 10px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    background: none;
+    border: none;
 
     @include font(1.5rem, 160%, $lightColor, $weight: bold);
+
+    &:hover {
+      cursor: pointer;
+      background-color: $activeLinkColor;
+    }
   }
 }
 
