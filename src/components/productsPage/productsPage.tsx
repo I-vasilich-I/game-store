@@ -1,13 +1,34 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import Container from "@/elements/container/container";
+import GameCard from "@/elements/gameCard/gameCard";
+import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
 
-interface IParams {
+interface IRouterParams {
   slug: string;
 }
 
 const ProductsPage = (): JSX.Element => {
-  const { slug } = useParams<IParams>();
+  const dispatch = useDispatch();
+  const { products, filter } = useAppSelector((state) => state.PRODUCTS);
+  const { slug } = useParams<IRouterParams>();
 
-  return <p>You are on Products page, Category: {slug}</p>;
+  useEffect(() => {
+    dispatch({ type: SAGA_ACTIONS.GET_PRODUCTS, payload: { ...filter, category: slug || null } });
+  }, [filter, slug]);
+
+  return (
+    <section className="section__games">
+      <Container title="Products">
+        <GameCardsContainer>
+          {products.length ? products.map((elem) => <GameCard {...elem} key={elem.id} />) : null}
+        </GameCardsContainer>
+      </Container>
+    </section>
+  );
 };
 
 export default ProductsPage;

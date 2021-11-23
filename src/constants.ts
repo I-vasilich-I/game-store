@@ -84,6 +84,7 @@ const GAME_COMPANIES = {
 
 const API = {
   topGamesURL: "http://localhost:8080/api/getTopProducts",
+  gamesURL: "http://localhost:8080/api/products",
   searchRequestURL: "http://localhost:8080/api/search/",
   changeProfileInfo: "http://localhost:8080/api/saveProfile",
   changeProfilePhoto: "http://localhost:8080/api/changePhoto",

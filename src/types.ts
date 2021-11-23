@@ -62,6 +62,14 @@ interface IProfileResponse {
   status: number;
 }
 
+interface IParams {
+  category?: null | string;
+  sortBy?: string;
+  ascend?: null | number;
+  age?: null | number;
+  genre?: null | string;
+}
+
 export {
   IGame,
   IUser,
@@ -73,4 +81,5 @@ export {
   IUserContext,
   IProfile,
   IProfileResponse,
+  IParams,
 };

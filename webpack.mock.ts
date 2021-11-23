@@ -2,7 +2,7 @@
 import webpackMockServer from "webpack-mock-server";
 import { writeFileSync, readFileSync } from "fs";
 import nodePath from "path";
-import { IGame, IProfile, IUser } from "@/types";
+import { IGame, IParams, IProfile, IUser } from "@/types";
 
 const games: IGame[] = [
   {
@@ -127,6 +127,40 @@ function prepareData() {
   });
 }
 
+function filterGames(elem: IGame, params: IParams) {
+  if (!elem) {
+    return false;
+  }
+
+  const { category, age, genre } = params;
+  const res = {
+    category: true,
+    age: true,
+    genre,
+  };
+
+  if (category) {
+    res.category = Boolean(elem?.platform?.find((el) => el.toLowerCase() === category));
+  }
+
+  if (age && elem.age) {
+    res.age = Boolean(elem.age >= age);
+  }
+
+  return res.category && res.age;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function compareElements(a: any, b: any, sortBy: any, ascend: any) {
+  if (a[sortBy] > b[sortBy]) {
+    return ascend ? 1 : -1;
+  }
+  if (a[sortBy] < b[sortBy]) {
+    return ascend ? -1 : 1;
+  }
+  return 0;
+}
+
 export default webpackMockServer.add((app, helper) => {
   const mainData = prepareData().map((el) => {
     const elem = el;
@@ -143,6 +177,15 @@ export default webpackMockServer.add((app, helper) => {
 
   app.get("/api/getTopProducts", (_req, res) => {
     const response = mainData.sort((a, b) => (a.year && b.year ? b.year - a.year : 0)).slice(0, 3);
+    setTimeout(() => {
+      res.json(response);
+    }, 5000);
+  });
+
+  app.get("/api/products", (_req, res) => {
+    const { sortBy, ascend } = _req.query;
+    const filteredGames = mainData.filter((el) => filterGames(el, _req.query));
+    const response = filteredGames.sort((a, b) => compareElements(a, b, sortBy, ascend));
     setTimeout(() => {
       res.json(response);
     }, 5000);

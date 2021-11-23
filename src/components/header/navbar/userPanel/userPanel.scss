@@ -41,7 +41,12 @@
     cursor: pointer;
     background-color: $activeLinkColor;
   }
+
   @include font(1.5rem, 160%, $lightColor, $weight: bold);
+
+  @media (max-width: 550px) {
+    padding: 0 5px;
+  }
 }
 
 .logout-btn {
