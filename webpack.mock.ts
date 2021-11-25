@@ -99,6 +99,10 @@ function getPlatform() {
   return res.length ? res : platforms;
 }
 
+function getGenre() {
+  return +getRandomInt(4) || 1;
+}
+
 function getAge() {
   const ages = [3, 6, 12, 18];
   const index = +getRandomInt(4);
@@ -123,6 +127,7 @@ function prepareData() {
     elem.age = getAge();
     elem.year = getDate();
     elem.price = getPrice();
+    elem.genre = getGenre();
     return elem;
   });
 }
@@ -133,10 +138,11 @@ function filterGames(elem: IGame, params: IParams) {
   }
 
   const { category, age, genre } = params;
+
   const res = {
     category: true,
     age: true,
-    genre,
+    genre: true,
   };
 
   if (category) {
@@ -147,7 +153,11 @@ function filterGames(elem: IGame, params: IParams) {
     res.age = Boolean(elem.age >= age);
   }
 
-  return res.category && res.age;
+  if (genre && +genre && elem.genre) {
+    res.genre = Boolean(elem.genre === +genre);
+  }
+
+  return res.category && res.age && res.genre;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

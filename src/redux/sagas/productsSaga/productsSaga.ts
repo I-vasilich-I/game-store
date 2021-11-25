@@ -1,4 +1,4 @@
-import { call, ForkEffect, put, takeEvery } from "redux-saga/effects";
+import { call, ForkEffect, put, takeLatest } from "redux-saga/effects";
 import { setProducts } from "@/redux/store/products/productsSlice";
 import { getGames } from "@/api/apiProducts";
 import { IGame, IParams } from "@/types";
@@ -19,7 +19,7 @@ function* getProducts({ payload: params }: IProps) {
 }
 
 function* watchGetProducts(): Generator<ForkEffect<never>, void, unknown> {
-  yield takeEvery(SAGA_ACTIONS.GET_PRODUCTS, getProducts);
+  yield takeLatest(SAGA_ACTIONS.GET_PRODUCTS, getProducts);
 }
 
 // eslint-disable-next-line import/prefer-default-export

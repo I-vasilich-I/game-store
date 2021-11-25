@@ -130,6 +130,8 @@ const AUTH_FORM_URLS = {
   password: "http://localhost:8080/api/changePassword",
 };
 
+const GENRES = ["All genres", "Shooter", "Arcade", "Survive"];
+
 export {
   ROUTES,
   GAME_COMPANIES,
@@ -141,4 +143,5 @@ export {
   MIN_PASSWORD_LENGTH,
   FORM_TITLES,
   AUTH_FORM_URLS,
+  GENRES,
 };

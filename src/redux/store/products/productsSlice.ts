@@ -13,8 +13,8 @@ const initialState: IProps = {
   filter: {
     sortBy: "name",
     ascend: 1,
-    age: 6,
-    genre: null,
+    age: 0,
+    genre: 1,
   },
 };
 
@@ -35,9 +35,18 @@ export const productsSlice = createSlice({
       state.filter.age = age;
       state.filter.genre = genre;
     },
+    setAge(state, action: PayloadAction<number>) {
+      state.filter.age = action.payload;
+    },
+    setGenre(state, action: PayloadAction<number>) {
+      state.filter.genre = action.payload;
+    },
+    setSortBy(state, action: PayloadAction<string>) {
+      state.filter.sortBy = action.payload;
+    },
   },
 });
 
-export const { setProducts, setTopProducts, setFilter } = productsSlice.actions;
+export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre } = productsSlice.actions;
 
 export default productsSlice.reducer;

@@ -9,6 +9,7 @@ interface IGame {
   age?: number;
   year?: number;
   price?: string | number;
+  genre?: number;
 }
 
 interface IUser {
@@ -66,8 +67,22 @@ interface IParams {
   category?: null | string;
   sortBy?: string;
   ascend?: null | number;
-  age?: null | number;
-  genre?: null | string;
+  age?: number;
+  genre?: number;
+}
+
+interface IInputRadioOptionProps {
+  id: string;
+  value: number;
+  checked: boolean;
+  label: string;
+  name?: string;
+  setValue?: React.Dispatch<React.SetStateAction<number>>;
+}
+
+interface IInputRadioOptionsProps {
+  options: IInputRadioOptionProps[];
+  setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export {
@@ -82,4 +97,6 @@ export {
   IProfile,
   IProfileResponse,
   IParams,
+  IInputRadioOptionProps,
+  IInputRadioOptionsProps,
 };

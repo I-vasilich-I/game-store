@@ -1,0 +1,21 @@
+.wrapper__products {
+  padding: 20px;
+  display: flex;
+
+  gap: 10px;
+
+  @media (max-width: 750px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px 0;
+    padding: 0;
+  }
+}
+
+.aside__filter {
+  width: 300px;
+}
+
+.section__products {
+  width: 80%;
+}
