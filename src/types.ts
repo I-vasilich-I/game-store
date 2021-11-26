@@ -23,6 +23,10 @@ interface IUser {
 
 type AuthFormTypes = "signin" | "signup" | "password";
 
+type SortByTypes = "name" | "rating" | "price";
+
+type SortDirectionTypes = "Ascending" | "Descending";
+
 interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
@@ -65,7 +69,7 @@ interface IProfileResponse {
 
 interface IParams {
   category?: null | string;
-  sortBy?: string;
+  sortBy?: SortByTypes;
   ascend?: null | number;
   age?: number;
   genre?: number;
@@ -99,4 +103,6 @@ export {
   IParams,
   IInputRadioOptionProps,
   IInputRadioOptionsProps,
+  SortByTypes,
+  SortDirectionTypes,
 };

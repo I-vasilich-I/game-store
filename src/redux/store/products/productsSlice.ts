@@ -1,4 +1,4 @@
-import { IGame, IParams } from "@/types";
+import { IGame, IParams, SortByTypes } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IProps {
@@ -41,12 +41,15 @@ export const productsSlice = createSlice({
     setGenre(state, action: PayloadAction<number>) {
       state.filter.genre = action.payload;
     },
-    setSortBy(state, action: PayloadAction<string>) {
+    setSortBy(state, action: PayloadAction<SortByTypes>) {
       state.filter.sortBy = action.payload;
+    },
+    setType(state, action: PayloadAction<string>) {
+      state.filter.ascend = action.payload === "Ascending" ? 1 : null;
     },
   },
 });
 
-export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre } = productsSlice.actions;
+export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre, setType } = productsSlice.actions;
 
 export default productsSlice.reducer;
