@@ -7,6 +7,7 @@ import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
 import SearchBar from "@/elements/searchbar/searchbar";
+import useSkeleton from "@/hooks/useSkeleton";
 
 interface IRouterParams {
   slug: string;
@@ -14,7 +15,7 @@ interface IRouterParams {
 
 const ProductsSection = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { products, filter } = useAppSelector((state) => state.PRODUCTS);
+  const { products, filter, isProductsLoading } = useAppSelector((state) => state.PRODUCTS);
   const { slug } = useParams<IRouterParams>();
 
   useEffect(() => {
@@ -26,7 +27,9 @@ const ProductsSection = (): JSX.Element => {
       <SearchBar />
       <Container title="Products">
         <GameCardsContainer>
-          {products.length ? products.map((elem) => <GameCard {...elem} key={elem.id} />) : null}
+          {!isProductsLoading && products.length
+            ? products.map((elem) => <GameCard {...elem} key={elem.id} />)
+            : useSkeleton(3)}
         </GameCardsContainer>
       </Container>
     </section>

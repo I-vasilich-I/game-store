@@ -7,6 +7,7 @@ interface IProps {
   topProducts: IGame[];
   searchGames: IGame[];
   filter: IParams;
+  isProductsLoading: boolean;
 }
 
 const initialState: IProps = {
@@ -19,6 +20,7 @@ const initialState: IProps = {
     age: 0,
     genre: 1,
   },
+  isProductsLoading: false,
 };
 
 export const productsSlice = createSlice({
@@ -53,10 +55,22 @@ export const productsSlice = createSlice({
     setType(state, action: PayloadAction<string>) {
       state.filter.ascend = action.payload === "Ascending" ? 1 : null;
     },
+    setIsProductsLoading(state, action: PayloadAction<boolean>) {
+      state.isProductsLoading = action.payload;
+    },
   },
 });
 
-export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre, setType, setSearchGames } =
-  productsSlice.actions;
+export const {
+  setProducts,
+  setTopProducts,
+  setFilter,
+  setAge,
+  setSortBy,
+  setGenre,
+  setType,
+  setSearchGames,
+  setIsProductsLoading,
+} = productsSlice.actions;
 
 export default productsSlice.reducer;

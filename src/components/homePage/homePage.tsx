@@ -7,6 +7,7 @@ import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
 import SearchBar from "@/elements/searchbar/searchbar";
+import useSkeleton from "@/hooks/useSkeleton";
 import NavCategories from "./navCategories/navCategories";
 
 const HomePage = (): JSX.Element => {
@@ -32,7 +33,7 @@ const HomePage = (): JSX.Element => {
       <section className="section__games">
         <Container title="New Games">
           <GameCardsContainer>
-            {topProducts.length ? topProducts.map((elem) => <GameCard {...elem} key={elem.id} />) : null}
+            {topProducts.length ? topProducts.map((elem) => <GameCard {...elem} key={elem.id} />) : useSkeleton(3)}
           </GameCardsContainer>
         </Container>
       </section>

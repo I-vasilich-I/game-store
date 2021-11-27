@@ -1,5 +1,10 @@
 import { call, ForkEffect, put, takeLatest } from "redux-saga/effects";
-import { setProducts, setSearchGames, setTopProducts } from "@/redux/store/products/productsSlice";
+import {
+  setIsProductsLoading,
+  setProducts,
+  setSearchGames,
+  setTopProducts,
+} from "@/redux/store/products/productsSlice";
 import { setIsLoading } from "@/redux/store/form/formSlice";
 import { getGames, getTopGames, searchRequest } from "@/api/apiProducts";
 import { IGame, IParams } from "@/types";
@@ -16,12 +21,14 @@ interface ISearchProps {
 }
 
 function* getProducts({ payload: params }: IProps) {
+  yield put(setIsProductsLoading(true));
   try {
     const data: IGame[] = yield call(() => getGames(params));
     yield put(setProducts(data));
   } catch (error) {
     console.error(error);
   }
+  yield put(setIsProductsLoading(false));
 }
 
 function* watchGetProducts(): Generator<ForkEffect<never>, void, unknown> {
