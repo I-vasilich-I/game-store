@@ -4,12 +4,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface IProps {
   products: IGame[];
   topProducts: IGame[];
+  searchGames: IGame[];
   filter: IParams;
 }
 
 const initialState: IProps = {
   products: [],
   topProducts: [],
+  searchGames: [],
   filter: {
     sortBy: "name",
     ascend: 1,
@@ -27,6 +29,9 @@ export const productsSlice = createSlice({
     },
     setTopProducts(state, action: PayloadAction<IGame[]>) {
       state.topProducts = action.payload;
+    },
+    setSearchGames(state, action: PayloadAction<IGame[]>) {
+      state.searchGames = action.payload;
     },
     setFilter(state, action: PayloadAction<IParams>) {
       const { sortBy, ascend, age, genre } = action.payload;
@@ -50,6 +55,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre, setType } = productsSlice.actions;
+export const { setProducts, setTopProducts, setFilter, setAge, setSortBy, setGenre, setType, setSearchGames } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;
