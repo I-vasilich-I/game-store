@@ -6,6 +6,7 @@ import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
+import SearchBar from "@/elements/searchbar/searchbar";
 
 interface IRouterParams {
   slug: string;
@@ -22,6 +23,7 @@ const ProductsSection = (): JSX.Element => {
 
   return (
     <section className="section__products">
+      <SearchBar />
       <Container title="Products">
         <GameCardsContainer>
           {products.length ? products.map((elem) => <GameCard {...elem} key={elem.id} />) : null}

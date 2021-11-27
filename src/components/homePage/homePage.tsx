@@ -6,8 +6,8 @@ import { getGamesFromLocalStorage } from "@/helpers";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
+import SearchBar from "@/elements/searchbar/searchbar";
 import NavCategories from "./navCategories/navCategories";
-import SearchBar from "./searchbar/searchbar";
 
 const HomePage = (): JSX.Element => {
   const localGames = getGamesFromLocalStorage();

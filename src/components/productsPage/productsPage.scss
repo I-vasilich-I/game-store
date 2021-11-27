@@ -18,4 +18,8 @@
 
 .section__products {
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
