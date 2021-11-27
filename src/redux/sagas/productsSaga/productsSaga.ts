@@ -1,7 +1,7 @@
 import { call, ForkEffect, put, takeLatest } from "redux-saga/effects";
-import { setProducts, setSearchGames } from "@/redux/store/products/productsSlice";
+import { setProducts, setSearchGames, setTopProducts } from "@/redux/store/products/productsSlice";
 import { setIsLoading } from "@/redux/store/form/formSlice";
-import { getGames, searchRequest } from "@/api/apiProducts";
+import { getGames, getTopGames, searchRequest } from "@/api/apiProducts";
 import { IGame, IParams } from "@/types";
 import SAGA_ACTIONS from "../sagaActions/sagaActions";
 
@@ -43,4 +43,18 @@ function* watchSearchProducts(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(SAGA_ACTIONS.SEARCH_PRODUCTS, searchProducts);
 }
 
-export { watchGetProducts, watchSearchProducts };
+function* getTopProducts() {
+  try {
+    const data: IGame[] | null = yield call(() => getTopGames());
+    yield put(setTopProducts(data || []));
+    localStorage.setItem("games", JSON.stringify({ data, date: new Date() }));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function* watchGetTopProducts(): Generator<ForkEffect<never>, void, unknown> {
+  yield takeLatest(SAGA_ACTIONS.GET_TOP_PRODUCTS, getTopProducts);
+}
+
+export { watchGetProducts, watchSearchProducts, watchGetTopProducts };

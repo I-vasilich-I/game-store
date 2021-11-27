@@ -1,3 +1,4 @@
+import { getGamesFromLocalStorage } from "@/helpers";
 import { IGame, IParams, SortByTypes } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -10,7 +11,7 @@ interface IProps {
 
 const initialState: IProps = {
   products: [],
-  topProducts: [],
+  topProducts: getGamesFromLocalStorage() || [],
   searchGames: [],
   filter: {
     sortBy: "name",
