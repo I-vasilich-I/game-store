@@ -4,6 +4,10 @@
   align-items: center;
   gap: 20px;
   cursor: pointer;
+
+  &:hover {
+    color: $violetColor;
+  }
 }
 
 .radio__input {
