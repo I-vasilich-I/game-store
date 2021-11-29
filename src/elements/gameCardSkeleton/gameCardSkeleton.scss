@@ -9,7 +9,7 @@ $background: rgb(26, 26, 26);
   height: 99%;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: $gameCardSkeletonZIndex;
   animation: loading 1s infinite;
 }
 
