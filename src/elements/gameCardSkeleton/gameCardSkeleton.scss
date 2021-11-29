@@ -17,6 +17,13 @@ $background: rgb(26, 26, 26);
   position: relative;
 
   .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 2px solid $violetColor;
+    border-radius: 15px;
+    box-shadow: 0 0 25px $violetColor;
+    transition: 0.8s ease-in-out;
     overflow: hidden;
     transform-style: unset;
     transform-origin: unset;
@@ -50,6 +57,7 @@ $background: rgb(26, 26, 26);
     position: relative;
     height: 24px;
     width: 40%;
+    margin-bottom: 10px;
     background-color: $background;
     overflow: hidden;
 

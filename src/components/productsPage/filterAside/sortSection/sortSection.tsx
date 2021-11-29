@@ -9,8 +9,8 @@ const SortSection = (): JSX.Element => {
   const criteriaOptions = ["Name", "Rating", "Price"];
   const typeOptions = ["Ascending", "Descending"];
 
-  const dispatchCriteria = (value: SortByTypes) => {
-    dispatch(setSortBy(value));
+  const dispatchCriteria = (value: string) => {
+    dispatch(setSortBy(value as SortByTypes));
   };
 
   const dispatchType = (value: string) => {

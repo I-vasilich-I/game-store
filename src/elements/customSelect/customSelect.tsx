@@ -9,18 +9,7 @@ import { SortByTypes } from "@/types";
 interface IProps {
   options: string[];
   label: string;
-  /* how to set value with 2 types SortByTypes | string
-    in a way that this mistake wouldn't be shown on sortSection -> dispatchCriteria:
-    Type '(value: SortByTypes) => void' is not assignable to type '(value: string) => void'.
-    Types of parameters 'value' and 'value' are incompatible.
-    Type 'string' is not assignable to type 'SortByTypes'.
-    tried:
-      ((value: SortByTypes) => void) | ((value: string) => void) | null;
-      ((value: SortByTypes | string) => void) | null;
-    can't figure out the right way
-  */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dispatcher?: ((value: any) => void) | null;
+  dispatcher?: ((value: string) => void) | null;
 }
 
 const CustomSelect: React.FC<IProps> = ({ options, label, dispatcher = null }) => {
