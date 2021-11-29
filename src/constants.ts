@@ -84,6 +84,7 @@ const GAME_COMPANIES = {
 
 const API = {
   topGamesURL: "http://localhost:8080/api/getTopProducts",
+  gamesURL: "http://localhost:8080/api/products",
   searchRequestURL: "http://localhost:8080/api/search/",
   changeProfileInfo: "http://localhost:8080/api/saveProfile",
   changeProfilePhoto: "http://localhost:8080/api/changePhoto",
@@ -129,6 +130,8 @@ const AUTH_FORM_URLS = {
   password: "http://localhost:8080/api/changePassword",
 };
 
+const GENRES = ["All genres", "Shooter", "Arcade", "Survive"];
+
 export {
   ROUTES,
   GAME_COMPANIES,
@@ -140,4 +143,5 @@ export {
   MIN_PASSWORD_LENGTH,
   FORM_TITLES,
   AUTH_FORM_URLS,
+  GENRES,
 };

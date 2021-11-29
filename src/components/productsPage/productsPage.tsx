@@ -1,13 +1,17 @@
-import { useParams } from "react-router-dom";
+import "./productsPage.scss";
+import { lazy, Suspense } from "react";
+import Spinner from "@/elements/spinner/spinner";
+import FilterAside from "./filterAside/filterAside";
 
-interface IParams {
-  slug: string;
-}
+const ProductsSection = lazy(() => import("./productsSection/productsSection"));
 
-const ProductsPage = (): JSX.Element => {
-  const { slug } = useParams<IParams>();
-
-  return <p>You are on Products page, Category: {slug}</p>;
-};
+const ProductsPage = (): JSX.Element => (
+  <div className="wrapper wrapper__products">
+    <FilterAside />
+    <Suspense fallback={<Spinner isOn />}>
+      <ProductsSection />
+    </Suspense>
+  </div>
+);
 
 export default ProductsPage;

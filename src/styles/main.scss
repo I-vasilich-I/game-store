@@ -7,8 +7,8 @@ html {
   font-size: 10px;
   box-sizing: border-box;
 
-  @media (max-width: 450px) {
-    font-size: 7px;
+  @media (max-width: 550px) {
+    font-size: 8px;
   }
 }
 
@@ -29,7 +29,7 @@ body {
 
 #app {
   min-height: 100vh;
-  min-width: 320px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   background-color: rgb(22, 22, 22);

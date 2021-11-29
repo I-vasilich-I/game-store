@@ -1,10 +1,11 @@
 import "./gameCard.scss";
 import { IGame } from "@/types";
+import { GENRES } from "@/constants";
 import Rating from "./rating/rating";
 import Platforms from "./platforms/platforms";
 import CardButton from "./button/cardButton";
 
-const GameCard = ({ name, cover, description, rating, age, price, platform }: IGame): JSX.Element => {
+const GameCard = ({ name, cover, description, rating, age, price, platform, genre }: IGame): JSX.Element => {
   const handleClick = () => {
     console.log(`Add ${name} to cart`);
   };
@@ -26,6 +27,7 @@ const GameCard = ({ name, cover, description, rating, age, price, platform }: IG
         <div className="card__face card__face--back">
           <p>{description}</p>
           <p>{age}+</p>
+          {genre ? <p>{GENRES[genre]}</p> : null}
           <CardButton clickHandler={handleClick} />
         </div>
       </div>

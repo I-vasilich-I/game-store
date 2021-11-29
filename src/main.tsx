@@ -35,7 +35,7 @@ const AppContainer = (): JSX.Element => {
               </Route>
               <ProtectedRoutes>
                 <Route exact path={products.base}>
-                  <p>You are on Products page</p>
+                  <ProductsPage />
                 </Route>
                 <Route exact path={products.slug}>
                   <ProductsPage />

@@ -9,6 +9,7 @@ interface IGame {
   age?: number;
   year?: number;
   price?: string | number;
+  genre?: number;
 }
 
 interface IUser {
@@ -21,6 +22,10 @@ interface IUser {
 }
 
 type AuthFormTypes = "signin" | "signup" | "password";
+
+type SortByTypes = "name" | "rating" | "price";
+
+type SortDirectionTypes = "Ascending" | "Descending";
 
 interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
@@ -62,6 +67,28 @@ interface IProfileResponse {
   status: number;
 }
 
+interface IParams {
+  category?: null | string;
+  sortBy?: SortByTypes;
+  ascend?: null | number;
+  age?: number;
+  genre?: number;
+}
+
+interface IInputRadioOptionProps {
+  id: string;
+  value: number;
+  checked: boolean;
+  label: string;
+  name?: string;
+  setValue?: React.Dispatch<React.SetStateAction<number>>;
+}
+
+interface IInputRadioOptionsProps {
+  options: IInputRadioOptionProps[];
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+}
+
 export {
   IGame,
   IUser,
@@ -73,4 +100,9 @@ export {
   IUserContext,
   IProfile,
   IProfileResponse,
+  IParams,
+  IInputRadioOptionProps,
+  IInputRadioOptionsProps,
+  SortByTypes,
+  SortDirectionTypes,
 };

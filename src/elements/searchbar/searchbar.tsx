@@ -1,16 +1,19 @@
 import "./searchbar.scss";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
-import { IGame } from "@/types";
-import { searchRequest } from "@/api/apiProducts";
+import { setSearchGames } from "@/redux/store/products/productsSlice";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import Spinner from "@/elements/spinner/spinner";
 import SearchResult from "./searchResult/searchResult";
 
 const SearchBar = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { searchGames } = useAppSelector((state) => state.PRODUCTS);
+  const { isLoading } = useAppSelector((state) => state.FORM);
   const [value, setValue] = useState("");
-  const [games, setGames] = useState<IGame[]>([]);
-  const [loading, setLoading] = useState(false);
-  const hasSearchResult = Boolean(games.length && value.trim());
+  const hasSearchResult = Boolean(searchGames.length && value.trim());
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -20,16 +23,11 @@ const SearchBar = (): JSX.Element => {
 
   useEffect(() => {
     if (!value.trim()) {
-      setGames([]);
+      dispatch(setSearchGames([]));
       return;
     }
 
-    (async () => {
-      setLoading(true);
-      const data = await searchRequest(value);
-      setGames(data || []);
-      setLoading(false);
-    })();
+    dispatch({ type: SAGA_ACTIONS.SEARCH_PRODUCTS, payload: value });
   }, [value]);
 
   return (
@@ -44,9 +42,9 @@ const SearchBar = (): JSX.Element => {
           onChange={debouncedChangeHandler}
           autoComplete="off"
         />
-        <Spinner isOn={loading} />
+        <Spinner isOn={isLoading} />
       </label>
-      <SearchResult hasSearchResult={hasSearchResult} games={games} />
+      <SearchResult hasSearchResult={hasSearchResult} games={searchGames} />
     </form>
   );
 };

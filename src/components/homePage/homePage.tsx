@@ -1,29 +1,25 @@
 import "./homePage.scss";
-import { useEffect, useState } from "react";
-import { getTopGames } from "@/api/apiProducts";
-import { IGame } from "@/types";
-import { getGamesFromLocalStorage } from "@/helpers";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import useAppSelector from "@/redux/hooks/useAppSelector";
+import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
+import SearchBar from "@/elements/searchbar/searchbar";
+import useSkeleton from "@/hooks/useSkeleton";
 import NavCategories from "./navCategories/navCategories";
-import SearchBar from "./searchbar/searchbar";
 
 const HomePage = (): JSX.Element => {
-  const localGames = getGamesFromLocalStorage();
-  const [games, setGames] = useState<IGame[] | null>(localGames);
+  const dispatch = useDispatch();
+  const { topProducts } = useAppSelector((state) => state.PRODUCTS);
 
   useEffect(() => {
-    if (games) return undefined;
-    const abortController = new AbortController();
+    if (topProducts.length) {
+      return;
+    }
 
-    (async () => {
-      const data = await getTopGames();
-      localStorage.setItem("games", JSON.stringify({ data, date: new Date() }));
-      setGames(data);
-    })();
-
-    return () => abortController.abort();
+    dispatch({ type: SAGA_ACTIONS.GET_TOP_PRODUCTS });
   }, []);
 
   return (
@@ -37,7 +33,7 @@ const HomePage = (): JSX.Element => {
       <section className="section__games">
         <Container title="New Games">
           <GameCardsContainer>
-            {games ? games.map((elem) => <GameCard {...elem} key={elem.id} />) : null}
+            {topProducts.length ? topProducts.map((elem) => <GameCard {...elem} key={elem.id} />) : useSkeleton(3)}
           </GameCardsContainer>
         </Container>
       </section>
