@@ -89,6 +89,19 @@ interface IInputRadioOptionsProps {
   setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
+interface ICartProduct {
+  game: IGame;
+  amount: number;
+}
+
+interface ICartProducts {
+  [key: number]: ICartProduct;
+}
+
+interface ICart {
+  products: ICartProducts;
+}
+
 export {
   IGame,
   IUser,
@@ -105,4 +118,7 @@ export {
   IInputRadioOptionsProps,
   SortByTypes,
   SortDirectionTypes,
+  ICartProduct,
+  ICartProducts,
+  ICart,
 };

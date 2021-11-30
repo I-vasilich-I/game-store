@@ -13,11 +13,12 @@ import HomePage from "./components/homePage/homePage";
 import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import ProductsPage from "./components/productsPage/productsPage";
 import AuthForm from "./components/authForm/authForm";
-import Modal from "./elements/modal/modal";
 import ProfilePage from "./components/profilePage/profilePage";
+import CartPage from "./components/cartPage/cartPage";
+import Modal from "./elements/modal/modal";
 
 const AppContainer = (): JSX.Element => {
-  const { home, products, about, profile } = ROUTES;
+  const { home, products, profile, cart } = ROUTES;
   const { isModalOpen } = useAppSelector((state) => state.MODAL);
 
   return (
@@ -40,11 +41,11 @@ const AppContainer = (): JSX.Element => {
                 <Route exact path={products.slug}>
                   <ProductsPage />
                 </Route>
-                <Route exact path={about}>
-                  <p>You are on About page</p>
-                </Route>
                 <Route exact path={profile}>
                   <ProfilePage />
+                </Route>
+                <Route exact path={cart}>
+                  <CartPage />
                 </Route>
               </ProtectedRoutes>
               <Redirect to={home} />

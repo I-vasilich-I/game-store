@@ -20,8 +20,8 @@ const ROUTES = {
     ps: "/products/ps",
     xbox: "/products/xbox",
   },
-  about: "/about",
   profile: "/profile",
+  cart: "/cart",
   errorFallback: "/",
 };
 

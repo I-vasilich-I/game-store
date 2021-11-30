@@ -5,6 +5,7 @@ import modalReducer from "./modal/modalSlice";
 import formReducer from "./form/formSlice";
 import userReducer from "./user/userSlice";
 import productsReducer from "./products/productsSlice";
+import cartReducer from "./cart/cartSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     FORM: formReducer,
     USER: userReducer,
     PRODUCTS: productsReducer,
+    CART: cartReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
 });

@@ -65,9 +65,11 @@ const CustomSelect: React.FC<IProps> = ({ options, label, dispatcher = null }) =
 
   return (
     <div className="select">
-      <span className="select__label" id="job-label">
-        {label}
-      </span>
+      {label ? (
+        <span className="select__label" id="job-label">
+          {label}
+        </span>
+      ) : null}
       <div className="select__wrapper">
         <select
           ref={nativeSelectRef}

@@ -1,0 +1,53 @@
+.amount__label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 120px;
+  width: 100%;
+  min-width: 80px;
+  margin: 0 auto;
+  padding: 3px;
+
+  input {
+    all: unset;
+    padding: 0;
+    margin: 0;
+    margin-left: 15px;
+    width: 50%;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: $lightColor;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      cursor: unset;
+    }
+  }
+}
+
+.amount-ctrl-btn {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $grayColor;
+  background: none;
+  color: $lightColor;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid $violetColor;
+    color: $violetColor;
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: $violetColor 0 0 2px 0.2rem;
+  }
+}

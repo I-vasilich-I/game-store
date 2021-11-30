@@ -1,13 +1,22 @@
 import "./gameCard.scss";
+import { useDispatch } from "react-redux";
+import { addProduct } from "@/redux/store/cart/cartSlice";
 import { IGame } from "@/types";
 import { GENRES } from "@/constants";
 import Rating from "./rating/rating";
 import Platforms from "./platforms/platforms";
 import CardButton from "./button/cardButton";
 
-const GameCard = ({ name, cover, description, rating, age, price, platform, genre }: IGame): JSX.Element => {
+interface IProps {
+  game: IGame;
+}
+
+const GameCard = ({ game }: IProps): JSX.Element => {
+  const { name, cover, description, rating, age, price, platform, genre } = game;
+  const dispatch = useDispatch();
+
   const handleClick = () => {
-    console.log(`Add ${name} to cart`);
+    dispatch(addProduct(game));
   };
 
   return (
