@@ -29,6 +29,33 @@
       background-color: $activeLinkColor;
     }
   }
+
+  @media (max-width: 350px) {
+    img {
+      display: none;
+    }
+
+    .profile-btn {
+      max-width: 100%;
+    }
+  }
+}
+
+.cart {
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    @include font(1.5rem, 160%, $lightColor, $weight: bold);
+  }
 }
 
 .login-btn {

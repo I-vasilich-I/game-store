@@ -20,7 +20,7 @@ export const cartSlice = createSlice({
 
       const product = products[game.id];
       const amount = (product?.amount || 0) + 1;
-      state.products[game.id] = { game, amount };
+      state.products[game.id] = { game, amount, checked: false };
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
     incrementAmount(state, action: PayloadAction<number>) {
@@ -33,14 +33,24 @@ export const cartSlice = createSlice({
       state.products[id].amount--;
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
-    removeProduct(state, action: PayloadAction<number>) {
-      const id = action.payload;
-      delete state.products[id];
+    removeProducts(state) {
+      const { products } = state;
+      Object.values(products).forEach(({ game, checked }) => game.id && checked && delete state.products[game.id]);
+      localStorage.setItem("cart", JSON.stringify(state.products));
+    },
+    removeAllProducts(state) {
+      state.products = {};
+      localStorage.removeItem("cart");
+    },
+    setIsCheckedProduct(state, action: PayloadAction<{ id: number; checked: boolean }>) {
+      const { id, checked } = action.payload;
+      state.products[id].checked = checked;
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
   },
 });
 
-export const { addProduct, incrementAmount, decrementAmount, removeProduct } = cartSlice.actions;
+export const { addProduct, incrementAmount, decrementAmount, removeProducts, removeAllProducts, setIsCheckedProduct } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -2,11 +2,32 @@
 
 .wrapper__cart {
   padding: 20px 10px;
+
+  @media (max-width: 350px) {
+    padding: 20px 0;
+  }
 }
 
 .table__wrapper {
   overflow-x: auto;
   margin-bottom: 10px;
+
+  &::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $grayColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $transparentBlackColor;
+
+    &:hover {
+      background: $transparentBlackColor-2;
+    }
+  }
 }
 
 .cart__table {
@@ -45,32 +66,13 @@
   }
 }
 
-.cart-btn {
-  padding: 5px 12px;
-  text-align: center;
-  color: $lightColor;
-  font-size: 2rem;
-  border: none;
-  border-radius: 10px;
-  background-color: $violetColor;
-
-  @include font(1.7rem, 160%, $lightColor);
-
-  &:hover {
-    cursor: pointer;
-    background-color: $darkVioletColor;
-  }
-
-  &:active {
-    transform: translate(1px, 2px);
-  }
-}
-
 .cart__control {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
+  gap: 10px;
 
   @include font(1.7rem, 115%, $lightColor);
 }

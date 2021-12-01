@@ -1,20 +1,25 @@
-import { useState } from "react";
 import "./inputCheckBox.scss";
+import { useEffect, useState } from "react";
 
 interface IProps {
-  name: string;
+  name: number;
+  setValueInStore?: ((id: number, checked: boolean) => void) | null;
 }
 
-const InputCheckBox = ({ name }: IProps): JSX.Element => {
+const InputCheckBox: React.FC<IProps> = ({ name, setValueInStore = null }): JSX.Element => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = () => {
     setChecked((prevValue) => !prevValue);
   };
 
+  useEffect(() => {
+    setValueInStore?.(name, checked);
+  }, [checked]);
+
   return (
-    <label htmlFor={name} className="checkbox__label">
-      <input type="checkbox" name={name} id={name} checked={checked} onChange={handleChange} />
+    <label htmlFor={`${name}-ch`} className="checkbox__label">
+      <input type="checkbox" name={`${name}-ch`} id={`${name}-ch`} checked={checked} onChange={handleChange} />
     </label>
   );
 };

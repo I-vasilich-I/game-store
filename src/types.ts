@@ -92,6 +92,7 @@ interface IInputRadioOptionsProps {
 interface ICartProduct {
   game: IGame;
   amount: number;
+  checked: boolean;
 }
 
 interface ICartProducts {
