@@ -14,7 +14,7 @@ const CartControl = ({ games }: IProps): JSX.Element => {
   const totalCost = games.reduce((acc, b) => acc + +(b.game.price || 0) * b.amount, 0).toFixed(2);
   const balance = 250;
   const message = "Game(s) successfully purchased!";
-  const isDisabled = +totalCost > balance;
+  const isDisabled = +totalCost > balance || +totalCost === 0;
 
   const handleClick = () => {
     if (isDisabled) {
