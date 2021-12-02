@@ -5,7 +5,7 @@ import ProductsDropDown from "./productsDropDown/productsDropDown";
 import UserPanel from "./userPanel/userPanel";
 
 const Navbar = (): JSX.Element => {
-  const { home, products, about } = ROUTES;
+  const { home, products } = ROUTES;
 
   return (
     <nav className="header__nav">
@@ -20,11 +20,6 @@ const Navbar = (): JSX.Element => {
             Products
           </NavLink>
           <ProductsDropDown />
-        </li>
-        <li className="nav__item">
-          <NavLink to={about} className="nav__link" activeClassName="nav__link--active">
-            About
-          </NavLink>
         </li>
         <UserPanel />
       </ul>

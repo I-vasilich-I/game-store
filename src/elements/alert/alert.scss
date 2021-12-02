@@ -1,7 +1,7 @@
 @import "../../styles/mixins.scss";
 
 .alert {
-  position: absolute;
+  position: fixed;
   top: 15px;
   left: 15px;
   max-width: 500px;

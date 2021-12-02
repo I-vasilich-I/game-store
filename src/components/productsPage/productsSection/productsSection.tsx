@@ -14,7 +14,7 @@ const ProductsSection = (): JSX.Element => {
       <Container title="Products">
         <GameCardsContainer>
           {!isProductsLoading && products.length
-            ? products.map((elem) => <GameCard {...elem} key={elem.id} />)
+            ? products.map((elem) => <GameCard game={elem} key={elem.id} />)
             : useSkeleton(3)}
         </GameCardsContainer>
       </Container>

@@ -1,0 +1,78 @@
+@import "../../styles/mixins.scss";
+
+.wrapper__cart {
+  padding: 20px 10px;
+
+  @media (max-width: 350px) {
+    padding: 20px 0;
+  }
+}
+
+.table__wrapper {
+  overflow-x: auto;
+  margin-bottom: 10px;
+
+  &::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $grayColor;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $transparentBlackColor;
+
+    &:hover {
+      background: $transparentBlackColor-2;
+    }
+  }
+}
+
+.cart__table {
+  min-width: 620px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  width: 100%;
+
+  @include font(1.5rem, 160%, $lightColor);
+
+  .select {
+    justify-content: center;
+  }
+
+  .select__custom-trigger {
+    text-align: left;
+  }
+
+  td,
+  th {
+    border-bottom: 1px solid $grayColor;
+    padding: 15px 0;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .table__thead {
+    border-bottom: 2px solid $grayColor;
+  }
+
+  .thead {
+    font-weight: bold;
+    position: relative;
+    padding: 20px 0;
+  }
+}
+
+.cart__control {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+
+  @include font(1.7rem, 115%, $lightColor);
+}

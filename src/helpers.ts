@@ -1,5 +1,5 @@
 import { VALIDATE } from "./constants";
-import { IGame, TInput } from "./types";
+import { ICartProducts, IGame, TInput } from "./types";
 
 function isRecent(date1: Date, date2: Date): boolean {
   const oneDay = 1 * 24 * 60 * 60 * 1000;
@@ -9,7 +9,11 @@ function isRecent(date1: Date, date2: Date): boolean {
 
 function getGamesFromLocalStorage(): IGame[] | null {
   const localData = localStorage.getItem("games");
-  if (!localData) return null;
+
+  if (!localData) {
+    return null;
+  }
+
   const { data, date } = JSON.parse(localData);
   const today = new Date();
   const dataDate = new Date(date);
@@ -21,6 +25,16 @@ function getGamesFromLocalStorage(): IGame[] | null {
   return data;
 }
 
+function getCartProductsFromLocalStorage(): ICartProducts | null {
+  const localData = localStorage.getItem("cart");
+
+  if (!localData) {
+    return null;
+  }
+
+  return JSON.parse(localData);
+}
+
 const validateValue = (value: string, type: TInput): boolean => VALIDATE[type](value);
 
-export { getGamesFromLocalStorage, validateValue };
+export { getGamesFromLocalStorage, validateValue, getCartProductsFromLocalStorage };

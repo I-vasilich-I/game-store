@@ -33,7 +33,7 @@ const HomePage = (): JSX.Element => {
       <section className="section__games">
         <Container title="New Games">
           <GameCardsContainer>
-            {topProducts.length ? topProducts.map((elem) => <GameCard {...elem} key={elem.id} />) : useSkeleton(3)}
+            {topProducts.length ? topProducts.map((elem) => <GameCard game={elem} key={elem.id} />) : useSkeleton(3)}
           </GameCardsContainer>
         </Container>
       </section>
