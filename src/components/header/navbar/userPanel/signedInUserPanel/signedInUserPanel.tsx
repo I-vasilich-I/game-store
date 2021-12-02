@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/store/user/userSlice";
@@ -13,7 +14,7 @@ const SignedInUserPanel = (): JSX.Element => {
   const { products } = useAppSelector((state) => state.CART);
   const history = useHistory();
   const { home, profile, cart } = ROUTES;
-  const gamesInCart = Object.values(products).reduce((acc, b) => acc + b.amount, 0);
+  const gamesInCart = useMemo(() => Object.values(products).reduce((acc, b) => acc + b.amount, 0), [products]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");

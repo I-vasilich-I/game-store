@@ -26,11 +26,11 @@ const TRow = ({ game: { name, platform, price, id }, amount }: IProps): JSX.Elem
       </td>
       <td>{today}</td>
       <td>
-        <InputNumber name={id || 0} amount={amount} />
+        <InputNumber itemId={id || 0} amount={amount} />
       </td>
       <td>{price}</td>
       <td>
-        <InputCheckBox name={id || 0} setValueInStore={setValueInStore} />
+        <InputCheckBox itemId={id || 0} setValueInStore={setValueInStore} />
       </td>
     </tr>
   );
