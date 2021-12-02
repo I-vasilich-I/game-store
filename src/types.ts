@@ -101,6 +101,7 @@ interface ICartProducts {
 
 interface ICart {
   products: ICartProducts;
+  checkAll: boolean;
 }
 
 export {

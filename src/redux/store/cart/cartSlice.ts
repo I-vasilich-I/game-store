@@ -4,6 +4,7 @@ import { getCartProductsFromLocalStorage } from "@/helpers";
 
 const initialState: ICart = {
   products: getCartProductsFromLocalStorage() || {},
+  checkAll: false,
 };
 
 export const cartSlice = createSlice({
@@ -40,6 +41,7 @@ export const cartSlice = createSlice({
     },
     removeAllProducts(state) {
       state.products = {};
+      state.checkAll = false;
       localStorage.removeItem("cart");
     },
     setIsCheckedProduct(state, action: PayloadAction<{ id: number; checked: boolean }>) {
@@ -47,10 +49,29 @@ export const cartSlice = createSlice({
       state.products[id].checked = checked;
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
+    setCheckAllCheckBoxes(state) {
+      const prevCheckAll = state.checkAll;
+      state.checkAll = !prevCheckAll;
+      Object.values(state.products).forEach((elem) => {
+        const newElem = elem;
+        newElem.checked = !prevCheckAll;
+      });
+    },
+    setCheckAll(state, action: PayloadAction<boolean>) {
+      state.checkAll = action.payload;
+    },
   },
 });
 
-export const { addProduct, incrementAmount, decrementAmount, removeProducts, removeAllProducts, setIsCheckedProduct } =
-  cartSlice.actions;
+export const {
+  addProduct,
+  incrementAmount,
+  decrementAmount,
+  removeProducts,
+  removeAllProducts,
+  setIsCheckedProduct,
+  setCheckAllCheckBoxes,
+  setCheckAll,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

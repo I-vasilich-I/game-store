@@ -39,15 +39,15 @@
   background: none;
   color: $lightColor;
 
-  &:hover {
+  &:focus {
+    outline: none;
+    box-shadow: $violetColor 0 0 2px 0.2rem;
+  }
+
+  &:hover:not(:disabled) {
     cursor: pointer;
     border: 1px solid $violetColor;
     color: $violetColor;
     outline: none;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: $violetColor 0 0 2px 0.2rem;
   }
 }

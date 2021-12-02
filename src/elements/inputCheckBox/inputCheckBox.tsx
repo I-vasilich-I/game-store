@@ -1,22 +1,17 @@
 import "./inputCheckBox.scss";
-import { useEffect, useState } from "react";
+import useInputCheckBox from "@/hooks/useInputCheckBox";
 
 interface IProps {
-  itemId: number;
-  setValueInStore?: ((id: number, checked: boolean) => void) | null;
+  itemId: number | null;
+  setValueInStore: (id: number, checked: boolean) => void;
 }
 
-const InputCheckBox: React.FC<IProps> = ({ itemId, setValueInStore = null }): JSX.Element => {
-  const [checked, setChecked] = useState(false);
-  const id = `${itemId}-ch`;
+const InputCheckBox: React.FC<IProps> = ({ itemId = null, setValueInStore }): JSX.Element => {
+  const { id, checked, setValue } = useInputCheckBox({ itemId, setValueInStore });
 
   const handleChange = () => {
-    setChecked((prevValue) => !prevValue);
+    setValue();
   };
-
-  useEffect(() => {
-    setValueInStore?.(itemId, checked);
-  }, [checked]);
 
   return (
     <label htmlFor={id} className="checkbox__label">
