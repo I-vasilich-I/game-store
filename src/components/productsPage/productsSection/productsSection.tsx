@@ -1,16 +1,16 @@
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
-import SearchBar from "@/elements/searchbar/searchbar";
 import useSkeleton from "@/hooks/useSkeleton";
 import useGetProducts from "@/hooks/useGetProducts";
+import ProductsControl from "./productsControl/productsControl";
 
 const ProductsSection = (): JSX.Element => {
   const { products, isProductsLoading } = useGetProducts();
 
   return (
     <section className="section__products">
-      <SearchBar />
+      <ProductsControl />
       <Container title="Products">
         <GameCardsContainer>
           {!isProductsLoading && products.length

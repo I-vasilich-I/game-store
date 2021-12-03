@@ -19,6 +19,7 @@ interface IUser {
   address?: string;
   phone?: string;
   photo?: string;
+  isAdmin?: boolean;
 }
 
 type AuthFormTypes = "signin" | "signup" | "password";

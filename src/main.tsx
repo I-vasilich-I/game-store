@@ -16,18 +16,17 @@ import AuthForm from "./components/authForm/authForm";
 import ProfilePage from "./components/profilePage/profilePage";
 import CartPage from "./components/cartPage/cartPage";
 import Modal from "./elements/modal/modal";
+import ProductForm from "./components/productForm/productForm";
 
 const AppContainer = (): JSX.Element => {
   const { home, products, profile, cart } = ROUTES;
-  const { isModalOpen } = useAppSelector((state) => state.MODAL);
+  const { isModalOpen, isProductEditForm } = useAppSelector((state) => state.MODAL);
 
   return (
     <StrictMode>
       <Router>
         <ErrorBoundary>
-          <Modal isModalOpen={isModalOpen}>
-            <AuthForm />
-          </Modal>
+          <Modal isModalOpen={isModalOpen}>{isProductEditForm ? <ProductForm /> : <AuthForm />}</Modal>
           <Header />
           <main>
             <Switch>

@@ -1,11 +1,13 @@
 import "./gameCard.scss";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/store/cart/cartSlice";
+import { openModal, setIsProductEditForm } from "@/redux/store/modal/modalSlice";
 import useAlert from "@/hooks/useAlert";
 import { IGame } from "@/types";
 import { GENRES } from "@/constants";
 import Rating from "./rating/rating";
 import Platforms from "./platforms/platforms";
+import ButtonsContainer from "./buttonsContainer/buttonsContainer";
 import CardButton from "./button/cardButton";
 import Alert from "../alert/alert";
 
@@ -19,9 +21,14 @@ const GameCard = ({ game }: IProps): JSX.Element => {
   const { name, cover, description, rating, age, price, platform, genre } = game;
   const message = "Game(s) added to the cart!";
 
-  const handleClick = () => {
+  const addToCart = () => {
     dispatch(addProduct(game));
     setShowAlert(true);
+  };
+
+  const editGameCard = () => {
+    dispatch(setIsProductEditForm(true));
+    dispatch(openModal());
   };
 
   return (
@@ -44,7 +51,10 @@ const GameCard = ({ game }: IProps): JSX.Element => {
             <p>{description}</p>
             <p>{age}+</p>
             {genre ? <p>{GENRES[genre]}</p> : null}
-            <CardButton clickHandler={handleClick} />
+            <ButtonsContainer>
+              <CardButton clickHandler={addToCart} title="Add to cart" />
+              <CardButton clickHandler={editGameCard} title="Edit" />
+            </ButtonsContainer>
           </div>
         </div>
       </div>

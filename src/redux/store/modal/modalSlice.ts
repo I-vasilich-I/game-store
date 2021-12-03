@@ -4,12 +4,14 @@ interface IModal {
   isModalOpen: boolean;
   error: string;
   alert: string;
+  isProductEditForm: boolean;
 }
 
 const initialState: IModal = {
   isModalOpen: false,
   error: "",
   alert: "",
+  isProductEditForm: false,
 };
 
 export const modalSlice = createSlice({
@@ -28,9 +30,12 @@ export const modalSlice = createSlice({
     setAlert(state, action: PayloadAction<string>) {
       state.alert = action.payload;
     },
+    setIsProductEditForm(state, action: PayloadAction<boolean>) {
+      state.isProductEditForm = action.payload;
+    },
   },
 });
 
-export const { openModal, closeModal, setError, setAlert } = modalSlice.actions;
+export const { openModal, closeModal, setError, setAlert, setIsProductEditForm } = modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -1,0 +1,5 @@
+@import "../../styles/mixins.scss";
+
+.product__form {
+  @include font(1.5rem, 160%, $lightColor);
+}
