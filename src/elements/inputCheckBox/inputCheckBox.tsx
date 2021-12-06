@@ -2,8 +2,8 @@ import "./inputCheckBox.scss";
 import useInputCheckBox from "@/hooks/useInputCheckBox";
 
 interface IProps {
-  itemId: number | null;
-  setValueInStore: (id: number, checked: boolean) => void;
+  itemId: string | null;
+  setValueInStore: (id: string, checked: boolean) => void;
 }
 
 const InputCheckBox: React.FC<IProps> = ({ itemId = null, setValueInStore }): JSX.Element => {

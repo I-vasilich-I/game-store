@@ -14,7 +14,7 @@ const TRow = ({ game: { name, platform, price, id }, amount }: IProps): JSX.Elem
   const dispatch = useDispatch();
   const today = new Date().toLocaleDateString("en-US");
 
-  const setValueInStore = (itemId: number, checked: boolean) => {
+  const setValueInStore = (itemId: string, checked: boolean) => {
     dispatch(setIsCheckedProduct({ id: itemId, checked }));
   };
 
@@ -26,11 +26,11 @@ const TRow = ({ game: { name, platform, price, id }, amount }: IProps): JSX.Elem
       </td>
       <td>{today}</td>
       <td>
-        <InputNumber itemId={id || 0} amount={amount} />
+        <InputNumber itemId={id} amount={amount} />
       </td>
       <td>{price}</td>
       <td>
-        <InputCheckBox itemId={id || 0} setValueInStore={setValueInStore} />
+        <InputCheckBox itemId={id} setValueInStore={setValueInStore} />
       </td>
     </tr>
   );

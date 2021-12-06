@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { decrementAmount, incrementAmount } from "@/redux/store/cart/cartSlice";
 
 interface IProps {
-  itemId: number;
+  itemId: string;
   amount: number;
 }
 

@@ -14,22 +14,17 @@ export const cartSlice = createSlice({
     addProduct(state, action: PayloadAction<IGame>) {
       const game = action.payload;
       const { products } = state;
-
-      if (!game.id) {
-        return;
-      }
-
       const product = products[game.id];
       const amount = (product?.amount || 0) + 1;
       state.products[game.id] = { game, amount, checked: false };
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
-    incrementAmount(state, action: PayloadAction<number>) {
+    incrementAmount(state, action: PayloadAction<string>) {
       const id = action.payload;
       state.products[id].amount++;
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
-    decrementAmount(state, action: PayloadAction<number>) {
+    decrementAmount(state, action: PayloadAction<string>) {
       const id = action.payload;
       state.products[id].amount--;
       localStorage.setItem("cart", JSON.stringify(state.products));
@@ -44,7 +39,7 @@ export const cartSlice = createSlice({
       state.checkAll = false;
       localStorage.removeItem("cart");
     },
-    setIsCheckedProduct(state, action: PayloadAction<{ id: number; checked: boolean }>) {
+    setIsCheckedProduct(state, action: PayloadAction<{ id: string; checked: boolean }>) {
       const { id, checked } = action.payload;
       state.products[id].checked = checked;
       localStorage.setItem("cart", JSON.stringify(state.products));
