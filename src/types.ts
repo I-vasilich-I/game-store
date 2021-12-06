@@ -1,15 +1,15 @@
 interface IGame {
-  id?: number;
+  id: string;
   name: string;
   cover: string;
   minicover: string;
   description: string;
-  rating?: number;
-  platform?: string[];
-  age?: number;
-  year?: number;
-  price?: string | number;
-  genre?: number;
+  rating: number;
+  platform: string[];
+  age: number;
+  year: number;
+  price: string | number;
+  genre: number;
 }
 
 interface IUser {
@@ -97,7 +97,7 @@ interface ICartProduct {
 }
 
 interface ICartProducts {
-  [key: number]: ICartProduct;
+  [key: string]: ICartProduct;
 }
 
 interface ICart {
