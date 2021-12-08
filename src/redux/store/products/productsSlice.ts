@@ -8,6 +8,8 @@ interface IProps {
   searchGames: IGame[];
   filter: IParams;
   isProductsLoading: boolean;
+  isProductUpdating: boolean;
+  editProduct: IGame | null;
 }
 
 const initialState: IProps = {
@@ -21,6 +23,8 @@ const initialState: IProps = {
     genre: 1,
   },
   isProductsLoading: false,
+  isProductUpdating: false,
+  editProduct: null,
 };
 
 export const productsSlice = createSlice({
@@ -58,6 +62,12 @@ export const productsSlice = createSlice({
     setIsProductsLoading(state, action: PayloadAction<boolean>) {
       state.isProductsLoading = action.payload;
     },
+    setIsProductUpdating(state, action: PayloadAction<boolean>) {
+      state.isProductUpdating = action.payload;
+    },
+    setEditProduct(state, action: PayloadAction<IGame | null>) {
+      state.editProduct = action.payload;
+    },
   },
 });
 
@@ -71,6 +81,8 @@ export const {
   setType,
   setSearchGames,
   setIsProductsLoading,
+  setIsProductUpdating,
+  setEditProduct,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

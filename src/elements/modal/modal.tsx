@@ -2,7 +2,7 @@ import "./modal.scss";
 import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setError } from "@/redux/store/modal/modalSlice";
+import { setAlert, setError } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import closeSVG from "images/clear.svg";
@@ -25,7 +25,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
   }
 
   const dispatch = useDispatch();
-  const { error } = useAppSelector((state) => state.MODAL);
+  const { error, alert } = useAppSelector((state) => state.MODAL);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleTabKey = (e: KeyboardEvent) => {
@@ -76,13 +76,28 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
 
   useEffect(() => {
     if (!error) {
-      return;
+      return undefined;
     }
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       dispatch(setError(""));
     }, 10000);
+
+    return () => clearTimeout(timer);
   }, [error]);
+
+  useEffect(() => {
+    if (!alert) {
+      return undefined;
+    }
+
+    const timer = setTimeout(() => {
+      dispatch(setAlert(""));
+      dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [alert]);
 
   return ReactDOM.createPortal(
     <div className="modal__container" role="dialog" aria-modal="true">
@@ -93,6 +108,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
         {children}
       </div>
       {error ? <Alert type="error" message={error} /> : null}
+      {alert ? <Alert type="info" message={alert} /> : null}
     </div>,
     portal
   );

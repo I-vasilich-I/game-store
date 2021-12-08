@@ -2,6 +2,7 @@ import "./gameCard.scss";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/store/cart/cartSlice";
 import { openModal, setIsProductEditForm } from "@/redux/store/modal/modalSlice";
+import { setEditProduct } from "@/redux/store/products/productsSlice";
 import useAlert from "@/hooks/useAlert";
 import { IGame } from "@/types";
 import { GENRES } from "@/constants";
@@ -29,6 +30,7 @@ const GameCard = ({ game }: IProps): JSX.Element => {
   const editGameCard = () => {
     dispatch(setIsProductEditForm(true));
     dispatch(openModal());
+    dispatch(setEditProduct(game));
   };
 
   return (

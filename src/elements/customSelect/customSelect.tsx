@@ -8,13 +8,15 @@ import { SortByTypes } from "@/types";
 
 interface IProps {
   options: string[];
+  selectedOption?: number;
   label: string;
   dispatcher?: ((value: string) => void) | null;
 }
 
-const CustomSelect: React.FC<IProps> = ({ options, label, dispatcher = null }) => {
+const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, dispatcher = null }) => {
+  const defaultOption = selectedOption === -1 ? options[0] : options[selectedOption];
   const [isActive, setIsActive] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(options[0]);
+  const [selectedValue, setSelectedValue] = useState(defaultOption);
   const customSelectClassName = classnames("select__custom", {
     "is-active": isActive,
   });
@@ -26,7 +28,7 @@ const CustomSelect: React.FC<IProps> = ({ options, label, dispatcher = null }) =
     const element = e.target as HTMLDivElement;
 
     if (element.className === "select__custom-option") {
-      const value = element.getAttribute("data-value") || options[0];
+      const value = element.getAttribute("data-value") || defaultOption;
       setSelectedValue(value);
       const nativeSelect = nativeSelectRef.current;
 
@@ -58,7 +60,7 @@ const CustomSelect: React.FC<IProps> = ({ options, label, dispatcher = null }) =
       dispatcher?.(selectedValue.toLowerCase() as SortByTypes);
     }
 
-    if (label === "Type") {
+    if (label === "Type" || label === "Age") {
       dispatcher?.(selectedValue);
     }
   }, [selectedValue]);

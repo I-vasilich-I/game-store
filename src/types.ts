@@ -50,6 +50,11 @@ interface IAuthResponse {
   status: number;
 }
 
+interface IProductResponse {
+  data: string;
+  status: number;
+}
+
 interface IUserContext {
   userName: string | null;
   setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
@@ -113,6 +118,7 @@ export {
   TInput,
   IInputProps,
   IAuthResponse,
+  IProductResponse,
   IUserContext,
   IProfile,
   IProfileResponse,

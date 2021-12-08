@@ -1,6 +1,7 @@
 import "./productControl.scss";
 import { useDispatch } from "react-redux";
 import { openModal, setIsProductEditForm } from "@/redux/store/modal/modalSlice";
+import { setEditProduct } from "@/redux/store/products/productsSlice";
 import SearchBar from "@/elements/searchbar/searchbar";
 
 const ProductsControl = (): JSX.Element => {
@@ -8,6 +9,7 @@ const ProductsControl = (): JSX.Element => {
 
   const addGameCard = () => {
     dispatch(setIsProductEditForm(true));
+    dispatch(setEditProduct(null));
     dispatch(openModal());
   };
 

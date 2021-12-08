@@ -90,6 +90,7 @@ const API = {
   changeProfilePhoto: "http://localhost:8080/api/changePhoto",
   photoUploadURL: "https://api.cloudinary.com/v1_1/vasilich/image/upload",
   changePasswordURL: "http://localhost:8080/api/changePassword",
+  editProduct: "http://localhost:8080/api/product",
 };
 
 const ERROR_MESSAGES = {
@@ -132,6 +133,21 @@ const AUTH_FORM_URLS = {
 
 const GENRES = ["All genres", "Shooter", "Arcade", "Survive"];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const [_, ...PRODUCT_GENRES] = GENRES;
+
+const AGES = [3, 6, 12, 18];
+
+interface IPlatforms {
+  [name: string]: string;
+}
+
+const PLATFORMS: IPlatforms = {
+  PC: "PC",
+  PS: "PlayStation 5",
+  XBox: "XBox One",
+};
+
 export {
   ROUTES,
   GAME_COMPANIES,
@@ -144,4 +160,7 @@ export {
   FORM_TITLES,
   AUTH_FORM_URLS,
   GENRES,
+  AGES,
+  PLATFORMS,
+  PRODUCT_GENRES,
 };

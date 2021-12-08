@@ -1,12 +1,21 @@
-import { call, ForkEffect, put, takeLatest } from "redux-saga/effects";
+import { call, ForkEffect, put, takeEvery, takeLatest } from "redux-saga/effects";
 import {
   setIsProductsLoading,
+  setIsProductUpdating,
   setProducts,
   setSearchGames,
   setTopProducts,
 } from "@/redux/store/products/productsSlice";
 import { setIsLoading } from "@/redux/store/form/formSlice";
-import { getGames, getTopGames, searchRequest } from "@/api/apiProducts";
+import {
+  createProductService,
+  deleteProductService,
+  getGames,
+  getTopGames,
+  searchRequest,
+  updateProductService,
+} from "@/api/apiProducts";
+import { setAlert, setError } from "@/redux/store/modal/modalSlice";
 import { IGame, IParams } from "@/types";
 import SAGA_ACTIONS from "../sagaActions/sagaActions";
 
@@ -16,6 +25,16 @@ interface IProps {
 }
 
 interface ISearchProps {
+  type: string;
+  payload: string;
+}
+
+interface IUpdateProduct {
+  type: string;
+  payload: IGame;
+}
+
+interface IDeleteProduct {
   type: string;
   payload: string;
 }
@@ -64,4 +83,74 @@ function* watchGetTopProducts(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(SAGA_ACTIONS.GET_TOP_PRODUCTS, getTopProducts);
 }
 
-export { watchGetProducts, watchSearchProducts, watchGetTopProducts };
+function* updateProduct({ payload: game }: IUpdateProduct) {
+  yield put(setIsProductUpdating(true));
+  try {
+    const { status, data } = yield call(() => updateProductService(game));
+
+    if (status === 200) {
+      yield put(setAlert(data));
+    } else {
+      yield put(setError(data));
+    }
+
+    yield put(setIsProductUpdating(false));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function* watchUpdateProduct(): Generator<ForkEffect<never>, void, unknown> {
+  yield takeEvery(SAGA_ACTIONS.UPDATE_PRODUCT, updateProduct);
+}
+
+function* createProduct({ payload: game }: IUpdateProduct) {
+  yield put(setIsProductUpdating(true));
+  try {
+    const { status, data } = yield call(() => createProductService(game));
+
+    if (status === 200) {
+      yield put(setAlert(data));
+    } else {
+      yield put(setError(data));
+    }
+
+    yield put(setIsProductUpdating(false));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function* watchCreateProduct(): Generator<ForkEffect<never>, void, unknown> {
+  yield takeEvery(SAGA_ACTIONS.CREATE_PRODUCT, createProduct);
+}
+
+function* deleteProduct({ payload: gameId }: IDeleteProduct) {
+  yield put(setIsProductUpdating(true));
+  try {
+    const { status, data } = yield call(() => deleteProductService(gameId));
+
+    if (status === 200) {
+      yield put(setAlert(data));
+    } else {
+      yield put(setError(data));
+    }
+
+    yield put(setIsProductUpdating(false));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function* watchDeleteProduct(): Generator<ForkEffect<never>, void, unknown> {
+  yield takeEvery(SAGA_ACTIONS.DELETE_PRODUCT, deleteProduct);
+}
+
+export {
+  watchGetProducts,
+  watchSearchProducts,
+  watchGetTopProducts,
+  watchUpdateProduct,
+  watchCreateProduct,
+  watchDeleteProduct,
+};
