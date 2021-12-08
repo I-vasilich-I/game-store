@@ -1,6 +1,8 @@
 import "./productForm.scss";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { setEditProduct } from "@/redux/store/products/productsSlice";
+import { setModalType } from "@/redux/store/modal/modalSlice";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import { IGame, IInputProps } from "@/types";
@@ -85,9 +87,7 @@ const ProductForm = (): JSX.Element => {
     setCategory(categoryValue);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const getNewGameData = (): IGame => {
     const game: IGame = {
       id: editProduct?.id || "",
       name,
@@ -102,15 +102,23 @@ const ProductForm = (): JSX.Element => {
       genre: GENRES.findIndex((elem) => elem === category),
     };
 
+    return game;
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (editProduct) {
-      dispatch({ type: SAGA_ACTIONS.UPDATE_PRODUCT, payload: game });
+      dispatch({ type: SAGA_ACTIONS.UPDATE_PRODUCT, payload: getNewGameData() });
       return;
     }
-    dispatch({ type: SAGA_ACTIONS.CREATE_PRODUCT, payload: game });
+
+    dispatch({ type: SAGA_ACTIONS.CREATE_PRODUCT, payload: getNewGameData() });
   };
 
   const handleDelete = () => {
-    dispatch({ type: SAGA_ACTIONS.DELETE_PRODUCT, payload: editProduct?.id });
+    dispatch(setEditProduct(getNewGameData()));
+    dispatch(setModalType("confirm"));
   };
 
   return (

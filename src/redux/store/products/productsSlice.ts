@@ -1,6 +1,6 @@
-import { getGamesFromLocalStorage } from "@/helpers";
-import { IGame, IParams, SortByTypes } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IGame, IParams, SortByTypes } from "@/types";
+import { getGamesFromLocalStorage } from "@/helpers";
 
 interface IProps {
   products: IGame[];
@@ -21,6 +21,7 @@ const initialState: IProps = {
     ascend: 1,
     age: 0,
     genre: 1,
+    category: null,
   },
   isProductsLoading: false,
   isProductUpdating: false,
@@ -59,6 +60,9 @@ export const productsSlice = createSlice({
     setType(state, action: PayloadAction<string>) {
       state.filter.ascend = action.payload === "Ascending" ? 1 : null;
     },
+    setCategory(state, action: PayloadAction<string | null>) {
+      state.filter.category = action.payload;
+    },
     setIsProductsLoading(state, action: PayloadAction<boolean>) {
       state.isProductsLoading = action.payload;
     },
@@ -79,6 +83,7 @@ export const {
   setSortBy,
   setGenre,
   setType,
+  setCategory,
   setSearchGames,
   setIsProductsLoading,
   setIsProductUpdating,

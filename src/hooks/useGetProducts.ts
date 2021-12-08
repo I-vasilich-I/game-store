@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { setCategory } from "@/redux/store/products/productsSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { IGame } from "@/types";
@@ -20,8 +21,9 @@ const useGetProducts = (): IProps => {
   const { slug } = useParams<IRouterParams>();
 
   useEffect(() => {
-    dispatch({ type: SAGA_ACTIONS.GET_PRODUCTS, payload: { ...filter, category: slug || null } });
-  }, [filter, slug]);
+    dispatch(setCategory(slug || null));
+    dispatch({ type: SAGA_ACTIONS.GET_PRODUCTS });
+  }, [filter]);
 
   return { products, isProductsLoading };
 };

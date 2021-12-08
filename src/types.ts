@@ -34,6 +34,8 @@ interface IAuthForm {
 
 type TInput = "text" | "password" | "email" | "tel";
 
+type TModalType = "auth" | "product" | "confirm";
+
 interface IInputProps {
   type?: TInput;
   id: string;
@@ -130,4 +132,5 @@ export {
   ICartProduct,
   ICartProducts,
   ICart,
+  TModalType,
 };

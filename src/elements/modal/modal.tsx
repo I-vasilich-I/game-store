@@ -2,7 +2,7 @@ import "./modal.scss";
 import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setAlert, setError } from "@/redux/store/modal/modalSlice";
+import { setAlert, setError, setModalType } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import closeSVG from "images/clear.svg";
@@ -25,7 +25,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
   }
 
   const dispatch = useDispatch();
-  const { error, alert } = useAppSelector((state) => state.MODAL);
+  const { error, alert, modalType } = useAppSelector((state) => state.MODAL);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleTabKey = (e: KeyboardEvent) => {
@@ -55,7 +55,14 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
     }
   };
 
-  const onModalClose = () => dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+  const onModalClose = () => {
+    if (modalType === "confirm") {
+      dispatch(setModalType("product"));
+      return;
+    }
+
+    dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+  };
 
   const keyListenersMap = new Map([
     ["Esc", onModalClose],

@@ -1,4 +1,4 @@
-import { call, ForkEffect, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, ForkEffect, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import {
   setIsProductsLoading,
   setIsProductUpdating,
@@ -16,13 +16,8 @@ import {
   updateProductService,
 } from "@/api/apiProducts";
 import { setAlert, setError } from "@/redux/store/modal/modalSlice";
-import { IGame, IParams } from "@/types";
+import { IGame } from "@/types";
 import SAGA_ACTIONS from "../sagaActions/sagaActions";
-
-interface IProps {
-  type: string;
-  payload: IParams;
-}
 
 interface ISearchProps {
   type: string;
@@ -39,10 +34,11 @@ interface IDeleteProduct {
   payload: string;
 }
 
-function* getProducts({ payload: params }: IProps) {
+function* getProducts() {
+  const { filter } = yield select((state) => state.PRODUCTS);
   yield put(setIsProductsLoading(true));
   try {
-    const data: IGame[] = yield call(() => getGames(params));
+    const data: IGame[] = yield call(() => getGames(filter));
     yield put(setProducts(data));
   } catch (error) {
     console.error(error);
@@ -90,11 +86,13 @@ function* updateProduct({ payload: game }: IUpdateProduct) {
 
     if (status === 200) {
       yield put(setAlert(data));
+      yield put(setIsProductUpdating(false));
+      yield getProducts();
+      yield getTopProducts();
     } else {
       yield put(setError(data));
+      yield put(setIsProductUpdating(false));
     }
-
-    yield put(setIsProductUpdating(false));
   } catch (error) {
     console.error(error);
   }
@@ -111,11 +109,13 @@ function* createProduct({ payload: game }: IUpdateProduct) {
 
     if (status === 200) {
       yield put(setAlert(data));
+      yield put(setIsProductUpdating(false));
+      yield getProducts();
+      yield getTopProducts();
     } else {
       yield put(setError(data));
+      yield put(setIsProductUpdating(false));
     }
-
-    yield put(setIsProductUpdating(false));
   } catch (error) {
     console.error(error);
   }
@@ -132,11 +132,13 @@ function* deleteProduct({ payload: gameId }: IDeleteProduct) {
 
     if (status === 200) {
       yield put(setAlert(data));
+      yield put(setIsProductUpdating(false));
+      yield getProducts();
+      yield getTopProducts();
     } else {
       yield put(setError(data));
+      yield put(setIsProductUpdating(false));
     }
-
-    yield put(setIsProductUpdating(false));
   } catch (error) {
     console.error(error);
   }
