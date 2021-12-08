@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/store/cart/cartSlice";
 import { openModal, setModalType } from "@/redux/store/modal/modalSlice";
 import { setEditProduct } from "@/redux/store/products/productsSlice";
+import useAppSelector from "@/redux/hooks/useAppSelector";
 import useAlert from "@/hooks/useAlert";
 import { IGame } from "@/types";
 import { GENRES } from "@/constants";
@@ -18,9 +19,12 @@ interface IProps {
 
 const GameCard = ({ game }: IProps): JSX.Element => {
   const dispatch = useDispatch();
+  const { isAdmin } = useAppSelector((state) => state.USER);
   const { showAlert, setShowAlert } = useAlert();
   const { name, cover, description, rating, age, price, platform, genre } = game;
   const message = "Game(s) added to the cart!";
+
+  console.log(isAdmin);
 
   const addToCart = () => {
     dispatch(addProduct(game));
@@ -55,7 +59,7 @@ const GameCard = ({ game }: IProps): JSX.Element => {
             {genre ? <p>{GENRES[genre]}</p> : null}
             <ButtonsContainer>
               <CardButton clickHandler={addToCart} title="Add to cart" />
-              <CardButton clickHandler={editGameCard} title="Edit" />
+              {isAdmin ? <CardButton clickHandler={editGameCard} title="Edit" /> : null}
             </ButtonsContainer>
           </div>
         </div>

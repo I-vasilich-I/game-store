@@ -101,7 +101,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
     const timer = setTimeout(() => {
       dispatch(setAlert(""));
       dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
-    }, 4000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [alert]);

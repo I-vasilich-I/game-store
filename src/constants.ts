@@ -104,6 +104,7 @@ const VALIDATE = {
   password: (passW: string): boolean => validator.isAlphanumeric(passW) && passW.length >= MIN_PASSWORD_LENGTH,
   email: validator.isEmail,
   tel: validator.isMobilePhone,
+  number: validator.isInt,
 };
 
 const VALIDATION_MESSAGES = {

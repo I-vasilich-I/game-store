@@ -32,7 +32,7 @@ interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
 
-type TInput = "text" | "password" | "email" | "tel";
+type TInput = "text" | "password" | "email" | "tel" | "number";
 
 type TModalType = "auth" | "product" | "confirm";
 

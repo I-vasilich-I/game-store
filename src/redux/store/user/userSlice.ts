@@ -24,7 +24,7 @@ const initialState: IUser = {
   address: user?.address || null,
   phone: user?.phone || null,
   photo: user?.photo || userSVG,
-  isAdmin: user?.isAdmin || false,
+  isAdmin: user?.isAdmin === "true" || false,
 };
 
 export const userSlice = createSlice({

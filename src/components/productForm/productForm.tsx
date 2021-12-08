@@ -42,7 +42,7 @@ const ProductForm = (): JSX.Element => {
       message: "",
     },
     {
-      type: "text",
+      type: "number",
       id: "game-price",
       required: true,
       title: "Price",
@@ -148,9 +148,11 @@ const ProductForm = (): JSX.Element => {
         <button type="submit" className="card-btn">
           Submit
         </button>
-        <button type="button" className="card-btn" onClick={handleDelete}>
-          Delete
-        </button>
+        {editProduct ? (
+          <button type="button" className="card-btn" onClick={handleDelete}>
+            Delete
+          </button>
+        ) : null}
         <Spinner isOn={isProductUpdating} />
       </div>
     </form>
