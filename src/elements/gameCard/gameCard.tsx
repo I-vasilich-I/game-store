@@ -24,8 +24,6 @@ const GameCard = ({ game }: IProps): JSX.Element => {
   const { name, cover, description, rating, age, price, platform, genre } = game;
   const message = "Game(s) added to the cart!";
 
-  console.log(isAdmin);
-
   const addToCart = () => {
     dispatch(addProduct(game));
     setShowAlert(true);

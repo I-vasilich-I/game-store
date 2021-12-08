@@ -1,6 +1,6 @@
 import "./checkPlatforms.scss";
-import { PLATFORMS } from "@/constants";
 import { useEffect, useState } from "react";
+import { PLATFORMS } from "@/constants";
 
 interface IProps {
   checkedPlatforms: string[];

@@ -11,7 +11,7 @@ import InputText from "@/elements/inputText/inputText";
 import Textarea from "@/elements/textarea/textarea";
 import CustomSelect from "@/elements/customSelect/customSelect";
 import Spinner from "@/elements/spinner/spinner";
-import CheckPlatforms from "./platforms/checkPlatforms";
+import CheckPlatforms from "./checkPlatforms/checkPlatforms";
 
 const ProductForm = (): JSX.Element => {
   const dispatch = useDispatch();
