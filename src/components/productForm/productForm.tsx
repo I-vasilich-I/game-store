@@ -2,7 +2,7 @@ import "./productForm.scss";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEditProduct } from "@/redux/store/products/productsSlice";
-import { setModalType } from "@/redux/store/modal/modalSlice";
+import { setError, setModalType } from "@/redux/store/modal/modalSlice";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import { IGame, IInputProps } from "@/types";
@@ -24,7 +24,7 @@ const ProductForm = (): JSX.Element => {
   const [description, setDescription] = useState(editProduct?.description || "");
   const [age, setAge] = useState(editProduct?.age || 3);
   const [platformsArr, setPlatformsArr] = useState(editProduct?.platform || []);
-
+  const isPlatformSelected = Boolean(platformsArr.length);
   const selectedAge = AGES.findIndex((elem) => elem === age);
   const ageOptions = AGES.map((elem) => `${elem}+`);
 
@@ -107,6 +107,11 @@ const ProductForm = (): JSX.Element => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isPlatformSelected) {
+      dispatch(setError("Choose at least one platform"));
+      return;
+    }
 
     if (editProduct) {
       dispatch({ type: SAGA_ACTIONS.UPDATE_PRODUCT, payload: getNewGameData() });

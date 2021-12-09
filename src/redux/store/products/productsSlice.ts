@@ -9,6 +9,7 @@ interface IProps {
   filter: IParams;
   isProductsLoading: boolean;
   isProductUpdating: boolean;
+  isSearching: boolean;
   editProduct: IGame | null;
 }
 
@@ -25,6 +26,7 @@ const initialState: IProps = {
   },
   isProductsLoading: false,
   isProductUpdating: false,
+  isSearching: false,
   editProduct: null,
 };
 
@@ -69,6 +71,9 @@ export const productsSlice = createSlice({
     setIsProductUpdating(state, action: PayloadAction<boolean>) {
       state.isProductUpdating = action.payload;
     },
+    setIsSearching(state, action: PayloadAction<boolean>) {
+      state.isSearching = action.payload;
+    },
     setEditProduct(state, action: PayloadAction<IGame | null>) {
       state.editProduct = action.payload;
     },
@@ -87,6 +92,7 @@ export const {
   setSearchGames,
   setIsProductsLoading,
   setIsProductUpdating,
+  setIsSearching,
   setEditProduct,
 } = productsSlice.actions;
 

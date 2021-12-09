@@ -1,5 +1,5 @@
 import "./checkPlatforms.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PLATFORMS } from "@/constants";
 
 interface IProps {
@@ -14,15 +14,19 @@ interface ICheckboxes {
 
 const CheckPlatforms = ({ checkedPlatforms, setValue }: IProps): JSX.Element => {
   const keys = Object.keys(PLATFORMS);
-  const checkboxesArray: ICheckboxes[] = [];
 
-  keys.forEach((key) => {
-    const checkedItem = checkedPlatforms.find((elem) => elem === key);
-    checkboxesArray.push({
-      id: key,
-      checked: Boolean(checkedItem),
-    });
-  });
+  const checkboxesArray = useMemo<ICheckboxes[]>(
+    () =>
+      keys.reduce<ICheckboxes[]>((acc, key) => {
+        const checkedItem = checkedPlatforms.find((elem) => elem === key);
+        acc.push({
+          id: key,
+          checked: Boolean(checkedItem),
+        });
+        return acc;
+      }, []),
+    [PLATFORMS]
+  );
 
   const [checkBoxes, setCheckBoxes] = useState([...checkboxesArray]);
 

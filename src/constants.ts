@@ -149,6 +149,12 @@ const PLATFORMS: IPlatforms = {
   XBox: "XBox One",
 };
 
+const MODAL_TYPES = {
+  AUTH: "auth",
+  CONFIRM: "confirm",
+  PRODUCT: "product",
+};
+
 export {
   ROUTES,
   GAME_COMPANIES,
@@ -164,4 +170,5 @@ export {
   AGES,
   PLATFORMS,
   PRODUCT_GENRES,
+  MODAL_TYPES,
 };

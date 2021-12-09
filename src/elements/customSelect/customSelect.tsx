@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* based on https://css-tricks.com/striking-a-balance-between-native-and-custom-select-elements/ */
 import "./customSelect.scss";
-import { ChangeEvent, useRef, useState, MouseEvent, useEffect } from "react";
+import { ChangeEvent, useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 import { SortByTypes } from "@/types";
 
@@ -23,18 +23,16 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
   const nativeSelectRef = useRef<HTMLSelectElement>(null);
   const customSelectRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleOpen = () => {
     setIsActive((prevValue) => !prevValue);
-    const element = e.target as HTMLDivElement;
+  };
 
-    if (element.className === "select__custom-option") {
-      const value = element.getAttribute("data-value") || defaultOption;
-      setSelectedValue(value);
-      const nativeSelect = nativeSelectRef.current;
+  const handleClick = (option: string) => {
+    setSelectedValue(option);
+    const nativeSelect = nativeSelectRef.current;
 
-      if (nativeSelect) {
-        nativeSelect.value = value;
-      }
+    if (nativeSelect) {
+      nativeSelect.value = option;
     }
   };
 
@@ -86,11 +84,11 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
             </option>
           ))}
         </select>
-        <div className={customSelectClassName} aria-hidden={isActive} onClick={handleClick}>
+        <div className={customSelectClassName} aria-hidden={isActive} onClick={handleOpen}>
           <div className="select__custom-trigger">{selectedValue}</div>
           <div className="select__custom-options">
             {options.map((elem) => (
-              <div key={elem} className="select__custom-option" data-value={elem}>
+              <div key={elem} className="select__custom-option" data-value={elem} onClick={() => handleClick(elem)}>
                 {elem}
               </div>
             ))}

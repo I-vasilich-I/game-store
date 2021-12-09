@@ -2,11 +2,11 @@ import { call, ForkEffect, put, select, takeEvery, takeLatest } from "redux-saga
 import {
   setIsProductsLoading,
   setIsProductUpdating,
+  setIsSearching,
   setProducts,
   setSearchGames,
   setTopProducts,
 } from "@/redux/store/products/productsSlice";
-import { setIsLoading } from "@/redux/store/form/formSlice";
 import {
   createProductService,
   deleteProductService,
@@ -51,14 +51,14 @@ function* watchGetProducts(): Generator<ForkEffect<never>, void, unknown> {
 }
 
 function* searchProducts({ payload: search }: ISearchProps) {
-  yield put(setIsLoading(true));
+  yield put(setIsSearching(true));
   try {
     const data: IGame[] | null = yield call(() => searchRequest(search));
     yield put(setSearchGames(data || []));
   } catch (error) {
     console.error(error);
   }
-  yield put(setIsLoading(false));
+  yield put(setIsSearching(false));
 }
 
 function* watchSearchProducts(): Generator<ForkEffect<never>, void, unknown> {
