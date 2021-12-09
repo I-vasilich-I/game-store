@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* based on https://css-tricks.com/striking-a-balance-between-native-and-custom-select-elements/ */
 import "./customSelect.scss";
-import { ChangeEvent, useRef, useState, useEffect } from "react";
+import { ChangeEvent, useRef, useState, useEffect, memo } from "react";
 import classnames from "classnames";
 import { SortByTypes } from "@/types";
 
@@ -99,4 +99,4 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
   );
 };
 
-export default CustomSelect;
+export default memo(CustomSelect);

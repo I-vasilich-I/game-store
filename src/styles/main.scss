@@ -135,3 +135,42 @@ p {
     cursor: unset;
   }
 }
+
+.checkbox__label {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+
+  input {
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+
+    &:checked {
+      border: none;
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+        content: "✓";
+        text-align: center;
+        width: 14px;
+        height: 14px;
+        background-color: $violetColor;
+        color: $lightColor;
+        z-index: $inputCheckboxZIndex;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
