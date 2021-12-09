@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TModalType } from "@/types";
 
 interface IModal {
   isModalOpen: boolean;
   error: string;
   alert: string;
+  modalType: TModalType;
 }
 
 const initialState: IModal = {
   isModalOpen: false,
   error: "",
   alert: "",
+  modalType: "auth",
 };
 
 export const modalSlice = createSlice({
@@ -28,9 +31,12 @@ export const modalSlice = createSlice({
     setAlert(state, action: PayloadAction<string>) {
       state.alert = action.payload;
     },
+    setModalType(state, action: PayloadAction<TModalType>) {
+      state.modalType = action.payload;
+    },
   },
 });
 
-export const { openModal, closeModal, setError, setAlert } = modalSlice.actions;
+export const { openModal, closeModal, setError, setAlert, setModalType } = modalSlice.actions;
 
 export default modalSlice.reducer;

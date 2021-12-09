@@ -1,0 +1,31 @@
+.textarea__label {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    background-color: $blackColor;
+    color: $lightColor;
+
+    &::-webkit-scrollbar {
+      height: 12px;
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $grayColor;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $transparentBlackColor-2;
+
+      &:hover {
+        background: $transparentBlackColor;
+      }
+    }
+  }
+}

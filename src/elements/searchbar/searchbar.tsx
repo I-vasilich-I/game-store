@@ -10,8 +10,7 @@ import SearchResult from "./searchResult/searchResult";
 
 const SearchBar = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { searchGames } = useAppSelector((state) => state.PRODUCTS);
-  const { isLoading } = useAppSelector((state) => state.FORM);
+  const { searchGames, isSearching } = useAppSelector((state) => state.PRODUCTS);
   const [value, setValue] = useState("");
   const hasSearchResult = Boolean(searchGames.length && value.trim());
 
@@ -42,7 +41,7 @@ const SearchBar = (): JSX.Element => {
           onChange={debouncedChangeHandler}
           autoComplete="off"
         />
-        <Spinner isOn={isLoading} />
+        <Spinner isOn={isSearching} />
       </label>
       <SearchResult hasSearchResult={hasSearchResult} games={searchGames} />
     </form>

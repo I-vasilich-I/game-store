@@ -5,8 +5,8 @@ import useAppSelector from "@/redux/hooks/useAppSelector";
 import useHasAllChecked from "./useHasAllChecked";
 
 interface IProps {
-  itemId?: number | null;
-  setValueInStore: (id: number, checked: boolean) => void;
+  itemId?: string | null;
+  setValueInStore: (id: string, checked: boolean) => void;
 }
 
 interface IReturnProps {
@@ -29,7 +29,7 @@ const useInputCheckBox = ({ itemId = null, setValueInStore }: IProps): IReturnPr
       id: "check-all",
       setValue() {
         // no parameters needed, just a typescript patch;
-        setValueInStore(-1, false);
+        setValueInStore(" ", false);
       },
       checked: checkAll,
     };

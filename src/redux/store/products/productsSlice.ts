@@ -1,6 +1,6 @@
-import { getGamesFromLocalStorage } from "@/helpers";
-import { IGame, IParams, SortByTypes } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IGame, IParams, SortByTypes } from "@/types";
+import { getGamesFromLocalStorage } from "@/helpers";
 
 interface IProps {
   products: IGame[];
@@ -8,6 +8,9 @@ interface IProps {
   searchGames: IGame[];
   filter: IParams;
   isProductsLoading: boolean;
+  isProductUpdating: boolean;
+  isSearching: boolean;
+  editProduct: IGame | null;
 }
 
 const initialState: IProps = {
@@ -19,8 +22,12 @@ const initialState: IProps = {
     ascend: 1,
     age: 0,
     genre: 1,
+    category: null,
   },
   isProductsLoading: false,
+  isProductUpdating: false,
+  isSearching: false,
+  editProduct: null,
 };
 
 export const productsSlice = createSlice({
@@ -55,8 +62,20 @@ export const productsSlice = createSlice({
     setType(state, action: PayloadAction<string>) {
       state.filter.ascend = action.payload === "Ascending" ? 1 : null;
     },
+    setCategory(state, action: PayloadAction<string | null>) {
+      state.filter.category = action.payload;
+    },
     setIsProductsLoading(state, action: PayloadAction<boolean>) {
       state.isProductsLoading = action.payload;
+    },
+    setIsProductUpdating(state, action: PayloadAction<boolean>) {
+      state.isProductUpdating = action.payload;
+    },
+    setIsSearching(state, action: PayloadAction<boolean>) {
+      state.isSearching = action.payload;
+    },
+    setEditProduct(state, action: PayloadAction<IGame | null>) {
+      state.editProduct = action.payload;
     },
   },
 });
@@ -69,8 +88,12 @@ export const {
   setSortBy,
   setGenre,
   setType,
+  setCategory,
   setSearchGames,
   setIsProductsLoading,
+  setIsProductUpdating,
+  setIsSearching,
+  setEditProduct,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { API } from "@/constants";
-import { IGame, IParams } from "@/types";
+import { IGame, IParams, IProductResponse } from "@/types";
 
-const { topGamesURL, searchRequestURL, gamesURL } = API;
+const { topGamesURL, searchRequestURL, gamesURL, editProduct } = API;
 
 async function getTopGames(): Promise<IGame[] | null> {
   let res;
@@ -36,4 +37,37 @@ async function searchRequest(query: string): Promise<IGame[] | null> {
   return res?.data || null;
 }
 
-export { getTopGames, searchRequest, getGames };
+async function updateProductService(game: IGame): Promise<IProductResponse> {
+  try {
+    const res = await axios.put(editProduct, game);
+    const { data, status } = res;
+    return { data, status };
+  } catch (error: any) {
+    const { data, status } = error.response;
+    return { data, status };
+  }
+}
+
+async function createProductService(game: IGame): Promise<IProductResponse> {
+  try {
+    const res = await axios.post(editProduct, game);
+    const { data, status } = res;
+    return { data, status };
+  } catch (error: any) {
+    const { data, status } = error.response;
+    return { data, status };
+  }
+}
+
+async function deleteProductService(gameId: string): Promise<IProductResponse> {
+  try {
+    const res = await axios.delete(`${editProduct}/${gameId}`);
+    const { data, status } = res;
+    return { data, status };
+  } catch (error: any) {
+    const { data, status } = error.response;
+    return { data, status };
+  }
+}
+
+export { getTopGames, searchRequest, getGames, updateProductService, createProductService, deleteProductService };

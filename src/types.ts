@@ -1,15 +1,15 @@
 interface IGame {
-  id?: number;
+  id: string;
   name: string;
   cover: string;
   minicover: string;
   description: string;
-  rating?: number;
-  platform?: string[];
-  age?: number;
-  year?: number;
-  price?: string | number;
-  genre?: number;
+  rating: number;
+  platform: string[];
+  age: number;
+  year: number;
+  price: string | number;
+  genre: number;
 }
 
 interface IUser {
@@ -19,6 +19,7 @@ interface IUser {
   address?: string;
   phone?: string;
   photo?: string;
+  isAdmin?: boolean;
 }
 
 type AuthFormTypes = "signin" | "signup" | "password";
@@ -31,7 +32,9 @@ interface IAuthForm {
   setAuthFormType: React.Dispatch<React.SetStateAction<AuthFormTypes>>;
 }
 
-type TInput = "text" | "password" | "email" | "tel";
+type TInput = "text" | "password" | "email" | "tel" | "number";
+
+type TModalType = "auth" | "product" | "confirm";
 
 interface IInputProps {
   type?: TInput;
@@ -45,6 +48,11 @@ interface IInputProps {
 }
 
 interface IAuthResponse {
+  data: string;
+  status: number;
+}
+
+interface IProductResponse {
   data: string;
   status: number;
 }
@@ -96,7 +104,7 @@ interface ICartProduct {
 }
 
 interface ICartProducts {
-  [key: number]: ICartProduct;
+  [key: string]: ICartProduct;
 }
 
 interface ICart {
@@ -112,6 +120,7 @@ export {
   TInput,
   IInputProps,
   IAuthResponse,
+  IProductResponse,
   IUserContext,
   IProfile,
   IProfileResponse,
@@ -123,4 +132,5 @@ export {
   ICartProduct,
   ICartProducts,
   ICart,
+  TModalType,
 };

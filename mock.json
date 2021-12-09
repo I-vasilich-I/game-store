@@ -1,4 +1,16 @@
 [
-  { "email": "oleg@email.com", "password": "asdfasdf", "name": "oleg" },
-  { "email": "oleg1@email.com", "password": "asdfasdf", "name": "oleg1" }
+  {
+    "email": "oleg@email.com",
+    "password": "asdfasdf",
+    "name": "Oleg",
+    "address": "STREET",
+    "isAdmin": "false"
+  },
+  {
+    "email": "admin@email.com",
+    "password": "asdfasdf",
+    "name": "Admin",
+    "address": "STREET",
+    "isAdmin": "true"
+  }
 ]

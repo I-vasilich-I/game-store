@@ -30,6 +30,18 @@
     background-color: $transparentBlackColor;
     @include font(1.5rem, 160%, $lightColor);
 
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type="number"] {
+      /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+      -moz-appearance: textfield;
+    }
+
     &:focus {
       outline: 1px solid white;
     }

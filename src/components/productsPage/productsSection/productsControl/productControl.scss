@@ -1,0 +1,14 @@
+.products__control {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  .spin {
+    left: unset;
+    right: 12px;
+    top: 33%;
+  }
+}

@@ -7,6 +7,7 @@ interface IUser {
   address: string | null;
   phone: string | null;
   photo: string | null;
+  isAdmin?: boolean;
 }
 
 interface IUserProp {
@@ -23,6 +24,7 @@ const initialState: IUser = {
   address: user?.address || null,
   phone: user?.phone || null,
   photo: user?.photo || userSVG,
+  isAdmin: user?.isAdmin === "true" || false,
 };
 
 export const userSlice = createSlice({
@@ -35,10 +37,15 @@ export const userSlice = createSlice({
       state.address = action.payload.address;
       state.phone = action.payload.phone;
       state.photo = action.payload.photo || userSVG;
+      state.isAdmin = action.payload.isAdmin;
     },
 
     setUserProp(state, action: PayloadAction<IUserProp>) {
       const { prop, value } = action.payload;
+      if (prop === "isAdmin") {
+        return;
+      }
+
       state[prop] = value;
     },
   },
