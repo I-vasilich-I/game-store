@@ -1,4 +1,3 @@
-import "./inputCheckBox.scss";
 import useInputCheckBox from "@/hooks/useInputCheckBox";
 
 interface IProps {

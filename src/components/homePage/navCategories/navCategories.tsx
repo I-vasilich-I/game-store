@@ -1,4 +1,5 @@
 import "./navCategories.scss";
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 import { CATEGORIES } from "@/constants";
 
@@ -17,4 +18,4 @@ const NavCategories = (): JSX.Element => (
   </nav>
 );
 
-export default NavCategories;
+export default memo(NavCategories);

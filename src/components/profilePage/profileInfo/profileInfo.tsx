@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
@@ -112,4 +112,4 @@ const ProfileInfo = (): JSX.Element => {
   );
 };
 
-export default ProfileInfo;
+export default memo(ProfileInfo);

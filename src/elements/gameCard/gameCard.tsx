@@ -1,4 +1,5 @@
 import "./gameCard.scss";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/store/cart/cartSlice";
 import { openModal, setModalType } from "@/redux/store/modal/modalSlice";
@@ -66,4 +67,4 @@ const GameCard = ({ game }: IProps): JSX.Element => {
   );
 };
 
-export default GameCard;
+export default memo(GameCard);
