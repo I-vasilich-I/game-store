@@ -1,4 +1,3 @@
-import "./homePage.scss";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
@@ -9,6 +8,7 @@ import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer
 import SearchBar from "@/elements/searchbar/searchbar";
 import useSkeleton from "@/hooks/useSkeleton";
 import NavCategories from "./navCategories/navCategories";
+import styles from "./homePage.module.scss";
 
 const HomePage = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -23,14 +23,14 @@ const HomePage = (): JSX.Element => {
   }, []);
 
   return (
-    <div className="wrapper wrapper__home">
+    <div className={`wrapper ${styles.wrapper__home}`}>
       <SearchBar />
-      <section className="section__categories">
+      <section className={styles.section__categories}>
         <Container title="Categories">
           <NavCategories />
         </Container>
       </section>
-      <section className="section__games">
+      <section className={styles.section__games}>
         <Container title="New Games">
           <GameCardsContainer>
             {topProducts.length ? topProducts.map((elem) => <GameCard game={elem} key={elem.id} />) : useSkeleton(3)}
