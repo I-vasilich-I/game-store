@@ -1,0 +1,47 @@
+.nav__categories {
+  width: 100%;
+}
+
+.nav__link {
+  composes: nav__link from "../../../styles/main.module.scss";
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    height: 70px;
+    width: auto;
+  }
+
+  p {
+    color: $grayColor;
+  }
+
+  &:hover {
+    background: initial;
+  }
+}
+
+.nav__items {
+  composes: nav__items from "../../../styles/main.module.scss";
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
+}
+
+.nav__item {
+  composes: nav__item from "../../../styles/main.module.scss";
+  width: 255px;
+  height: 155px;
+  border: 2px solid $lightColor;
+  border-bottom: 8px solid $lightColor;
+  border-radius: 15px;
+
+  &:hover {
+    border-color: $violetColor;
+    box-shadow: 1px 1px 10px $violetColor;
+  }
+}

@@ -5,6 +5,7 @@ const CleanPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpackMockServer = require("webpack-mock-server");
+const compression = require("compression");
 const dev = require("./webpack.dev");
 const assets = require("./webpack.common").assetsPath;
 
@@ -34,7 +35,9 @@ module.exports = (env, argv) => {
         children: false, // disable console.info for node_modules/*
         modules: false,
       },
-      before: (app) =>
+      compress: true,
+      before: (app) => {
+        app.use(compression());
         webpackMockServer.use(app, {
           entry: ["webpack.mock.ts"],
           tsConfigFileName: "tsconfig.json",
@@ -45,7 +48,8 @@ module.exports = (env, argv) => {
             // });
             next();
           },
-        }),
+        });
+      },
       contentBase: assets, // folder with static content
       watchContentBase: true, // enable hot-reload by changes in contentBase folder
     },
