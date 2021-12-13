@@ -6,7 +6,7 @@ interface IProps {
   center?: boolean;
 }
 
-const ContainerDiv = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
   padding: 25px;
   background-color: rgba(0, 0, 0, 0.5);
@@ -14,10 +14,10 @@ const ContainerDiv = styled.div`
 `;
 
 const Container: React.FC<IProps> = ({ title, center, children }) => (
-  <ContainerDiv>
+  <StyledContainer>
     <ContainerTitle title={title} center={center} />
     {children}
-  </ContainerDiv>
+  </StyledContainer>
 );
 
 export default Container;
