@@ -84,7 +84,7 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
             </option>
           ))}
         </select>
-        <div className={customSelectClassName} aria-hidden={isActive} onClick={handleOpen}>
+        <div className={customSelectClassName} aria-label="custom-select" aria-hidden={isActive} onClick={handleOpen}>
           <div className="select__custom-trigger">{selectedValue}</div>
           <div className="select__custom-options">
             {options.map((elem) => (
