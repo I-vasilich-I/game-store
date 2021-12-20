@@ -37,9 +37,10 @@ function* changeProfileInfo({ payload: sendData }: IAction) {
   try {
     const { data, status } = yield call(() => changeProfileInfoService(sendData));
     if (status === 200) {
-      const { name: userName, password, ...rest } = data;
+      const { name: userName, password, isAdmin, ...rest } = data;
+      const isAdminT = isAdmin === "true";
       localStorage.setItem("user", JSON.stringify({ userName, ...rest }));
-      yield put(setUser({ userName, password, ...rest }));
+      yield put(setUser({ userName, password, isAdmin: isAdminT, ...rest }));
       yield put(setAlert("Profile info changed"));
     } else {
       yield put(setError(data));
@@ -60,9 +61,10 @@ function* changeProfilePhoto({ payload: { email, photo } }: IPhotoAction) {
     const photoUrl: string = yield call(() => uploadPhoto(photo));
     const { data, status } = yield call(() => changeProfilePhotoService({ email, photo: photoUrl }));
     if (status === 200) {
-      const { name: userName, password, ...rest } = data;
-      localStorage.setItem("user", JSON.stringify({ userName, ...rest }));
-      yield put(setUser({ userName, password, ...rest }));
+      const { name: userName, password, isAdmin, ...rest } = data;
+      const isAdminT = isAdmin === "true";
+      localStorage.setItem("user", JSON.stringify({ userName, isAdmin: isAdminT, ...rest }));
+      yield put(setUser({ userName, password, isAdmin: isAdminT, ...rest }));
       yield put(setAlert("Profile photo changed"));
     } else {
       yield put(setError(data));
@@ -82,9 +84,10 @@ function* changePassword({ payload: { email, password } }: IPasswordAction) {
   try {
     const { data, status } = yield call(() => changePasswordService({ email, password }));
     if (status === 200) {
-      const { name: userName, password: pass, ...rest } = data;
-      localStorage.setItem("user", JSON.stringify({ userName, ...rest }));
-      yield put(setUser({ userName, password: pass, ...rest }));
+      const { name: userName, password: pass, isAdmin, ...rest } = data;
+      const isAdminT = isAdmin === "true";
+      localStorage.setItem("user", JSON.stringify({ userName, isAdmin: isAdminT, ...rest }));
+      yield put(setUser({ userName, password: pass, isAdmin: isAdminT, ...rest }));
       yield put(setAlert("Password changed"));
       yield put(setStatus(status));
     } else {

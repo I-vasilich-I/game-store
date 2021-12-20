@@ -20,8 +20,9 @@ function* authUser({ payload: { email, password, url } }: IAction) {
     const { data, status } = yield call(() => authenticate({ url, sendData: { email, password } }));
 
     if (status === 200 || status === 201) {
-      const { name: userName, password: passW, ...rest } = data;
-      const newData = { userName, ...rest };
+      const { name: userName, password: passW, isAdmin, ...rest } = data;
+      const isAdminT = isAdmin === "true";
+      const newData = { userName, isAdmin: isAdminT, ...rest };
       localStorage.setItem("user", JSON.stringify(newData));
       yield put(setUser({ password: passW, ...newData }));
       yield put(setStatus(status));
