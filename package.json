@@ -1,7 +1,7 @@
 {
-  "name": "webpack-must-have",
+  "name": "game-store",
   "version": "1.1.1",
-  "description": "Must-have config for Webpack 5",
+  "description": "Game store",
   "main": "main.tsx",
   "scripts": {
     "test": "jest --passWithNoTests",
@@ -21,21 +21,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yegorich555/webpack-must-have.git"
+    "url": "git+https://github.com/I-vasilich-I/game-store.git"
   },
   "keywords": [
-    "React",
-    "Webpack",
-    "ReactJS",
-    "webpack-must-have",
-    "mock"
+    "game",
+    "store"
   ],
-  "author": "Yegor.Golubchik",
+  "authors": [
+    "Oleg Vaskevich",
+    "Elizaveta Buraya",
+    "Yegor Golubchik"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Yegorich555/webpack-must-have/issues"
+    "url": "https://github.com/I-vasilich-I/game-store/issues"
   },
-  "homepage": "https://github.com/Yegorich555/webpack-must-have#readme",
+  "homepage": "https://github.com/I-vasilich-I/game-store#readme",
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -77,11 +78,11 @@
     "husky": "^7.0.1",
     "jest": "^27.4.4",
     "lint-staged": "^11.1.1",
-    "markdownlint": "^0.23.1",
-    "markdownlint-cli": "^0.27.1",
+    "markdownlint": "^0.25.1",
+    "markdownlint-cli": "^0.31.1",
     "mini-css-class-name": "^0.12.2",
     "mini-css-extract-plugin": "^2.1.0",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.1",
     "obsolete-webpack-plugin": "^0.5.6",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.3.6",
@@ -111,7 +112,7 @@
     "webpack": "^5.47.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.7.4",
     "webpack-merge": "^5.8.0",
     "webpack-mock-server": "^1.0.13"
   },

@@ -30,7 +30,7 @@ it("should render container", () => {
   });
 
   expect(pretty(container.innerHTML)).toMatchInlineSnapshot(`
-    "<div class=\\"sc-bdvvtL hPqzfu\\">
+    "<div class=\\"sc-bczRLJ SIAeV\\">
       <h2 class=\\"container__title\\">Title</h2>
     </div>"
   `);
