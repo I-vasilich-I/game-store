@@ -1,5 +1,10 @@
+import { ReactNode } from "react";
 import "./buttonsContainer.scss";
 
-const ButtonsContainer: React.FC = ({ children }) => <div className="buttons__container">{children}</div>;
+interface IProps {
+  children: ReactNode;
+}
+
+const ButtonsContainer = ({ children }: IProps): JSX.Element => <div className="buttons__container">{children}</div>;
 
 export default ButtonsContainer;

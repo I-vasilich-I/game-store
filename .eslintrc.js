@@ -19,8 +19,7 @@ module.exports = {
     browser: true,
   },
   globals: {
-    DEV_SERVER: true,
-    API_DOMAIN: true,
+    DEV: true,
   },
   plugins: ["json", "prettier", "import", "@typescript-eslint", "unused-imports"],
   rules: {
@@ -31,9 +30,9 @@ module.exports = {
         ignoreRestArgs: false,
       },
     ],
+    "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-use-before-define": "error",
-    "require-await": "error",
-    "prettier/prettier": ["error"],
+
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/destructuring-assignment": 0,
     // "react/jsx-max-props-per-line": [1, { maximum: 1 }], //it doesn't work with prettier, you can remove prettier from rules: 'prettier/prettier'...
@@ -44,16 +43,23 @@ module.exports = {
     "react/jsx-props-no-spreading": 0,
     "react/jsx-curly-newline": 0, // it conflicts with prettier
     "react/jsx-wrap-multilines": ["error", { arrow: true, return: true, declaration: true }],
+    "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
+
+    "prettier/prettier": ["error"],
+
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "require-await": "error",
     "spaced-comment": ["error", "always"],
     "unused-imports/no-unused-imports": "error",
-    "no-underscore-dangle": 0,
+    "no-underscore-dangle": "off",
     "no-unused-expressions": ["error", { allowShortCircuit: true }],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-alert": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-param-reassign": ["error", { props: true, ignorePropertyModificationsFor: ["state"] }],
-    "no-plusplus": 0,
-    "class-methods-use-this": 0,
+    "no-plusplus": "off",
+    "class-methods-use-this": "off",
     "max-len": [
       "warn",
       {

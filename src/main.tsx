@@ -1,14 +1,14 @@
 import "./styles/main.scss";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { lazy, StrictMode, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/store";
 import { ROUTES } from "./constants";
 import useModalForm from "./hooks/useModalForm";
+import ErrorBoundary from "./components/errorBoundary/errorBoundary";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import ErrorBoundary from "./components/errorBoundary/errorBoundary";
 import HomePage from "./components/homePage/homePage";
 import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import Modal from "./elements/modal/modal";
@@ -30,26 +30,16 @@ const AppContainer = (): JSX.Element => {
           <Header />
           <Suspense fallback={<Spinner isOn />}>
             <main>
-              <Switch>
-                <Route exact path={home}>
-                  <HomePage />
+              <Routes>
+                <Route path={home} element={<HomePage />} />
+                <Route element={<ProtectedRoutes />}>
+                  <Route path={products.base} element={<ProductsPage />} />
+                  <Route path={products.slug} element={<ProductsPage />} />
+                  <Route path={profile} element={<ProfilePage />} />
+                  <Route path={cart} element={<CartPage />} />
                 </Route>
-                <ProtectedRoutes>
-                  <Route exact path={products.base}>
-                    <ProductsPage />
-                  </Route>
-                  <Route exact path={products.slug}>
-                    <ProductsPage />
-                  </Route>
-                  <Route exact path={profile}>
-                    <ProfilePage />
-                  </Route>
-                  <Route exact path={cart}>
-                    <CartPage />
-                  </Route>
-                </ProtectedRoutes>
-                <Redirect to={home} />
-              </Switch>
+                <Route path="*" element={<Navigate to={home} replace />} />
+              </Routes>
             </main>
           </Suspense>
           <Footer />
@@ -59,9 +49,10 @@ const AppContainer = (): JSX.Element => {
   );
 };
 
-ReactDOM.render(
+const container = document.getElementById("app");
+const root = createRoot(container || document.body);
+root.render(
   <Provider store={store}>
     <AppContainer />
-  </Provider>,
-  document.getElementById("app")
+  </Provider>
 );

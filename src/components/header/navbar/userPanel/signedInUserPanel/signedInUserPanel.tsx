@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/store/user/userSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import { ROUTES } from "@/constants";
+import { carryClassName } from "@/helpers";
 import userSVG from "images/account_circle.svg";
 import logoutSVG from "images/logout.svg";
 import cartSVG from "images/cart.svg";
@@ -13,21 +14,22 @@ const SignedInUserPanel = (): JSX.Element => {
   const dispatch = useDispatch();
   const { userName, photo } = useAppSelector((state) => state.USER);
   const { products } = useAppSelector((state) => state.CART);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { home, profile, cart } = ROUTES;
   const gamesInCart = useMemo(() => Object.values(products).reduce((acc, b) => acc + b.amount, 0), [products]);
   // could be used for different img src, in this case just hiding img on a mobile screen.
   // It makes more sense to use css for this purpose though, but since it just a lab project I use this lib
   const isMobile = useMediaQuery({ query: "(max-width: 350px)" });
+  const getCartLinkClassName = carryClassName("nav__link cart", "nav__link--active");
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     dispatch(setUser({ userName: null, email: null, address: null, phone: null, photo: null, isAdmin: false }));
-    history.push(home);
+    navigate(home);
   };
 
   const handleProfile = () => {
-    history.push(profile);
+    navigate(profile);
   };
 
   return (
@@ -39,7 +41,7 @@ const SignedInUserPanel = (): JSX.Element => {
         </button>
       </li>
       <li className="nav__item">
-        <NavLink to={cart} className="nav__link cart" activeClassName="nav__link--active">
+        <NavLink to={cart} className={({ isActive }) => getCartLinkClassName(isActive)}>
           <img src={cartSVG} alt="cart" />
           <span>{gamesInCart}</span>
         </NavLink>
