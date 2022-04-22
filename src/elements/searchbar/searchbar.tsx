@@ -1,7 +1,7 @@
 import "./searchbar.scss";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import { setSearchGames } from "@/redux/store/products/productsSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";

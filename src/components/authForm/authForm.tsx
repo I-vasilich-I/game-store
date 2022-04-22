@@ -1,6 +1,6 @@
 import "./authForm.scss";
 import { FormEvent, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
@@ -20,7 +20,7 @@ const AuthForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const { authFormType, status, isLoading } = useAppSelector((state) => state.FORM);
   const { email } = useAppSelector((state) => state.USER);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -130,13 +130,13 @@ const AuthForm = (): JSX.Element => {
     }
 
     if (status === 201) {
-      history.push(profile);
+      navigate(profile);
     }
 
     const from = (location.state as TLocationState)?.from;
 
     if (from?.pathname) {
-      history.replace(from.pathname);
+      navigate(from.pathname, { replace: true });
     }
 
     dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });

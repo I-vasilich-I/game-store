@@ -1,17 +1,22 @@
 import "./productsDropDown.scss";
 import { NavLink } from "react-router-dom";
 import { CATEGORIES } from "@/constants";
+import { carryClassName } from "@/helpers";
 
-const ProductsDropDown = (): JSX.Element => (
-  <ul className="dropdown__content">
-    {CATEGORIES.map(({ link, name }) => (
-      <li key={name} className="dropdown__nav__item">
-        <NavLink to={link} className="dropdown__nav__link" activeClassName="dropdown__nav__link--active">
-          {name}
-        </NavLink>
-      </li>
-    ))}
-  </ul>
-);
+const ProductsDropDown = (): JSX.Element => {
+  const getLinkClassName = carryClassName("dropdown__nav__link", "dropdown__nav__link--active");
+
+  return (
+    <ul className="dropdown__content">
+      {CATEGORIES.map(({ link, name }) => (
+        <li key={name} className="dropdown__nav__item">
+          <NavLink to={link} className={({ isActive }) => getLinkClassName(isActive)}>
+            {name}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 export default ProductsDropDown;

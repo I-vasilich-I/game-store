@@ -18,12 +18,12 @@ interface IProps {
 const useGetProducts = (): IProps => {
   const dispatch = useDispatch();
   const { products, filter, isProductsLoading } = useAppSelector((state) => state.PRODUCTS);
-  const { slug } = useParams<IRouterParams>();
+  const { slug } = useParams<Readonly<IRouterParams>>();
 
   useEffect(() => {
     dispatch(setCategory(slug || null));
     dispatch({ type: SAGA_ACTIONS.GET_PRODUCTS });
-  }, [filter]);
+  }, [slug, filter]);
 
   return { products, isProductsLoading };
 };

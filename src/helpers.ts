@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import { VALIDATE } from "./constants";
 import { ICartProducts, IGame, TInput } from "./types";
 
@@ -37,4 +38,9 @@ function getCartProductsFromLocalStorage(): ICartProducts | null {
 
 const validateValue = (value: string, type: TInput): boolean => VALIDATE[type](value);
 
-export { getGamesFromLocalStorage, validateValue, getCartProductsFromLocalStorage };
+const carryClassName =
+  (main: string, active: string) =>
+  (isActive: boolean): string =>
+    classnames(main, { [active]: isActive });
+
+export { getGamesFromLocalStorage, validateValue, getCartProductsFromLocalStorage, carryClassName };

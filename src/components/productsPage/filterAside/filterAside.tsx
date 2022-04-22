@@ -1,6 +1,6 @@
 import "./filterAside.scss";
-import Container from "@/elements/container/container";
 import { useParams } from "react-router-dom";
+import Container from "@/elements/container/container";
 import AgeSection from "./ageSection/ageSection";
 import GenreSection from "./genreSection/genreSection";
 import SortSection from "./sortSection/sortSection";
@@ -10,7 +10,7 @@ interface IRouterParams {
 }
 
 const FilterAside = (): JSX.Element => {
-  const { slug } = useParams<IRouterParams>();
+  const { slug } = useParams<Readonly<IRouterParams>>();
 
   return (
     <aside className="aside__filter">

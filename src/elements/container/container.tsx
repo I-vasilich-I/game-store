@@ -1,9 +1,11 @@
+import { ReactNode } from "react";
 import styled from "styled-components";
 import ContainerTitle from "../containerTitle/containerTitle";
 
 interface IProps {
   title: string;
   center?: boolean;
+  children?: ReactNode;
 }
 
 const StyledContainer = styled.div`

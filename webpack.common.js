@@ -5,15 +5,13 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const PreloadPlugin = require("preload-webpack-plugin");
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MinifyCssNames = require("mini-css-class-name/css-loader");
-const ObsoleteWebpackPlugin = require("obsolete-webpack-plugin");
-const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+// const ObsoleteWebpackPlugin = require("obsolete-webpack-plugin");
+// const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const svgToMiniDataURI = require("mini-svg-data-uri");
 const path = require("path");
-const browserslist = require("browserslist");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
@@ -46,6 +44,7 @@ module.exports = function (env, argv) {
       filename: "[name].js",
       chunkFilename: "[name].js",
       publicPath: "/", // url that should be used for providing assets
+      clean: true,
     },
     resolve: {
       extensions: [".js", ".jsx", ".ts", ".tsx"], // using import without file-extensions
@@ -104,60 +103,61 @@ module.exports = function (env, argv) {
         // rule for images
         {
           test: /\.(png|jpe?g|gif|webp)(\?.*)?$/, // optional: optimizing images via pngo etc.
-          exclude: /(node_modules)/,
-          use: [
-            {
-              loader: "url-loader", // it converts images that have size less 'limit' option into inline base64-css-format
-              options: {
-                name: "images/[name].[ext]",
-                limit: filesThreshold, // if file-size more then limit, file-loader copies one into outputPath
-                // by default it uses fallback: 'file-loader'
-                // optional: fallback: 'responsive-loader' //it converts image to multiple images using srcset (IE isn't supported): https://caniuse.com/#search=srcset
-              },
+          type: "asset",
+          generator: {
+            filename: "images/[name][ext][query]", // [hash][ext][query]",
+          },
+          parser: {
+            // it converts images that have size less 'limit' option into inline base64-css-format
+            dataUrlCondition: {
+              maxSize: filesThreshold, // if file-size more then limit, file-loader copies one into outputPath
             },
-          ],
+          },
         },
         // rule for svg-images
         {
           test: /\.(svg)(\?.*)?$/, // for reducing file-size: OptimizeCSSAssetsPlugin > cssnano > SVGO, that congigured in webpack.prod.js
-          exclude: /(node_modules)|(fonts\\.+\.svg)(\?.*)?/,
-          use: [
-            {
-              loader: "svg-url-loader", // despite url-loader that converts images into base64 format it converts images to native svg-css format
-              options: {
-                limit: filesThreshold,
-                iesafe: filesThreshold >= 4000 && !!browserslist.data.ie, // https://github.com/bhovhannes/svg-url-loader#iesafe
-                name: "images/[name].[ext]", // if file-size more then limit, [file-loader] copies ones into outputPath
-              },
+          exclude: /(fonts\\.+\.svg)(\?.*)?/,
+          type: "asset",
+          generator: {
+            filename: "images/[name][ext][query]", // [hash][ext][query]",
+            dataUrl: (content) => svgToMiniDataURI(content.toString()),
+          },
+          parser: {
+            // it converts images that have size less 'limit' option into inline base64-css-format
+            dataUrlCondition: {
+              maxSize: filesThreshold, // if file-size more then limit, file-loader copies one into outputPath
             },
-          ],
+          },
         },
         // rule for fonts
         {
           test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
-          use: [
-            {
-              loader: "url-loader",
-              options: {
-                limit: filesThreshold,
-                name: "fonts/[name].[ext]", // if file-size more then limit, [file-loader] copies ones into outputPath
-              },
+          type: "asset",
+          generator: {
+            filename: "fonts/[name][ext][query]", // [hash][ext][query]",
+          },
+          parser: {
+            // it converts images that have size less 'limit' option into inline base64-css-format
+            dataUrlCondition: {
+              maxSize: filesThreshold, // if file-size more then limit, file-loader copies one into outputPath
             },
-          ],
+          },
         },
         // special rule for fonts in svg-format
         {
           test: /(fonts\\.+\.svg)(\?.*)?$/i, // for reducing file-size: OptimizeCSSAssetsPlugin > cssnano > SVGO, that congigured in webpack.prod.js
-          use: [
-            {
-              loader: "svg-url-loader", // despite url-loader that converts images into base64 format it converts images to native svg-css format
-              options: {
-                limit: filesThreshold,
-                iesafe: filesThreshold >= 4000 && !!browserslist.data.ie, // https://github.com/bhovhannes/svg-url-loader#iesafe
-                name: "fonts/[name].[ext]", // if file-size more then limit,  [file-loader] copies ones into outputPath
-              },
+          type: "asset",
+          generator: {
+            filename: "fonts/[name][ext][query]", // [hash][ext][query]",
+            dataUrl: (content) => svgToMiniDataURI(content.toString()),
+          },
+          parser: {
+            // it converts images that have size less 'limit' option into inline base64-css-format
+            dataUrlCondition: {
+              maxSize: filesThreshold, // if file-size more then limit, file-loader copies one into outputPath
             },
-          ],
+          },
         },
         // rules for style-files
         {
@@ -166,24 +166,18 @@ module.exports = function (env, argv) {
             isDevServer
               ? "style-loader" // it extracts style directly into html (MiniCssExtractPlugin works incorrect with hmr and modules architecture)
               : MiniCssExtractPlugin.loader, // it extracts styles into file *.css
-            // TODO: improve plugin for splitting by files for dev purpose
             {
               loader: "css-loader", // it interprets @import and url() like import/require() and it resolves them (you can use [import *.css] into *.js).
               options: {
                 modules: {
                   auto: /\.module\.\w+$/, // enable css-modules option for files *.module*.
                   getLocalIdent: isDevMode
-                    ? (loaderContext, _localIdentName, localName, options) => {
+                    ? (() => {
                         // it simplifies classNames fo debug purpose
-                        const request = path
-                          .relative(options.context || "", loaderContext.resourcePath)
-                          .replace(`src${path.sep}`, "")
-                          .replace(".module.css", "")
-                          .replace(".module.scss", "")
-                          .replace(/\\|\//g, "-")
-                          .replace(/\./g, "_");
-                        return `${request}__${localName}`;
-                      }
+                        const getHash = MinifyCssNames();
+                        return (context, localIdentName, localName, options) =>
+                          `${localName}_${getHash(context, localIdentName, localName, options)}`;
+                      })()
                     : MinifyCssNames(
                         // minify classNames for prod-build
                         { excludePattern: /[_dD]/gi } // exclude '_','d','D' because Adblock blocks '%ad%' classNames
@@ -207,7 +201,7 @@ module.exports = function (env, argv) {
     },
     plugins: [
       new webpack.WatchIgnorePlugin({ paths: [/\.d\.ts$/] }), // ignore d.ts files in --watch mode
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // it adds force-ignoring unused parts of modules like moment/locale/*.js
+      new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }), // it adds force-ignoring unused parts of modules like moment/locale/*.js
       new webpack.DefinePlugin({
         // it adds custom Global definition to the project like BASE_URL for index.html
         "process.env": {
@@ -219,7 +213,6 @@ module.exports = function (env, argv) {
         "global.VERBOSE": JSON.stringify(false),
       }),
       new CaseSensitivePathsPlugin(), // it fixes bugs between OS in caseSensitivePaths (since Windows isn't CaseSensitive but Linux is)
-      new FriendlyErrorsWebpackPlugin(), // it provides user-friendly errors from webpack (since the last has ugly useless bug-report)
       new HtmlWebpackPlugin({
         // it creates *.html with injecting js and css into template
         template: path.resolve(srcPath, "index.html"),
@@ -250,7 +243,6 @@ module.exports = function (env, argv) {
         filename: isDevMode ? "[name].css" : "[name].[contenthash].css",
         chunkFilename: isDevMode ? "[id].css" : "[id].[contenthash].css",
       }),
-      new CleanPlugin.CleanWebpackPlugin(), // it cleans output folder before extracting files
       // it copies files like images, fonts etc. from 'public' path to 'destPath' (since not every file will be injected into css and js)
       new CopyWebpackPlugin({
         patterns: [
@@ -265,16 +257,17 @@ module.exports = function (env, argv) {
       new webpack.ProvidePlugin({
         React: "react", // optional: react. it adds [import React from 'react'] as ES6 module to every file into the project
       }),
-      new ObsoleteWebpackPlugin({
-        // optional: browser: provides popup via alert-script if browser unsupported (according to .browserlistrc)
-        name: "obsolete",
-        promptOnNonTargetBrowser: true, // show popup if browser is not listed in .browserlistrc
-        // optional: browser: [template: 'html string here']
-      }),
-      new ScriptExtHtmlWebpackPlugin({
-        // it adds to obsolete-plugin-script 'async' tag (for perfomance puprpose)
-        async: "obsolete",
-      }),
+      // todo issue `rBrowser.exec is not a function`
+      // new ObsoleteWebpackPlugin({
+      //   // optional: browser: provides popup via alert-script if browser unsupported (according to .browserlistrc)
+      //   name: "obsolete",
+      //   promptOnNonTargetBrowser: true, // show popup if browser is not listed in .browserlistrc
+      //   // optional: browser: [template: 'html string here']
+      // }),
+      // new ScriptExtHtmlWebpackPlugin({
+      //   // it adds to obsolete-plugin-script 'async' tag (for perfomance puprpose)
+      //   async: "obsolete",
+      // }),
       // optional: new BundleAnalyzerPlugin() // creates bundles-map in browser https://github.com/webpack-contrib/webpack-bundle-analyzer
       new BundleAnalyzerPlugin(),
     ],

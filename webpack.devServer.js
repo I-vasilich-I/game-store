@@ -1,29 +1,37 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-extraneous-dependencies */
 const { merge } = require("webpack-merge");
-const CleanPlugin = require("clean-webpack-plugin");
+// const CleanPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpackMockServer = require("webpack-mock-server");
+const path = require("path");
 const compression = require("compression");
 const dev = require("./webpack.dev");
 const assets = require("./webpack.common").assetsPath;
 
 module.exports = (env, argv) => {
   const devConfig = dev(env, argv);
+  const { proxy } = env;
 
   function remove(searchFunction) {
     devConfig.plugins.splice(devConfig.plugins.findIndex(searchFunction), 1);
   }
   // remove plugins because these aren't required for devServer
-  remove((a) => a instanceof CleanPlugin.CleanWebpackPlugin);
+  // remove((a) => a instanceof CleanPlugin.CleanWebpackPlugin);
   remove((a) => a instanceof CopyWebpackPlugin);
   remove((a) => a instanceof MiniCssExtractPlugin);
 
   /** @type {import('webpack').Configuration} */
   const extendedConfig = {
     target: "web", // force target otherwise HMR doesn't work for style-loader
+    /** @type {import('webpack-dev-server').Configuration} */
     devServer: {
+      // proxy config will be remove if target is empty
+      proxy: {
+        // requires for ignoring CORS issues
+        "/api": { target: proxy, changeOrigin: true, withCredentials: true, secure: false },
+      },
       hot: true,
       historyApiFallback: {
         // provide index.html instead of 404:not found error (for SPA app)
@@ -31,14 +39,16 @@ module.exports = (env, argv) => {
           { from: /favicon.ico/, to: "public/favicon.ico" }, // provide favicon
         ],
       }, // it enables HTML5 mode: https://developer.mozilla.org/en-US/docs/Web/API/History
-      stats: {
-        children: false, // disable console.info for node_modules/*
-        modules: false,
+      devMiddleware: {
+        stats: {
+          children: false, // disable console.info for node_modules/*
+          modules: false,
+        },
       },
       compress: true,
-      before: (app) => {
-        app.use(compression());
-        webpackMockServer.use(app, {
+      onBeforeSetupMiddleware: (devServer) => {
+        devServer.app.use(compression());
+        webpackMockServer.use(devServer.app, {
           entry: ["webpack.mock.ts"],
           tsConfigFileName: "tsconfig.json",
           before: (req, res, next) => {
@@ -50,10 +60,19 @@ module.exports = (env, argv) => {
           },
         });
       },
-      contentBase: assets, // folder with static content
-      watchContentBase: true, // enable hot-reload by changes in contentBase folder
+      static: {
+        directory: path.resolve(__dirname, assets), // folder with static content
+        watch: true, // enable hot-reload by changes in contentBase folder
+      },
     },
   };
+
+  if (proxy) {
+    delete extendedConfig.devServer.onBeforeSetupMiddleware;
+    console.log("<i> Proxy configured. webpack-mock-server is removed from config");
+  } else {
+    delete extendedConfig.devServer.proxy;
+  }
 
   return merge(devConfig, extendedConfig);
 };

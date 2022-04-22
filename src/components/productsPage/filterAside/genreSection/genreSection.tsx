@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import { setGenre } from "@/redux/store/products/productsSlice";
 import ContainerTitle from "@/elements/containerTitle/containerTitle";
 import InputRadioOptions from "@/elements/inputRadioOptions/inputRadioOptions";

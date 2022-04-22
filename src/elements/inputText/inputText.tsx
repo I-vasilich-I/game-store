@@ -1,6 +1,6 @@
 import "./inputText.scss";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import { IInputProps } from "@/types";
 import ValidationMessage from "../validationMessage/validationMessage";
 

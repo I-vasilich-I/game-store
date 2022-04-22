@@ -97,18 +97,16 @@ const ProfileInfo = (): JSX.Element => {
   }, [inputUserName, inputEmail, inputAddress, inputPhone]);
 
   return (
-    <>
-      <div className="info__container">
-        {formContent.map((el) => (
-          <InputText key={el.id} {...el} />
-        ))}
-        <button type="button" className="submit-btn" disabled={!isValidToSubmit || isSaving} onClick={handleClick}>
-          Save
-          <Spinner isOn={isSaving} />
-        </button>
-        <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
-      </div>
-    </>
+    <div className="info__container">
+      {formContent.map((el) => (
+        <InputText key={el.id} {...el} />
+      ))}
+      <button type="button" className="submit-btn" disabled={!isValidToSubmit || isSaving} onClick={handleClick}>
+        Save
+        <Spinner isOn={isSaving} />
+      </button>
+      <ValidationMessage isValid={hasChangedFields} message={changeInfo} />
+    </div>
   );
 };
 

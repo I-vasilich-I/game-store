@@ -1,5 +1,10 @@
 import "./gameCardsContainer.scss";
+import { ReactNode } from "react";
 
-const GameCardsContainer: React.FC = ({ children }) => <div className="game-cards__container">{children}</div>;
+interface IProps {
+  children: ReactNode;
+}
+
+const GameCardsContainer: React.FC<IProps> = ({ children }) => <div className="game-cards__container">{children}</div>;
 
 export default GameCardsContainer;
