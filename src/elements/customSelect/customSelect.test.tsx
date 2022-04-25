@@ -1,9 +1,10 @@
 import "@testing-library/jest-dom";
-import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, screen } from "@testing-library/react";
 import customRender from "@/test-utils";
 import CustomSelect from "./customSelect";
 
+// TODO re-try to use userEvent.click later - now it doesn't work on React 18 (works fine on < 18);
+// switched to fireEvent
 test("Custom select", () => {
   const options = ["one", "two", "three"];
   customRender(<CustomSelect options={options} label="test-select" />);
@@ -19,7 +20,7 @@ test("Custom select", () => {
 
   if (customSelect) {
     // open custom select
-    userEvent.click(customSelect);
+    fireEvent.click(customSelect);
     expect(customSelect).toHaveClass("is-active");
 
     // does custom select have passed options
@@ -27,7 +28,7 @@ test("Custom select", () => {
     expect(customSelectOptions.length).toBe(options.length);
 
     // click on option
-    userEvent.click(customSelectOptions[1]);
+    fireEvent.click(customSelectOptions[1]);
     expect(nativeSelect).toHaveValue(options[1]);
     expect(customSelect).not.toHaveClass("is-active");
   }

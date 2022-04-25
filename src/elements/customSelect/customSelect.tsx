@@ -42,7 +42,7 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
 
   const handleOutsideClick = (e: Event) => {
     const element = e.target as HTMLElement;
-    const didClickOutside = !customSelectRef.current?.contains(element);
+    const didClickOutside = customSelectRef.current && !customSelectRef.current.contains(element);
     if (didClickOutside && isActive) {
       setIsActive(false);
     }
@@ -84,7 +84,13 @@ const CustomSelect: React.FC<IProps> = ({ options, selectedOption = -1, label, d
             </option>
           ))}
         </select>
-        <div className={customSelectClassName} aria-label="custom-select" aria-hidden={isActive} onClick={handleOpen}>
+        <div
+          ref={customSelectRef}
+          className={customSelectClassName}
+          aria-label="custom-select"
+          aria-hidden={isActive}
+          onClick={handleOpen}
+        >
           <div className="select__custom-trigger">{selectedValue}</div>
           <div className="select__custom-options">
             {options.map((elem) => (
