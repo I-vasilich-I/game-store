@@ -29,6 +29,8 @@ const {
   products: { pc, ps, xbox },
 } = ROUTES;
 
+const PRODUCTS_SLUGS = ["pc", "ps", "xbox"];
+
 const CATEGORIES = [
   {
     link: pc,
@@ -171,4 +173,5 @@ export {
   PLATFORMS,
   PRODUCT_GENRES,
   MODAL_TYPES,
+  PRODUCTS_SLUGS,
 };

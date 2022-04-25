@@ -14,7 +14,7 @@ const FilterAside = (): JSX.Element => {
 
   return (
     <aside className="aside__filter">
-      <Container title={slug?.toUpperCase() || "PC"} center>
+      <Container title={slug?.toUpperCase() || "All"} center>
         <form className="filter__form">
           <SortSection />
           <GenreSection />
