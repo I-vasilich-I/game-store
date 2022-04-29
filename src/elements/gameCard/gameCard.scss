@@ -18,7 +18,9 @@
   height: 470px;
   perspective: 700px;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:focus-within {
     .card {
       transform: translate(-100%) rotateY(-180deg);
     }
