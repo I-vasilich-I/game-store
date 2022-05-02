@@ -1,5 +1,7 @@
 # Game Store
 
+Project made with usage of Redux-Toolkit + Redux-Saga.
+
 ## How to run project
 
 1. Open project in VSCode (for example)
