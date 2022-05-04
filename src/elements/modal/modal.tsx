@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setAlert, setError, setModalType } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import onCloseModal from "@/redux/thunk/modalThunk/modalThunk";
 import closeSVG from "images/clear.svg";
 import Alert from "../alert/alert";
 
@@ -26,7 +26,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
 
   const dispatch = useDispatch();
   const { error, alert, modalType } = useAppSelector((state) => state.MODAL);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const handleTabKey = (e: KeyboardEvent) => {
     const focusableModalElements = modalRef?.current?.querySelectorAll<HTMLElement>(
@@ -61,7 +61,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
       return;
     }
 
-    dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+    dispatch(onCloseModal());
   };
 
   const keyListenersMap = new Map([
@@ -100,7 +100,7 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
 
     const timer = setTimeout(() => {
       dispatch(setAlert(""));
-      dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+      dispatch(onCloseModal());
     }, 2000);
 
     return () => clearTimeout(timer);

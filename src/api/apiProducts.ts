@@ -5,7 +5,7 @@ import { IGame, IParams, IProductResponse } from "@/types";
 
 const { topGamesURL, searchRequestURL, gamesURL, editProduct } = API;
 
-async function getTopGames(): Promise<IGame[] | null> {
+async function getTopGames(): Promise<IGame[]> {
   let res;
   try {
     res = await axios.get<IGame[]>(topGamesURL);
@@ -13,10 +13,10 @@ async function getTopGames(): Promise<IGame[] | null> {
     console.error(error);
   }
 
-  return res?.data || null;
+  return res?.data || [];
 }
 
-async function getGames(params: IParams): Promise<IGame[] | null> {
+async function getGames(params: IParams): Promise<IGame[]> {
   let res;
   try {
     res = await axios.get<IGame[]>(gamesURL, { params });
@@ -24,17 +24,17 @@ async function getGames(params: IParams): Promise<IGame[] | null> {
     console.error(error);
   }
 
-  return res?.data || null;
+  return res?.data || [];
 }
 
-async function searchRequest(query: string): Promise<IGame[] | null> {
+async function searchRequest(query: string): Promise<IGame[]> {
   let res;
   try {
     res = await axios.get<IGame[]>(`${searchRequestURL}${query}`);
   } catch (error) {
     console.error(error);
   }
-  return res?.data || null;
+  return res?.data || [];
 }
 
 async function updateProductService(game: IGame): Promise<IProductResponse> {

@@ -3,7 +3,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import authUser from "@/redux/thunk/authThunk/authThunk";
+import onCloseModal from "@/redux/thunk/modalThunk/modalThunk";
+import { changeProfilePassword } from "@/redux/thunk/profileThunk/profileThunk";
 import { IInputProps } from "@/types";
 import { AUTH_FORM_URLS, FORM_TITLES, ROUTES, VALIDATE, VALIDATION_MESSAGES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
@@ -93,7 +95,7 @@ const AuthForm = (): JSX.Element => {
     e.preventDefault();
 
     if (authFormType === "password") {
-      dispatch({ type: SAGA_ACTIONS.PROFILE_CHANGE_PASSWORD, payload: { email, password } });
+      dispatch(changeProfilePassword({ email, password }));
       return;
     }
 
@@ -103,7 +105,7 @@ const AuthForm = (): JSX.Element => {
       url,
     };
 
-    dispatch({ type: SAGA_ACTIONS.AUTH_USER, payload: sendData });
+    dispatch(authUser(sendData));
   };
 
   useEffect(() => {
@@ -139,7 +141,7 @@ const AuthForm = (): JSX.Element => {
       navigate(from.pathname, { replace: true });
     }
 
-    dispatch({ type: SAGA_ACTIONS.MODAL_CLOSE });
+    dispatch(onCloseModal());
   }, [status]);
 
   return (

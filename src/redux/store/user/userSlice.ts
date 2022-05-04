@@ -1,3 +1,4 @@
+import authUser from "@/redux/thunk/authThunk/authThunk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import userSVG from "images/account_circle.svg";
 
@@ -48,6 +49,16 @@ export const userSlice = createSlice({
 
       state[prop] = value;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(authUser.fulfilled, (state, { payload: { userName, isAdmin, email, address, phone, photo } }) => {
+      state.userName = userName;
+      state.email = email;
+      state.address = address;
+      state.phone = phone;
+      state.photo = photo;
+      state.isAdmin = isAdmin;
+    });
   },
 });
 

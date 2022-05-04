@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import Spinner from "@/elements/spinner/spinner";
+import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { setAuthFormType } from "@/redux/store/form/formSlice";
 import { openModal } from "@/redux/store/modal/modalSlice";
+import { changeProfilePhoto } from "@/redux/thunk/profileThunk/profileThunk";
 import userSVG from "images/account_circle.svg";
-import { useDispatch } from "react-redux";
+import Spinner from "@/elements/spinner/spinner";
 
 const ProfilePhoto = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -13,10 +13,7 @@ const ProfilePhoto = (): JSX.Element => {
   const { isPhotoLoading } = useAppSelector((state) => state.FORM);
   const onImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      dispatch({
-        type: SAGA_ACTIONS.PROFILE_CHANGE_PHOTO,
-        payload: { email, photo: e.target.files[0] },
-      });
+      dispatch(changeProfilePhoto({ email, photo: e.target.files[0] }));
     }
   };
 

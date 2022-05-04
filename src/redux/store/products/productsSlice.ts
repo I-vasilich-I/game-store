@@ -1,6 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGame, IParams, SortByTypes } from "@/types";
 import { getGamesFromLocalStorage } from "@/helpers";
+import {
+  createProduct,
+  deleteProduct,
+  getProducts,
+  getTopProducts,
+  searchProducts,
+  updateProduct,
+} from "@/redux/thunk/productsThunk/productsThunk";
 
 interface IProps {
   products: IGame[];
@@ -77,6 +85,64 @@ export const productsSlice = createSlice({
     setEditProduct(state, action: PayloadAction<IGame | null>) {
       state.editProduct = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    // get products
+    builder.addCase(getProducts.fulfilled, (state, action) => {
+      state.products = action.payload;
+      state.isProductsLoading = false;
+    });
+    builder.addCase(getProducts.pending, (state) => {
+      state.isProductsLoading = true;
+    });
+    builder.addCase(getProducts.rejected, (state) => {
+      state.isProductsLoading = false;
+    });
+    // get top products
+    builder.addCase(getTopProducts.fulfilled, (state, action) => {
+      state.topProducts = action.payload;
+    });
+    // search products
+    builder.addCase(searchProducts.fulfilled, (state, action) => {
+      state.searchGames = action.payload;
+      state.isSearching = false;
+    });
+    builder.addCase(searchProducts.pending, (state) => {
+      state.isSearching = true;
+    });
+    builder.addCase(searchProducts.rejected, (state) => {
+      state.isSearching = false;
+    });
+    // update product
+    builder.addCase(updateProduct.fulfilled, (state) => {
+      state.isProductUpdating = false;
+    });
+    builder.addCase(updateProduct.pending, (state) => {
+      state.isProductUpdating = true;
+    });
+    builder.addCase(updateProduct.rejected, (state) => {
+      state.isProductUpdating = false;
+    });
+    // delete product
+    builder.addCase(deleteProduct.fulfilled, (state) => {
+      state.isProductUpdating = false;
+    });
+    builder.addCase(deleteProduct.pending, (state) => {
+      state.isProductUpdating = true;
+    });
+    builder.addCase(deleteProduct.rejected, (state) => {
+      state.isProductUpdating = false;
+    });
+    // create product
+    builder.addCase(createProduct.fulfilled, (state) => {
+      state.isProductUpdating = false;
+    });
+    builder.addCase(createProduct.pending, (state) => {
+      state.isProductUpdating = true;
+    });
+    builder.addCase(createProduct.rejected, (state) => {
+      state.isProductUpdating = false;
+    });
   },
 });
 

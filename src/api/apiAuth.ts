@@ -1,12 +1,12 @@
 import axios from "axios";
-import { IAuthResponse, IUser } from "@/types";
+import { IUser } from "@/types";
 
 interface IProps {
   sendData: IUser;
   url: string;
 }
 
-async function authenticate({ url, sendData }: IProps): Promise<IAuthResponse> {
+async function authenticate({ url, sendData }: IProps) {
   try {
     const res = await axios.post(url, sendData);
     const { data, status } = res;

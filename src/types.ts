@@ -71,7 +71,7 @@ interface IProfile {
 }
 
 interface IProfileResponse {
-  data: IProfile;
+  data: IProfile | string;
   status: number;
 }
 

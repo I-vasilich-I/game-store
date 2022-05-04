@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import { getTopProducts } from "@/redux/thunk/productsThunk/productsThunk";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
@@ -19,7 +19,7 @@ const HomePage = (): JSX.Element => {
       return;
     }
 
-    dispatch({ type: SAGA_ACTIONS.GET_TOP_PRODUCTS });
+    dispatch(getTopProducts());
   }, []);
 
   return (

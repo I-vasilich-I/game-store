@@ -3,8 +3,8 @@ import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEditProduct } from "@/redux/store/products/productsSlice";
 import { setError, setModalType } from "@/redux/store/modal/modalSlice";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import useAppSelector from "@/redux/hooks/useAppSelector";
+import { updateProduct } from "@/redux/thunk/productsThunk/productsThunk";
 import { IGame, IInputProps } from "@/types";
 import { AGES, GENRES, PRODUCT_GENRES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
@@ -27,7 +27,6 @@ const ProductForm = (): JSX.Element => {
   const isPlatformSelected = Boolean(platformsArr.length);
   const selectedAge = AGES.findIndex((elem) => elem === age);
   const ageOptions = AGES.map((elem) => `${elem}+`);
-
   const selectedCategory = PRODUCT_GENRES.findIndex((elem) => elem === category);
 
   const textInputsArray: IInputProps[] = [
@@ -114,11 +113,11 @@ const ProductForm = (): JSX.Element => {
     }
 
     if (editProduct) {
-      dispatch({ type: SAGA_ACTIONS.UPDATE_PRODUCT, payload: getNewGameData() });
+      dispatch(updateProduct(getNewGameData()));
       return;
     }
 
-    dispatch({ type: SAGA_ACTIONS.CREATE_PRODUCT, payload: getNewGameData() });
+    dispatch(createProduct(getNewGameData()));
   };
 
   const handleDelete = () => {

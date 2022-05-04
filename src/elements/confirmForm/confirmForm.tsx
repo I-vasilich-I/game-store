@@ -2,14 +2,16 @@ import "./confirmForm.scss";
 import { useDispatch } from "react-redux";
 import { setModalType } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import { deleteProduct } from "@/redux/thunk/productsThunk/productsThunk";
 
 const ConfirmForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const { editProduct } = useAppSelector((state) => state.PRODUCTS);
   const handleYes = () => {
     dispatch(setModalType("product"));
-    dispatch({ type: SAGA_ACTIONS.DELETE_PRODUCT, payload: editProduct?.id });
+    if (editProduct) {
+      dispatch(deleteProduct(editProduct.id));
+    }
   };
 
   const handleNo = () => {

@@ -84,15 +84,18 @@ const GAME_COMPANIES = {
   },
 };
 
+const API_BASE_DEV = "http://localhost:8080/api/";
+const API_BASE = API_BASE_DEV;
+
 const API = {
-  topGamesURL: "http://localhost:8080/api/getTopProducts",
-  gamesURL: "http://localhost:8080/api/products",
-  searchRequestURL: "http://localhost:8080/api/search/",
-  changeProfileInfo: "http://localhost:8080/api/saveProfile",
-  changeProfilePhoto: "http://localhost:8080/api/changePhoto",
+  topGamesURL: `${API_BASE}getTopProducts`,
+  gamesURL: `${API_BASE}products`,
+  searchRequestURL: `${API_BASE}search/`,
+  changeProfileInfo: `${API_BASE}saveProfile`,
+  changeProfilePhoto: `${API_BASE}changePhoto`,
   photoUploadURL: "https://api.cloudinary.com/v1_1/vasilich/image/upload",
-  changePasswordURL: "http://localhost:8080/api/changePassword",
-  editProduct: "http://localhost:8080/api/product",
+  changePasswordURL: `${API_BASE}changePassword`,
+  editProduct: `${API_BASE}product`,
 };
 
 const ERROR_MESSAGES = {
@@ -129,9 +132,9 @@ const FORM_TITLES = {
 };
 
 const AUTH_FORM_URLS = {
-  signin: "http://localhost:8080/api/auth/signIn",
-  signup: "http://localhost:8080/api/auth/signUp",
-  password: "http://localhost:8080/api/changePassword",
+  signin: `${API_BASE}auth/signIn`,
+  signup: `${API_BASE}auth/signUp`,
+  password: `${API_BASE}changePassword`,
 };
 
 const GENRES = ["All genres", "Shooter", "Arcade", "Survive"];
@@ -160,6 +163,7 @@ const MODAL_TYPES = {
 export {
   ROUTES,
   GAME_COMPANIES,
+  API_BASE,
   API,
   CATEGORIES,
   ERROR_MESSAGES,

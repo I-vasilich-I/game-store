@@ -1,13 +1,13 @@
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
 import { IInputProps } from "@/types";
 import { VALIDATION_MESSAGES } from "@/constants";
 import { validateValue } from "@/helpers";
 import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
+import { changeProfileInfo } from "@/redux/thunk/profileThunk/profileThunk";
 
 const ProfileInfo = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ const ProfileInfo = (): JSX.Element => {
       address: inputAddress,
       phone: inputPhone,
     };
-    dispatch({ type: SAGA_ACTIONS.PROFILE_CHANGE_INFO, payload: sendData });
+    dispatch(changeProfileInfo(sendData));
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
 import { setSearchGames } from "@/redux/store/products/productsSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import SAGA_ACTIONS from "@/redux/sagas/sagaActions/sagaActions";
+import { searchProducts } from "@/redux/thunk/productsThunk/productsThunk";
 import Spinner from "@/elements/spinner/spinner";
 import SearchResult from "./searchResult/searchResult";
 
@@ -26,7 +26,7 @@ const SearchBar = (): JSX.Element => {
       return;
     }
 
-    dispatch({ type: SAGA_ACTIONS.SEARCH_PRODUCTS, payload: value });
+    dispatch(searchProducts(value));
   }, [value]);
 
   return (
