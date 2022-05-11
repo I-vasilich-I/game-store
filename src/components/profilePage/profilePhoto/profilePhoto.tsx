@@ -4,15 +4,16 @@ import useAppSelector from "@/redux/hooks/useAppSelector";
 import { setAuthFormType } from "@/redux/store/form/formSlice";
 import { openModal } from "@/redux/store/modal/modalSlice";
 import { changeProfilePhoto } from "@/redux/thunk/profileThunk/profileThunk";
+import { AppDispatch } from "@/redux/store/store";
 import userSVG from "images/account_circle.svg";
 import Spinner from "@/elements/spinner/spinner";
 
 const ProfilePhoto = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { email, photo } = useAppSelector((state) => state.USER);
   const { isPhotoLoading } = useAppSelector((state) => state.FORM);
   const onImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.length) {
+    if (e.target.files?.length && email) {
       dispatch(changeProfilePhoto({ email, photo: e.target.files[0] }));
     }
   };

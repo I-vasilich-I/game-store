@@ -3,6 +3,7 @@ import { setIsLoading, setStatus } from "@/redux/store/form/formSlice";
 import { setError } from "@/redux/store/modal/modalSlice";
 import THUNK_ACTIONS from "@/redux/thunk/actions/thunkActions";
 import authenticate from "@/api/apiAuth";
+import { setLocalStorageItem } from "@/helpers";
 
 type TPayload = {
   email: string;
@@ -19,7 +20,7 @@ const authUser = createAsyncThunk(THUNK_ACTIONS.AUTH_USER, async ({ email, passw
     const { name: userName, password: passW, isAdmin, ...rest } = data;
     const isAdminT = isAdmin === "true";
     const newData = { userName, isAdmin: isAdminT, ...rest };
-    localStorage.setItem("user", JSON.stringify(newData));
+    setLocalStorageItem("user", newData);
     thunkAPI.dispatch(setStatus(status));
     thunkAPI.dispatch(setIsLoading(false));
     return newData;

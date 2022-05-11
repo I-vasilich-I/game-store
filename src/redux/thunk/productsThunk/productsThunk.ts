@@ -10,6 +10,7 @@ import {
   updateProductService,
 } from "@/api/apiProducts";
 import { IGame, IParams } from "@/types";
+import { setLocalStorageItem } from "@/helpers";
 
 interface IProps {
   products: IGame[];
@@ -33,7 +34,7 @@ const getProducts = createAsyncThunk(THUNK_ACTIONS.GET_PRODUCTS, async (_, thunk
 
 const getTopProducts = createAsyncThunk(THUNK_ACTIONS.GET_TOP_PRODUCTS, async () => {
   const data = await getTopGames();
-  localStorage.setItem("games", JSON.stringify({ data, date: new Date() }));
+  setLocalStorageItem("games", { data, date: new Date() });
 
   return data;
 });

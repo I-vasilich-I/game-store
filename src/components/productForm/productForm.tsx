@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 import { setEditProduct } from "@/redux/store/products/productsSlice";
 import { setError, setModalType } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import { updateProduct } from "@/redux/thunk/productsThunk/productsThunk";
+import { createProduct, updateProduct } from "@/redux/thunk/productsThunk/productsThunk";
+import { AppDispatch } from "@/redux/store/store";
 import { IGame, IInputProps } from "@/types";
 import { AGES, GENRES, PRODUCT_GENRES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
@@ -14,7 +15,7 @@ import Spinner from "@/elements/spinner/spinner";
 import CheckPlatforms from "./checkPlatforms/checkPlatforms";
 
 const ProductForm = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { editProduct, isProductUpdating } = useAppSelector((state) => state.PRODUCTS);
   const [name, setName] = useState(editProduct?.name || "");
   const [category, setCategory] = useState((editProduct?.genre && GENRES[editProduct?.genre]) || PRODUCT_GENRES[0]);

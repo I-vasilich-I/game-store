@@ -305,7 +305,7 @@ export default webpackMockServer.add((app) => {
     const rawData = readFileSync(resolvedPath);
     const users: IUser[] = JSON.parse(rawData.toString()) || [];
     const newUser: IUser = _req.body;
-    [newUser.name] = newUser.email.split("@");
+    [newUser.name] = newUser.email?.split("@") || "User";
     const isExist = Boolean(users.find((el) => el.email === newUser.email));
     delete require.cache[resolvedPath];
 

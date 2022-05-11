@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/store/user/userSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import { ROUTES } from "@/constants";
-import { carryClassName } from "@/helpers";
+import { carryClassName, removeLocalStorageItem } from "@/helpers";
 import userSVG from "images/account_circle.svg";
 import logoutSVG from "images/logout.svg";
 import cartSVG from "images/cart.svg";
@@ -23,7 +23,7 @@ const SignedInUserPanel = (): JSX.Element => {
   const getCartLinkClassName = carryClassName("nav__link cart", "nav__link--active");
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    removeLocalStorageItem("user");
     dispatch(setUser({ userName: null, email: null, address: null, phone: null, photo: null, isAdmin: false }));
     navigate(home);
   };

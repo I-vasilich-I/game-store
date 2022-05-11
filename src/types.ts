@@ -13,13 +13,22 @@ interface IGame {
 }
 
 interface IUser {
+  email: string | null;
+  name?: string | null;
+  password?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  photo?: string | null;
+  isAdmin?: boolean | string;
+  userName?: string | null;
+}
+
+interface IProfile {
+  name: string;
+  oldEmail: string;
   email: string;
-  name?: string;
-  password?: string;
-  address?: string;
-  phone?: string;
-  photo?: string;
-  isAdmin?: boolean;
+  address: string;
+  phone: string;
 }
 
 type AuthFormTypes = "signin" | "signup" | "password";
@@ -62,17 +71,10 @@ interface IUserContext {
   setUserName: React.Dispatch<React.SetStateAction<string | null>> | null;
 }
 
-interface IProfile {
-  name: string;
-  oldEmail: string;
-  email: string;
-  address: string;
-  phone: string;
-}
-
 interface IProfileResponse {
-  data: IProfile | string;
+  data: IUser | null;
   status: number;
+  error?: string;
 }
 
 interface IParams {

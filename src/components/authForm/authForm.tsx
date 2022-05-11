@@ -2,6 +2,7 @@ import "./authForm.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store/store";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import authUser from "@/redux/thunk/authThunk/authThunk";
 import onCloseModal from "@/redux/thunk/modalThunk/modalThunk";
@@ -19,7 +20,7 @@ type TLocationState = {
 };
 
 const AuthForm = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { authFormType, status, isLoading } = useAppSelector((state) => state.FORM);
   const { email } = useAppSelector((state) => state.USER);
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const AuthForm = (): JSX.Element => {
 
     e.preventDefault();
 
-    if (authFormType === "password") {
+    if (authFormType === "password" && email) {
       dispatch(changeProfilePassword({ email, password }));
       return;
     }

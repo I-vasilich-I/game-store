@@ -8,9 +8,10 @@ import InputText from "@/elements/inputText/inputText";
 import Spinner from "@/elements/spinner/spinner";
 import ValidationMessage from "@/elements/validationMessage/validationMessage";
 import { changeProfileInfo } from "@/redux/thunk/profileThunk/profileThunk";
+import { AppDispatch } from "@/redux/store/store";
 
 const ProfileInfo = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { textMessage, emailMessage, mobilePhone, addressMessage } = VALIDATION_MESSAGES;
   const { userName, email, address, phone } = useAppSelector((state) => state.USER);
   const { isSaving } = useAppSelector((state) => state.FORM);
@@ -78,7 +79,7 @@ const ProfileInfo = (): JSX.Element => {
   const handleClick = () => {
     const sendData = {
       name: inputUserName,
-      oldEmail: email,
+      oldEmail: email as string,
       email: inputEmail,
       address: inputAddress,
       phone: inputPhone,

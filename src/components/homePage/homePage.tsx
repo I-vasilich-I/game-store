@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import { getTopProducts } from "@/redux/thunk/productsThunk/productsThunk";
+import { AppDispatch } from "@/redux/store/store";
 import Container from "@/elements/container/container";
 import GameCard from "@/elements/gameCard/gameCard";
 import GameCardsContainer from "@/elements/gameCardsContainer/gameCardsContainer";
@@ -11,7 +12,7 @@ import NavCategories from "./navCategories/navCategories";
 import styles from "./homePage.module.scss";
 
 const HomePage = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { topProducts } = useAppSelector((state) => state.PRODUCTS);
 
   useEffect(() => {

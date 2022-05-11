@@ -17,11 +17,11 @@ interface IPasswordProps {
 async function changeProfileInfoService(sendData: IProfile): Promise<IProfileResponse> {
   try {
     const { changeProfileInfo } = API;
-    const res = await axios.post(changeProfileInfo, sendData);
+    const res: IProfileResponse = await axios.post(changeProfileInfo, sendData);
     return res;
   } catch (error: any) {
-    const { data, status } = error.response;
-    return { data, status };
+    const { data: errorData, status } = error.response;
+    return { data: null, status, error: errorData };
   }
 }
 
@@ -44,22 +44,22 @@ async function uploadPhoto(image: File): Promise<string> {
 async function changeProfilePhotoService(sendData: IProps): Promise<IProfileResponse> {
   try {
     const { changeProfilePhoto } = API;
-    const res = await axios.post(changeProfilePhoto, sendData);
+    const res: IProfileResponse = await axios.post(changeProfilePhoto, sendData);
     return res;
   } catch (error: any) {
-    const { data, status } = error.response;
-    return { data, status };
+    const { data: errorData, status } = error.response;
+    return { data: null, status, error: errorData };
   }
 }
 
 async function changePasswordService(sendData: IPasswordProps): Promise<IProfileResponse> {
   try {
     const { changePasswordURL } = API;
-    const res = await axios.post(changePasswordURL, sendData);
+    const res: IProfileResponse = await axios.post(changePasswordURL, sendData);
     return res;
   } catch (error: any) {
-    const { data, status } = error.response;
-    return { data, status };
+    const { data: errorData, status } = error.response;
+    return { data: null, status, error: errorData };
   }
 }
 

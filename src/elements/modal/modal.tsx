@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setAlert, setError, setModalType } from "@/redux/store/modal/modalSlice";
+import { AppDispatch } from "@/redux/store/store";
 import useAppSelector from "@/redux/hooks/useAppSelector";
 import onCloseModal from "@/redux/thunk/modalThunk/modalThunk";
 import closeSVG from "images/clear.svg";
@@ -14,17 +15,7 @@ interface IProps {
 }
 
 const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
-  if (!isModalOpen) {
-    return null;
-  }
-
-  const portal = document.getElementById("portal");
-
-  if (!portal) {
-    return null;
-  }
-
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { error, alert, modalType } = useAppSelector((state) => state.MODAL);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -105,6 +96,16 @@ const Modal: React.FC<IProps> = ({ isModalOpen, children }) => {
 
     return () => clearTimeout(timer);
   }, [alert]);
+
+  if (!isModalOpen) {
+    return null;
+  }
+
+  const portal = document.getElementById("portal");
+
+  if (!portal) {
+    return null;
+  }
 
   return ReactDOM.createPortal(
     <div className="modal__container" role="dialog" aria-modal="true">

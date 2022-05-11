@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { VALIDATE } from "./constants";
-import { ICartProducts, IGame, TInput } from "./types";
+import { IGame, TInput } from "./types";
 
 function isRecent(date1: Date, date2: Date): boolean {
   const oneDay = 1 * 24 * 60 * 60 * 1000;
@@ -8,14 +8,33 @@ function isRecent(date1: Date, date2: Date): boolean {
   return timePass <= oneDay;
 }
 
+const validateValue = (value: string, type: TInput): boolean => VALIDATE[type](value);
+
+const carryClassName =
+  (main: string, active: string) =>
+  (isActive: boolean): string =>
+    classnames(main, { [active]: isActive });
+
+const setLocalStorageItem = (key: string, value: unknown): void => localStorage.setItem(key, JSON.stringify(value));
+
+function getLocalStorageItem<T>(key: string): T | null {
+  const rawData = localStorage.getItem(key);
+  return rawData ? JSON.parse(rawData) : null;
+}
+
+function removeLocalStorageItem(key: string): void {
+  localStorage.removeItem(key);
+}
+
 function getGamesFromLocalStorage(): IGame[] | null {
-  const localData = localStorage.getItem("games");
+  type TData = { data: IGame[]; date: string };
+  const localData = getLocalStorageItem<TData>("games");
 
   if (!localData) {
     return null;
   }
 
-  const { data, date } = JSON.parse(localData);
+  const { data, date } = localData;
   const today = new Date();
   const dataDate = new Date(date);
   const isDataRecent = isRecent(today, dataDate);
@@ -26,21 +45,11 @@ function getGamesFromLocalStorage(): IGame[] | null {
   return data;
 }
 
-function getCartProductsFromLocalStorage(): ICartProducts | null {
-  const localData = localStorage.getItem("cart");
-
-  if (!localData) {
-    return null;
-  }
-
-  return JSON.parse(localData);
-}
-
-const validateValue = (value: string, type: TInput): boolean => VALIDATE[type](value);
-
-const carryClassName =
-  (main: string, active: string) =>
-  (isActive: boolean): string =>
-    classnames(main, { [active]: isActive });
-
-export { getGamesFromLocalStorage, validateValue, getCartProductsFromLocalStorage, carryClassName };
+export {
+  getGamesFromLocalStorage,
+  validateValue,
+  carryClassName,
+  setLocalStorageItem,
+  getLocalStorageItem,
+  removeLocalStorageItem,
+};

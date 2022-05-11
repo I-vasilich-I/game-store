@@ -1,23 +1,15 @@
-import authUser from "@/redux/thunk/authThunk/authThunk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import authUser from "@/redux/thunk/authThunk/authThunk";
+import { IUser } from "@/types";
 import userSVG from "images/account_circle.svg";
-
-interface IUser {
-  userName: string | null;
-  email: string | null;
-  address: string | null;
-  phone: string | null;
-  photo: string | null;
-  isAdmin?: boolean;
-}
+import { getLocalStorageItem } from "@/helpers";
 
 interface IUserProp {
   prop: keyof IUser;
   value: string | null;
 }
 
-const userRaw = localStorage.getItem("user");
-const user = userRaw ? JSON.parse(userRaw) : null;
+const user = getLocalStorageItem<IUser>("user");
 
 const initialState: IUser = {
   userName: user?.userName || null,
@@ -25,7 +17,7 @@ const initialState: IUser = {
   address: user?.address || null,
   phone: user?.phone || null,
   photo: user?.photo || userSVG,
-  isAdmin: user?.isAdmin === "true" || false,
+  isAdmin: Boolean(user?.isAdmin === "true" || user?.isAdmin || false),
 };
 
 export const userSlice = createSlice({
