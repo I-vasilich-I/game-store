@@ -18,7 +18,7 @@ const authUser = createAsyncThunk(THUNK_ACTIONS.AUTH_USER, async ({ email, passw
   if (status === 200 || status === 201) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { name: userName, password: passW, isAdmin, ...rest } = data;
-    const isAdminT = isAdmin === "true";
+    const isAdminT = Boolean((isAdmin && isAdmin === "true") || false);
     const newData = { userName, isAdmin: isAdminT, ...rest };
     setLocalStorageItem("user", newData);
     thunkAPI.dispatch(setStatus(status));

@@ -1,34 +1,20 @@
 import "./searchbar.scss";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { ChangeEvent, useCallback, useState } from "react";
 import debounce from "lodash.debounce";
-import { setSearchGames } from "@/redux/store/products/productsSlice";
-import useAppSelector from "@/redux/hooks/useAppSelector";
-import { searchProducts } from "@/redux/thunk/productsThunk/productsThunk";
-import { AppDispatch } from "@/redux/store/store";
+import { useSearchGamesQuery } from "@/redux/store/api/apiSlice";
 import Spinner from "@/elements/spinner/spinner";
 import SearchResult from "./searchResult/searchResult";
 
 const SearchBar = (): JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { searchGames, isSearching } = useAppSelector((state) => state.PRODUCTS);
   const [value, setValue] = useState("");
-  const hasSearchResult = Boolean(searchGames.length && value.trim());
+  const { data, isFetching } = useSearchGamesQuery(value);
+  const hasSearchResult = Boolean(data && value.trim());
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const debouncedChangeHandler = useCallback(debounce(handleChange, 300), []);
-
-  useEffect(() => {
-    if (!value.trim()) {
-      dispatch(setSearchGames([]));
-      return;
-    }
-
-    dispatch(searchProducts(value));
-  }, [value]);
 
   return (
     <form className="form">
@@ -42,9 +28,9 @@ const SearchBar = (): JSX.Element => {
           onChange={debouncedChangeHandler}
           autoComplete="off"
         />
-        <Spinner isOn={isSearching} />
+        <Spinner isOn={isFetching} />
       </label>
-      <SearchResult hasSearchResult={hasSearchResult} games={searchGames} />
+      <SearchResult hasSearchResult={hasSearchResult} games={data || []} />
     </form>
   );
 };

@@ -4,6 +4,7 @@ import formReducer from "./form/formSlice";
 import userReducer from "./user/userSlice";
 import productsReducer from "./products/productsSlice";
 import cartReducer from "./cart/cartSlice";
+import { apiSlice } from "./api/apiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,9 @@ export const store = configureStore({
     USER: userReducer,
     PRODUCTS: productsReducer,
     CART: cartReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (gDM) => gDM().concat(apiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

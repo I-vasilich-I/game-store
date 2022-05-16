@@ -13,9 +13,7 @@ const ProductsSection = (): JSX.Element => {
       <ProductsControl />
       <Container title="Products">
         <GameCardsContainer>
-          {!isProductsLoading && products.length
-            ? products.map((elem) => <GameCard game={elem} key={elem.id} />)
-            : useSkeleton(3)}
+          {!isProductsLoading ? products.map((elem) => <GameCard game={elem} key={elem.id} />) : useSkeleton(3)}
         </GameCardsContainer>
       </Container>
     </section>

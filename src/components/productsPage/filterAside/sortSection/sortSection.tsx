@@ -1,8 +1,8 @@
-import ContainerTitle from "@/elements/containerTitle/containerTitle";
-import CustomSelect from "@/elements/customSelect/customSelect";
+import { useDispatch } from "react-redux";
 import { setSortBy, setType } from "@/redux/store/products/productsSlice";
 import { SortByTypes } from "@/types";
-import { useDispatch } from "react-redux";
+import ContainerTitle from "@/elements/containerTitle/containerTitle";
+import CustomSelect from "@/elements/customSelect/customSelect";
 
 const SortSection = (): JSX.Element => {
   const dispatch = useDispatch();

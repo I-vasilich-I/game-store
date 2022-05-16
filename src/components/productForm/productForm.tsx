@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import { setEditProduct } from "@/redux/store/products/productsSlice";
 import { setError, setModalType } from "@/redux/store/modal/modalSlice";
 import useAppSelector from "@/redux/hooks/useAppSelector";
-import { createProduct, updateProduct } from "@/redux/thunk/productsThunk/productsThunk";
+import { createProduct } from "@/redux/thunk/productsThunk/productsThunk";
 import { AppDispatch } from "@/redux/store/store";
+import { useUpdateGameMutation } from "@/redux/store/api/apiSlice";
 import { IGame, IInputProps } from "@/types";
 import { AGES, GENRES, PRODUCT_GENRES } from "@/constants";
 import InputText from "@/elements/inputText/inputText";
@@ -16,7 +17,7 @@ import CheckPlatforms from "./checkPlatforms/checkPlatforms";
 
 const ProductForm = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
-  const { editProduct, isProductUpdating } = useAppSelector((state) => state.PRODUCTS);
+  const { editProduct } = useAppSelector((state) => state.PRODUCTS);
   const [name, setName] = useState(editProduct?.name || "");
   const [category, setCategory] = useState((editProduct?.genre && GENRES[editProduct?.genre]) || PRODUCT_GENRES[0]);
   const [price, setPrice] = useState((editProduct?.price as string) || "");
@@ -29,6 +30,7 @@ const ProductForm = (): JSX.Element => {
   const selectedAge = AGES.findIndex((elem) => elem === age);
   const ageOptions = AGES.map((elem) => `${elem}+`);
   const selectedCategory = PRODUCT_GENRES.findIndex((elem) => elem === category);
+  const [updateProduct, result] = useUpdateGameMutation();
 
   const textInputsArray: IInputProps[] = [
     {
@@ -114,7 +116,8 @@ const ProductForm = (): JSX.Element => {
     }
 
     if (editProduct) {
-      dispatch(updateProduct(getNewGameData()));
+      updateProduct(getNewGameData());
+      // dispatch(setAlert(result.data));
       return;
     }
 
@@ -158,7 +161,7 @@ const ProductForm = (): JSX.Element => {
             Delete
           </button>
         ) : null}
-        <Spinner isOn={isProductUpdating} />
+        <Spinner isOn={result.isLoading} />
       </div>
     </form>
   );
