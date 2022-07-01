@@ -1,5 +1,10 @@
 # Game Store
 
+[Video demonstration](https://www.youtube.com/watch?v=-31JNKAmdfQ)
+
+![Screenshot from 2022-06-27 12-07-03](https://user-images.githubusercontent.com/67139199/176952041-c8115fac-b1f7-44f8-bbad-b1672ee8f7a0.png)
+
+
 ## How to run project
 
 1. Open project in VSCode (for example)
